@@ -5,6 +5,9 @@
  *      Langqing Zou: 300035036
  */
 
+#ifndef HAND_H
+#define HAND_H
+
 // std libraries:
 #include <list>
 #include <queue>
@@ -25,4 +28,6 @@ class Hand {
     private:
         queue<Card> hand;      // hold cards
         int number;             // number of card in deck
-}
+};
+
+#endif

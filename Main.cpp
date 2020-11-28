@@ -1,10 +1,15 @@
-/*
-Group 8:
-Teammates:  Kangwei Liao: 8568800
-            Langqing Zou: 300035036
-*/
+/**
+ * File: Main.h
+ * Description: 
+ * Group 8:
+ *      Kangwei Liao: 8568800; 
+ *      Langqing Zou: 300035036
+ */
 
-/*********** File : "Main.h" **********/ 
+// project headers:
+#include "Table.h"
+
+using namespace std;
 
 int main() {
     

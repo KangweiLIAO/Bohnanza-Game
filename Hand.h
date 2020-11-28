@@ -1,7 +1,17 @@
-#include "Card.h"
-#include "Deck.h"
+/**
+ * File: Hand.h
+ * Group 8:
+ *      Kangwei Liao: 8568800; 
+ *      Langqing Zou: 300035036
+ */
+
+// std libraries:
 #include <list>
 #include <queue>
+// project headers:
+#include "Card.h"
+
+using namespace std;
 
 class Hand {
     public:

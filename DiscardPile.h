@@ -1,25 +1,30 @@
-/*
-Group 8:
-Teammates:  Kangwei Liao: 8568800
-            Langqing Zou: 300035036
-*/
+/**
+ * File: DiscardPile.h
+ * Group 8:
+ *      Kangwei Liao: 8568800; 
+ *      Langqing Zou: 300035036
+ */
 
-/*********** File : "DiscardPile.h" **********/
-#include "Card.h"
+#ifndef DISCARD_PILE_H
+#define DISCARD_PILE_H
+
+// std libraries:
 #include <vector>
+// project headers:
+#include "Card.h"
+
+using namespace std;
 
 class DiscardPile {
     public:
-        DiscardPile(): number(0) {}
-        int numCards() {return number;} 
-        void empty() {number = 0;}
-        void newPile();
-        void shuffle();
-        void put();
-        // Card take();
-        // Card lookIn(int no);
-    private :
+        DiscardPile(istream&, const CardFactory*);
+        Card* top();
+        Card* pickUp();
+        void print(std::ostream&);
+        DiscardPile& operator+=(Card*);
+    private:
         vector<Card> pile;      // hold cards
         int number;             // number of card in pile
 };
 
+#endif

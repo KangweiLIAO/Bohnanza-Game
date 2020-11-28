@@ -1,0 +1,40 @@
+/**
+ * File: TradeArea.h
+ * Group 8:
+ *      Kangwei Liao: 8568800; 
+ *      Langqing Zou: 300035036
+ */
+
+#ifndef TRADEAREA_H
+#define TRADEAREA_H
+
+// std libraries:
+#include <list>
+// project headers:
+#include "Card.h"
+
+using namespace std;
+
+class TradeArea{
+    private:
+        int num_cards;
+    public:
+        TradeArea();
+        int numCards() {return num_cards;}
+        Card* trade(string);
+        bool legal(Card*);
+        TradeArea& operator+=(Card*);
+        friend ostream& operator<<(ostream&,const Card&);
+};
+
+// constructor
+TradeArea::TradeArea() {
+
+}
+
+ostream& operator<<(ostream& os, const Card& card) {
+    os << card;
+    return os;
+}
+
+#endif

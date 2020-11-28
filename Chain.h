@@ -1,17 +1,24 @@
-#include "Card.h"
-#include <vector>
+/**
+ * File: Chain.h
+ * Group 8:
+ *      Kangwei Liao: 8568800; 
+ *      Langqing Zou: 300035036
+ */
 
-class Chain {
-    public:
-        Chain(): number(0) {}
-        int numCards() {return number;} 
-        void empty() {number = 0;}
-        void newChain();
-        void grow();
-        // Card shrink();
-        // Card lookIn(int no);
-    private :
-        vector<Card> chain;      // hold cards
-        int number;             // number of card in deck
+#ifndef CHAIN_H
+#define CHAIN_H
+
+// std libraries:
+#include <vector>
+// project headers:
+#include "Card.h"
+#include "Chain_Base.h"
+
+using namespace std;
+
+template <class T=Card> 
+class Chain : public Chian_Base {
+
 };
 
+#endif

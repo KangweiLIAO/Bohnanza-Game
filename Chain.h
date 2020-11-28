@@ -8,11 +8,15 @@
 #ifndef CHAIN_H
 #define CHAIN_H
 
+// std libraries:
+#include <vector>
+// project headers:
 #include "Card.h"
 #include "Chain_Base.h"
-#include <vector>
 
-template <class T> 
+using namespace std;
+
+template <class T=Card> 
 class Chain : public Chian_Base {
 
 };

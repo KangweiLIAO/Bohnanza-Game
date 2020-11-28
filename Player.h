@@ -8,8 +8,13 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+// std libraries:
+
+// project headers:
 #include "Deck.h"
 #include "Hand.h"
+
+using namespace std;
 
 class Player{
     private:

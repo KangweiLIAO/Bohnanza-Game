@@ -6,6 +6,11 @@
  *      Langqing Zou: 300035036
  */
 
+// project headers:
+#include "Table.h"
+
+using namespace std;
+
 int main() {
     
     return 0;

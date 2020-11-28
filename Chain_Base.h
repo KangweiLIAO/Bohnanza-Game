@@ -8,8 +8,9 @@
 #ifndef CHAIN_BASE_H
 #define CHAIN_BASE_H
 
+// std libraries:
 #include <vector>
-// Beans' includes:
+// project headers:
 #include "Black.h"
 #include "Blue.h"
 #include "Chili.h"
@@ -18,6 +19,8 @@
 #include "Red.h"
 #include "Soy.h"
 #include "Stink.h"
+
+using namespace std;
 
 class Chain_Base {
     private:

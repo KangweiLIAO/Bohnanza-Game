@@ -5,9 +5,13 @@
  *      Langqing Zou: 300035036
  */
 
-#include "Card.h"
+// std libraries:
 #include <list>
 #include <queue>
+// project headers:
+#include "Card.h"
+
+using namespace std;
 
 class Hand {
     public:

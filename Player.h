@@ -1,21 +1,26 @@
-/*
-Group 8:
-Teammates:  Kangwei Liao: 8568800
-            Langqing Zou: 300035036
-*/
+/**
+ * File: Player.h
+ * Group 8:
+ *      Kangwei Liao: 8568800; 
+ *      Langqing Zou: 300035036
+ */
 
-/*********** File : "Main.h" **********/
+#ifndef PLAYER_H
+#define PLAYER_H
+
 #include "Deck.h"
 #include "Hand.h"
 
 class Player{
-    public:
-        Player(Deck& deck): packet(deck) {}
-        int play();
     private:
-        Deck inHand;
-        Deck& packet;
+        int num_coins;
+        int num_chains;
+        string player_name;
+    public:
+        Player();
+        int play();
         int countCoins();
+        friend ostream& operator<<(ostream&,const Player&);
 };
 
 int Player::play() {
@@ -25,3 +30,5 @@ int Player::play() {
 int Player::countCoins() {
     
 }
+
+#endif

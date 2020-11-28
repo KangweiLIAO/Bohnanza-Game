@@ -1,5 +1,11 @@
+/**
+ * File: Hand.h
+ * Group 8:
+ *      Kangwei Liao: 8568800; 
+ *      Langqing Zou: 300035036
+ */
+
 #include "Card.h"
-#include "Deck.h"
 #include <list>
 #include <queue>
 

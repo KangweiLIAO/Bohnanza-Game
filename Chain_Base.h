@@ -11,14 +11,14 @@
 // std libraries:
 #include <vector>
 // project headers:
-#include "Black.h"
-#include "Blue.h"
-#include "Chili.h"
-#include "Garden.h"
-#include "Green.h"
-#include "Red.h"
-#include "Soy.h"
-#include "Stink.h"
+#include "./Cards/Black.h"
+#include "./Cards/Blue.h"
+#include "./Cards/Chili.h"
+#include "./Cards/Garden.h"
+#include "./Cards/Green.h"
+#include "./Cards/Red.h"
+#include "./Cards/Soy.h"
+#include "./Cards/Stink.h"
 
 using namespace std;
 

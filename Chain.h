@@ -45,7 +45,7 @@ template <class T> int Chain<T>::sell () {
     return coins;
 }
 
-template <class T> Chain<T>& operator+=(Card* card){
+template <class T> Chain<T>& Chain<T>::operator+=(Card* card){
     try{
         //compare the type of card and this chain
         if (card.getName()==chain.name){
@@ -59,7 +59,7 @@ template <class T> Chain<T>& operator+=(Card* card){
     }
 }
 
-template <class T> friend ostream& operator<< (std::ostream& os,const Chain<T>& ch){
+template <class T> ostream& operator<< (std::ostream& os,const Chain<T>& ch){
     for(int i=0; i<ch.size(); i++){
         ch[i].print(os); //call the function: print() in Card.h
     }

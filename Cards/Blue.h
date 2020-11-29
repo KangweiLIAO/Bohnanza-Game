@@ -11,7 +11,7 @@
 
 class Blue : public Card {
     public:
-        Blue() : Card("blue") {};
+        Blue() : Card("Blue") {};
         virtual int getCardsPerCoin(int coins);
     protected:
         virtual void print(ostream& out) const;

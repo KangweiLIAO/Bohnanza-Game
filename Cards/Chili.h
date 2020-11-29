@@ -10,7 +10,7 @@
 #include "Card.h"
 class Chili : public Card {
     public:
-        Chili() : Card("chili") {};
+        Chili() : Card("Chili") {};
         virtual int getCardsPerCoin(int coins);
     protected:
         virtual void print(ostream& out) const;

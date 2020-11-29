@@ -11,7 +11,7 @@
 
 class Stink : public Card {
     public:
-        Stink() : Card("stink") {};
+        Stink() : Card("Stink") {};
         virtual int getCardsPerCoin(int coins);
     protected:
         virtual void print(ostream& out) const;

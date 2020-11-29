@@ -11,7 +11,7 @@
 // std libraries:
 #include <list>
 // project headers:
-#include "Card.h"
+#include "Table.h"
 
 using namespace std;
 

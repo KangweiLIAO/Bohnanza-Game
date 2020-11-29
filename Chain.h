@@ -7,17 +7,17 @@
 
 #ifndef CHAIN_H
 #define CHAIN_H
+#include "Chain_Base.h"
 
 // std libraries:
 #include <vector>
 // project headers:
-#include "Card.h"
 #include "Chain_Base.h"
 
 using namespace std;
 
 template <class T=Card> 
-class Chain : public Chian_Base {
+class Chain : public Chain_Base {
 
 };
 

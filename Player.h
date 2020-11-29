@@ -11,29 +11,37 @@
 // std libraries:
 
 // project headers:
-#include "Deck.h"
-#include "Hand.h"
+#include "Table.h"
 
 using namespace std;
 
-class Player{
+class Player {
     private:
         int num_coins;
         int num_chains;
-        string player_name;
+        const string player_name;
     public:
-        Player();
+        // constructor:
+        Player(const string& name) : player_name(name) {};
+        // member functions:
         int play();
-        int countCoins();
+        void buyThirdChain();
+        string getName();
+        int getNumCoins();
+        int getNumChains();
+        void printHand(std::ostream&, bool);
+        // operators:
+        Player& operator+=(int);
+        Chain<class T>& operator[](int i);
         friend ostream& operator<<(ostream&,const Player&);
 };
 
-int Player::play() {
+// int Player::play() {
     
-}
+// }
 
-int Player::countCoins() {
+// int Player::getNumCoins() {
     
-}
+// }
 
 #endif

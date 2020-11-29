@@ -12,22 +12,21 @@
 #include <list>
 #include <queue>
 // project headers:
-#include "Card.h"
 
 using namespace std;
 
 class Hand {
-    public:
-        Hand(): number(0) {}
-        int numCards() {return number;} 
-        void empty() {number = 0;}
-        void newHand(Deck&);
-        void shuffle();
-        Card take();
-        Card lookIn(int no);
     private:
         queue<Card> hand;      // hold cards
         int number;             // number of card in deck
+    public:
+        // constructor:
+        Hand(istream&, const CardFactory*);
+        // member functions:
+        Card* play();
+        Card* top();
+        // operators:
+        Hand& operator+=(Card*);
 };
 
 #endif

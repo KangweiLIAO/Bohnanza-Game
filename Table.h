@@ -8,10 +8,12 @@
 #ifndef TABLE_H
 #define TABLE_H
 #include "CardFactory.h"
-#include "Deck.h"
 #include "DiscardPile.h"
-#include "Player.h"
+#include "Deck.h"
 #include "TradeArea.h"
+#include "Hand.h"
+#include "Chain.h"
+#include "Player.h"
 
 using namespace std;
 

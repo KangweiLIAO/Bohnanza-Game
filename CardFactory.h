@@ -10,8 +10,7 @@
 // std libraries:
 
 // project headers:
-#include "Deck.h"
-#include "Hand.h"
+#include "Cards/Cards.h"
 
 using namespace std;
 
@@ -20,7 +19,6 @@ class CardFactory{
         CardFactory();
     private:
         static CardFactory* getFactory();
-        Deck getDeck();
 };
 
 #endif

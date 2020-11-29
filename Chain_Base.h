@@ -17,8 +17,16 @@ using namespace std;
 
 class Chain_Base {
     private:
-
+        int num_cards;
+        char* name;
+        int position;
     public:
+        Chain(istream& is, const CardFactory* f);
+        Chain<T>& operator+=(Card*);
+        int sell();
+        friend ostream& operator<< (ostream&,const Chain_Base&);
 };
+
+
 
 #endif

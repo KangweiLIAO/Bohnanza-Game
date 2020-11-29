@@ -12,11 +12,12 @@
 #include <algorithm>    // for shuffle() algorithm
 #include <vector>
 // project headers:
-#include "Table.h"
+#include "CardFactory.h"
 
 using namespace std;
 
-class Deck {
+class CardFactory;
+class Deck : public vector<Card> {
     private :
         int num_cards;          // number of card in deck
         vector<Card> deck;      // hold cards
@@ -26,7 +27,6 @@ class Deck {
         Deck(istream& is, const CardFactory* f):factory(f) {};
         int numCards() {return num_cards;} 
         Card* draw();
-        DiscardPile& operator+=(Card*);
 };
 
 // When a card is not found by index, throw:

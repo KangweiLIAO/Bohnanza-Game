@@ -21,10 +21,11 @@ class Card {
         virtual void print(ostream&) const = 0;
     public:
         Card(string name) : name(name) {};
+        virtual ~Card(){};
         Card (const Card&) = delete;
         string getName() {return name;}
         virtual int getCardsPerCoin(int coins) = 0;
-        friend ostream& operator << (ostream& os, const Card& card);
+        friend ostream& operator<< (ostream& os, const Card& card);
         // operators:
         Card& operator= (const Card&) = delete;
 };

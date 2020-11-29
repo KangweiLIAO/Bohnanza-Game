@@ -11,6 +11,7 @@
 
 // project headers:
 #include "Cards/Cards.h"
+#include "Deck.h"
 
 using namespace std;
 

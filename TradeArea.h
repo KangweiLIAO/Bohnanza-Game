@@ -24,7 +24,7 @@ class TradeArea{
         Card* trade(string);
         bool legal(Card*);
         TradeArea& operator+=(Card*);
-        friend ostream& operator<<(ostream&,const Card&);
+        friend ostream& operator<< (ostream&,const TradeArea&);
 };
 
 // constructor
@@ -32,9 +32,8 @@ TradeArea::TradeArea() {
 
 }
 
-ostream& operator<<(ostream& os, const Card& card) {
-    os << card;
-    return os;
+inline ostream& operator<< (ostream& os, const TradeArea& t) {
+
 }
 
 #endif

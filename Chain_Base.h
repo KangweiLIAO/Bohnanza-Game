@@ -11,14 +11,6 @@
 // std libraries:
 #include <vector>
 // project headers:
-#include "./Cards/Black.h"
-#include "./Cards/Blue.h"
-#include "./Cards/Chili.h"
-#include "./Cards/Garden.h"
-#include "./Cards/Green.h"
-#include "./Cards/Red.h"
-#include "./Cards/Soy.h"
-#include "./Cards/Stink.h"
 
 using namespace std;
 

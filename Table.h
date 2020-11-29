@@ -9,10 +9,7 @@
 #define TABLE_H
 #include "CardFactory.h"
 #include "DiscardPile.h"
-#include "Deck.h"
 #include "TradeArea.h"
-#include "Hand.h"
-#include "Chain.h"
 #include "Player.h"
 
 using namespace std;

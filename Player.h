@@ -12,6 +12,8 @@
 
 // project headers:
 #include "Table.h"
+#include "Chain.h"
+#include "Hand.h"
 
 using namespace std;
 

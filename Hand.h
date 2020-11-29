@@ -12,6 +12,7 @@
 #include <list>
 #include <queue>
 // project headers:
+#include "Player.h"
 
 using namespace std;
 

@@ -11,6 +11,7 @@
 // std libraries:
 #include <vector>
 // project headers:
+#include "Player.h"
 
 using namespace std;
 

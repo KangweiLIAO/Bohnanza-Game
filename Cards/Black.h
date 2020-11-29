@@ -20,13 +20,12 @@ class Black : public Card {
 };
 
 int Black::getCardsPerCoin(int coins) {
-    if (coins < 1) return 0;
-    if (coins > 4) return -1;
-    else switch (coins) {
-        case 1: return 4;
-        case 2: return 6;
-        case 3: return 8;
-        case 4: return 10;
+    switch (coins) {
+        case 0: return 0;
+        case 1: return 2;
+        case 2: return 4;
+        case 3: return 5;
+        case 4: return 6;
         default: return -1;
     }
 }

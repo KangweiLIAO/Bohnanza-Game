@@ -1,7 +1,7 @@
 /**
  * File: Stink.h
  * Group 8:
- *      Kangwei Liao: 8568800; 
+ *      Kangwei Liao: 8568800
  *      Langqing Zou: 300035036
  */
 
@@ -11,7 +11,7 @@
 
 class Stink : public Card {
     public:
-        Stink() : Card("stink") {};
+        Stink() : Card("Stink") {};
         virtual int getCardsPerCoin(int coins);
     protected:
         virtual void print(ostream& out) const;

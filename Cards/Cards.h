@@ -1,3 +1,13 @@
+/**
+ * File: Cards.h
+ * Group 8:
+ *      Kangwei Liao: 8568800
+ *      Langqing Zou: 300035036
+ * 
+ * Description:
+ * This header file holds all bean classes' inclusions.
+ */
+
 #ifndef CARDS_H
 #define CARDS_H
 

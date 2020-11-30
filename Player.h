@@ -1,7 +1,7 @@
 /**
  * File: Player.h
  * Group 8:
- *      Kangwei Liao: 8568800; 
+ *      Kangwei Liao: 8568800
  *      Langqing Zou: 300035036
  */
 
@@ -11,11 +11,13 @@
 // std libraries:
 
 // project headers:
-#include "Table.h"
-#include "Chain.h"
+#include "CardFactory.h"
+// #include "Chain.h"
 #include "Hand.h"
 
 using namespace std;
+
+class Table;
 
 class Player {
     private:
@@ -34,7 +36,7 @@ class Player {
         void printHand(std::ostream&, bool);
         // operators:
         Player& operator+=(int);
-        Chain<class T>& operator[](int i);
+        // Chain<class T>& operator[](int i);
         friend ostream& operator<<(ostream&,const Player&);
 };
 

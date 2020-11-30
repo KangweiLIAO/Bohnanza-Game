@@ -1,7 +1,7 @@
 /**
  * File: Green.h
  * Group 8:
- *      Kangwei Liao: 8568800; 
+ *      Kangwei Liao: 8568800
  *      Langqing Zou: 300035036
  */
 
@@ -11,7 +11,7 @@
 
 class Green : public Card {
     public:
-        Green() : Card("green") {};
+        Green() : Card("Green") {};
         virtual int getCardsPerCoin(int coins);
     protected:
         virtual void print(ostream& out) const;

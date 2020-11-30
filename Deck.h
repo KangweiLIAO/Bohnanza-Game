@@ -1,8 +1,20 @@
 /**
  * File: Deck.h
  * Group 8:
- *      Kangwei Liao: 8568800; 
+ *      Kangwei Liao: 8568800
  *      Langqing Zou: 300035036
+ * Description:
+ * This class inherit from {std::vector<Card*>} and holds the unique deck for the game. 
+ * 
+ * Methods: 
+ *  - Deck()
+ *      a default constructor which using constructor from vector.
+ *  - Deck(istream&, const CardFactory*)
+ *      a constructor which accepts an istream and reconstructs the deck from file.
+ *  - Card* draw()
+ *      returns and removes the top card from the deck.
+ *  - friend ostream& operator<< (ostream&, const Deck&)
+ *      insert all the cards in the deck to an std::ostream.
  */
 
 #ifndef DECK_H

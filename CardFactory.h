@@ -3,6 +3,16 @@
  * Group 8:
  *      Kangwei Liao: 8568800; 
  *      Langqing Zou: 300035036
+ * Description:
+ * This class is a factory class for cards.
+ * 
+ * Methods: 
+ *  - CardFactory()
+ *      a default constructor in which all the cards need to be created in the numbers needed for the game.
+ *  - static CardFactory* getFactory()
+ *      returns a pointer to the only instance of CardFactory.
+ *  - Deck getDeck()
+ *      Deck getDeck() returns a shuffled deck with all 104 bean cards.
  */
 
 #ifndef CARDFACTORY_H
@@ -29,6 +39,7 @@ class CardFactory{
         void operator=(const CardFactory&) = delete;
 };
 
+/// default constructor
 CardFactory::CardFactory() {
     deck = Deck();
     for (int i=0; i<20; i++) {
@@ -45,6 +56,7 @@ CardFactory::CardFactory() {
     shuffle(deck.begin(),deck.end(),std::default_random_engine(seed));
 }
 
+/// destructor
 CardFactory::~CardFactory() {
     
 }

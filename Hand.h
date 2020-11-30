@@ -1,25 +1,25 @@
 /**
  * File: Hand.h
  * Group 8:
- *      Kangwei Liao: 8568800; 
+ *      Kangwei Liao: 8568800
  *      Langqing Zou: 300035036
  * 
  * Description:
  * This class holds the hand of a player.
  * 
- * Methods: 
+ * Methods:
  *  - Hand(istream&, const CardFactory*)
  *      a constructor which accepts an istream and reconstruct the Hand from file.
- *  - Hand& operator+=(Card*) 
+ *  - Hand& operator+=(Card*)
  *      adds the card to the rear of the hand.
- *  - Card* play() 
+ *  - Card* play()
  *      returns and removes the top card from the player's hand.
- *  - Card* top() 
+ *  - Card* top()
  *      returns but does not remove the top card from the player's hand.
- *  - Card* operator[](int) 
+ *  - Card* operator[](int)
  *      returns and removes the Card at a given index.
  *  - friend ostream& operator<< (ostream&, const Hand&)
- *      insertion operator (friend) to print Hand on an std::ostream
+ *      insertion operator (friend) to print Hand on an std::ostream.
  */
 
 #ifndef HAND_H

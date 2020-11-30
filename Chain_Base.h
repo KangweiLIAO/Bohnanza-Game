@@ -1,7 +1,7 @@
 /**
  * File: Chain_Base.h
  * Group 8:
- *      Kangwei Liao: 8568800; 
+ *      Kangwei Liao: 8568800
  *      Langqing Zou: 300035036
  */
 
@@ -21,10 +21,10 @@ class Chain_Base {
         char* name;
         int position;
     public:
-        Chain(istream& is, const CardFactory* f);
-        Chain<T>& operator+=(Card*);
-        int sell();
-        friend ostream& operator<< (ostream&,const Chain_Base&);
+        // Chain(istream& is, const CardFactory* f);
+        // Chain<T>& operator+=(Card*);
+        // int sell();
+        // friend ostream& operator<< (ostream&,const Chain_Base&);
 };
 
 

@@ -23,7 +23,7 @@ class TradeArea{
         int numCards() {return num_cards;}
         Card* trade(string);
         bool legal(Card*);
-        TradeArea& operator+=(Card*);
+        TradeArea& operator+= (Card*);
         friend ostream& operator<< (ostream&,const TradeArea&);
 };
 
@@ -33,7 +33,7 @@ TradeArea::TradeArea() {
 }
 
 inline ostream& operator<< (ostream& os, const TradeArea& t) {
-
+    return os;
 }
 
 #endif

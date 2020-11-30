@@ -23,7 +23,7 @@ class CardFactory{
         CardFactory();      // constructor
         ~CardFactory();     // destructor
         CardFactory(const CardFactory&) = delete;
-        static CardFactory* getFactory();
+        static CardFactory* getFactory();           // TODO: Implement getFactory()
         Deck getDeck() {return deck;}
         // operators:
         void operator=(const CardFactory&) = delete;
@@ -41,12 +41,12 @@ CardFactory::CardFactory() {
         if (i < 8) deck.push_back(new Soy());
         if (i < 6) deck.push_back(new Stink());
     }
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    unsigned seed = chrono::system_clock::now().time_since_epoch().count();
     shuffle(deck.begin(),deck.end(),std::default_random_engine(seed));
 }
 
 CardFactory::~CardFactory() {
-
+    
 }
 
 #endif

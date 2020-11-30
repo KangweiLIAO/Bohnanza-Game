@@ -8,10 +8,12 @@
 
 // project headers:
 // #include "Table.h"
+#include "CardFactory.h"
 
 using namespace std;
 
 int main() {
+    CardFactory factory;
+    Deck deck = factory.getDeck();
     
-    return 0;
 };

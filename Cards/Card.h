@@ -30,8 +30,7 @@ class Card {
         friend ostream& operator<< (ostream& os, const Card& card);
 };
 
-inline ostream& operator<< (std::ostream& os, const Card& card)
-{
+inline ostream& operator<< (ostream& os, const Card& card) {
   card.print(os);
   return os;
 }

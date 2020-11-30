@@ -24,16 +24,25 @@ class Deck : public vector<Card*> {
         const CardFactory* factory; 
     public:
         Deck() : vector<Card*>::vector(0) {};
-        Deck(istream& is, const CardFactory* f):factory(f) {};
+        Deck(istream& is, const CardFactory* f);
         int numCards() {return this->size();}
         Card* draw();
         friend ostream& operator<< (ostream& os, const Deck& deck);
 };
 
+//TODO: Implement constructor that can read from istream
+Deck::Deck(istream& is, const CardFactory* f) : factory(f) {
+    
+}
+
 Card* Deck::draw() {
     // If card not found, throw:
     if (this->size() == 0) throw DeckEmptyException();
-    else this->pop_back();  // top card == last elem of the vector
+    else {
+        Card* c = this->back();
+        this->pop_back();
+        return c;  // top card == last elem of the vector
+    }
 }
 
 inline ostream& operator<< (ostream& os, const Deck& deck) {

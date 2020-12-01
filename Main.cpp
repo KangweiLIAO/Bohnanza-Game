@@ -12,18 +12,27 @@
 // project headers:
 // #include "Table.h"
 #include "CardFactory.h"
-#include "DiscardPile.h"
+#include "TradeArea.h"
 
 using namespace std;
 
 int main() {
     CardFactory factory;
     Deck deck = factory.getDeck();
-    DiscardPile pile;
+    cout << deck << endl;
+
+    // write file:
     // filebuf fb;
-    // fb.open ("test.txt",ios::out);
+    // fb.open ("save.txt",ios::out);
     // ostream os(&fb);
     // write ... in os
     // fb.close();
 
+    // read file:
+    // filebuf fb;
+    // if (fb.open ("save.txt",ios::in)) {
+    //     istream is(&fb);
+    //     while (is) cout << char(is.get());
+    //     fb.close();
+    // }
 };

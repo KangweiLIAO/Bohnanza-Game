@@ -55,9 +55,9 @@ TradeArea::TradeArea(istream& is, const CardFactory* factory) {
  *        i.e. a card of the same bean is already in the TradeArea.
  * @param card A card that will be test
  */
-inline bool TradeArea::legal(Card* card) {
-    for(auto& c: area)
-        if(c->getName() == card->getName()) return true;
+inline bool TradeArea::legal(Card* c) {
+    for(auto& card: area)
+        if(card->getName() == c->getName()) return true;
     return false;
 }
 
@@ -87,7 +87,7 @@ inline TradeArea& TradeArea::operator+= (Card* card) {
  */
 inline ostream& operator<< (ostream& os, const TradeArea& tradeArea) {
     for(auto& card: tradeArea.area) 
-        os << *card;
+        os << *card << " ";
     return os;
 }
 

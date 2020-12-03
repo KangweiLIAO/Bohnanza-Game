@@ -9,17 +9,11 @@
  * 
  * Methods:
  *  - TradeArea(istream&, const CardFactory*)
- *      a constructor which accepts an istream and reconstruct the TradeArea from file.
  *  - TradeArea& operator+=(Card*)
- *      adds the card to the trade area but it does not check if it is legal to place the card.
  *  - bool legal(Card*)
- *      returns true if the card can be legally added to the TradeArea, i.e., a card of the same bean is already in the TradeArea.
  *  - Card* trade(string)
- *      removes a card of the corresponding bean name from the trade area.
  *  - int numCards()
- *      returns the number of cards currently in the trade area.
  *  - friend ostream& operator<< (ostream&, const DiscardPile&)
- *      insert all the cards of the trade area to an std::ostream.
  */
 
 #ifndef TRADEAREA_H
@@ -47,28 +41,50 @@ class TradeArea{
         friend ostream& operator<< (ostream&, const TradeArea&);
 };
 
-// constructor
+/**
+ * @brief A constructor which accepts an istream and reconstruct the TradeArea from file.
+ * @param is An istream address
+ * @param factory A const CardFactory
+ */
 TradeArea::TradeArea(istream& is, const CardFactory* factory) {
 
 }
 
+/**
+ * @brief Returns true if the card can be legally added to the TradeArea, 
+ *        i.e. a card of the same bean is already in the TradeArea.
+ * @param card A card that will be test
+ */
 inline bool TradeArea::legal(Card* card) {
     for(auto& c: area)
         if(c->getName() == card->getName()) return true;
     return false;
 }
 
+/**
+ * @brief removes a card of the corresponding bean name from the trade area.
+ * @param s A string which is the card name
+ */
 inline Card* TradeArea::trade(string s) {
     for(auto& card: area)
         if(card->getName() == s) return card;
     return nullptr;
 }
 
+/**
+ * @brief Adds the card to the trade area but does not check if it is legal to place the card.
+ * @param card A card needs to be added
+ */
 inline TradeArea& TradeArea::operator+= (Card* card) {
     area.push_back(card);
     return *this;
 }
 
+/**
+ * @brief Insert all the cards of the trade area to an std::ostream.
+ * @param os An ostream
+ * @param tradeArea A tradeArea needs to be printed
+ */
 inline ostream& operator<< (ostream& os, const TradeArea& tradeArea) {
     for(auto& card: tradeArea.area) 
         os << *card;

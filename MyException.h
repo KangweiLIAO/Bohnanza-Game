@@ -41,4 +41,10 @@ struct IllegalTypeException : public exception {
     }
 };
 
+struct NotEnoughCoinsException : public exception {
+	const char * what() const throw () {
+    	return "Not Enough Coins Exception - No enough coins for new chain.";
+    }
+};
+
 #endif

@@ -3,6 +3,14 @@
  * Group 8:
  *      Kangwei Liao: 8568800
  *      Langqing Zou: 300035036
+ * 
+ * @brief
+ * This class is an abstract base class and includes some importnat operations.
+ * 
+ * Methods:
+ * - virtual int getCardsPerCoin(int)
+ * - virtual string getName()
+ * - virtual void print(ostream&)
  */
 
 #ifndef CARD_H
@@ -30,6 +38,11 @@ class Card {
         friend ostream& operator<< (ostream& os, const Card& card);
 };
 
+/**
+ * @brief Insert the first character of the cards into an std::ostream.
+ * @param os An ostream
+ * @param card A card needs to be printed
+*/
 ostream& operator<< (ostream& os, const Card& card) {
   card.print(os);
   return os;

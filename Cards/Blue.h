@@ -4,7 +4,7 @@
  *      Kangwei Liao: 8568800
  *      Langqing Zou: 300035036
  * @brief
- * A concrete derived card classes that instantiates from the template Chain Class.
+ * A concrete derived card class that instantiates from the template Chain Class.
  * 
  * Methods:
  * -int getCardsPerCoin(int)
@@ -24,8 +24,8 @@ class Blue : public Card {
 };
 
 /**
- * @brief return the numbers of cards corresponding with the given numbers of coins
- * @param coins numbers of coins
+ * @brief Return the numbers of cards corresponding with the given numbers of coins
+ * @param coins Numbers of coins
 */
 int Blue::getCardsPerCoin(int coins) {
     switch (coins) {
@@ -39,7 +39,7 @@ int Blue::getCardsPerCoin(int coins) {
 }
 
 /**
- * @brief inserts the first character for the card to an std::ostream
+ * @brief Inserts the first character for the card to an std::ostream
  * @param out An ostream
 */
 void Blue::print(ostream& out) const {

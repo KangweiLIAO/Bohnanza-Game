@@ -54,7 +54,7 @@ DiscardPile::DiscardPile(istream& is, const CardFactory* factory) {
 }
 
 /**
- * @brief returns and removes the top card from the discard pile.
+ * @brief Returns and removes the top card from the discard pile.
  */
 inline Card* DiscardPile::pickUp() {
     Card* c = pile.back();  // top card == last elem
@@ -63,7 +63,7 @@ inline Card* DiscardPile::pickUp() {
 }
 
 /**
- * @brief insert all the cards in the DiscardPile to an std::ostream.
+ * @brief Insert all the cards in the DiscardPile to an std::ostream.
  * @param os An ostream address
  */
 void DiscardPile::print(ostream& os) {
@@ -74,8 +74,8 @@ void DiscardPile::print(ostream& os) {
 }
 
 /**
- * @brief discards the card to the pile.
- * @param A card needs to be discarded
+ * @brief Discards the card to the pile.
+ * @param A Card needs to be discarded
  */
 inline DiscardPile& DiscardPile::operator+= (Card* card) {
     pile.push_back(card);
@@ -83,7 +83,7 @@ inline DiscardPile& DiscardPile::operator+= (Card* card) {
 }
 
 /**
- * @brief insert only the top card of the discard pile to an std::ostream.
+ * @brief Insert only the top card of the discard pile to an std::ostream.
  * @param os An ostream
  * @param tradeArea A discardpileneeds to be printed
 */

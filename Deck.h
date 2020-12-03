@@ -4,7 +4,7 @@
  *      Kangwei Liao: 8568800
  *      Langqing Zou: 300035036
  * Description:
- * This class inherit from {std::vector<Card*>} and holds the unique deck for the game. 
+ * This class inherits from {std::vector<Card*>} and holds the unique deck for the game. 
  * 
  * Methods: 
  *  - Deck()
@@ -52,7 +52,7 @@ Deck::Deck(istream& is, const CardFactory* f) : factory(f) {
 }
 
 /**
- * @brief returns and removes the top card from the deck.
+ * @brief Returns and removes the top card from the deck.
 */
 Card* Deck::draw() {
     // If card not found, throw:
@@ -65,7 +65,7 @@ Card* Deck::draw() {
 }
 
 /**
- * @brief insert all the cards in the deck to an std::ostream.
+ * @brief Insert all the cards in the deck to an std::ostream.
  * @param os An ostream
  * @param tradeArea A deck needs to be printed
 */

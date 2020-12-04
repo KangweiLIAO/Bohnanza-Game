@@ -1,25 +1,19 @@
 /**
- * File: Hand.h
+ * @file: Hand.h
  * Group 8:
  *      Kangwei Liao: 8568800
  *      Langqing Zou: 300035036
  * 
- * Description:
+ * @brief
  * This class holds the hand of a player.
  * 
  * Methods:
  *  - Hand(istream&, const CardFactory*)
- *      a constructor which accepts an istream and reconstruct the Hand from file.
  *  - Hand& operator+=(Card*)
- *      adds the card to the rear of the hand.
  *  - Card* play()
- *      returns and removes the top card from the player's hand.
  *  - Card* top()
- *      returns but does not remove the top card from the player's hand.
  *  - Card* operator[](int)
- *      returns and removes the Card at a given index.
  *  - friend ostream& operator<< (ostream&, const Hand&)
- *      insertion operator (friend) to print Hand on an std::ostream.
  */
 
 #ifndef HAND_H
@@ -29,7 +23,6 @@
 #include <list>
 #include <queue>
 // project headers:
-#include "Player.h"
 
 using namespace std;
 
@@ -43,24 +36,28 @@ class Hand {
         Hand() {};
         Hand(istream&, const CardFactory*);
         // member functions:
-        Card* play();
-        Card* top() {return hand.front();}
+        Card* play(); 
+        Card* top() {return hand.front();}  ///returns but does not remove the top card from the player's hand.
         int size() const {return hand.size();}
         // operators:
         Card* operator[] (int);
-        Hand& operator+= (Card* card) {
-            hand.push(card);
-            return *this;
-        }
+        ///adds the card to the rear of the hand.
+        Hand& operator+= (Card*);
         friend ostream& operator<< (ostream&, const Hand&);
 };
 
-// TODO: Read from istream and reconstruct player's hand
-// Hand::Hand(istream&, const CardFactory*) {}
+/**
+ * @brief A constructor which accepts an istream and reconstruct the hand from file.
+ * @param is An istream address
+ * @param factory A const CardFactory
+ */
+Hand::Hand(istream& is, const CardFactory* factory){
+
+}
 
 /**
- * Pop and return the top card in hand
- * @return a pointer to the card just popped
+ * @brief Pop and return the top card in hand
+ * @return A pointer to the card just popped
  */
 Card* Hand::play() {
     Card* card = hand.front();
@@ -69,9 +66,9 @@ Card* Hand::play() {
 }
 
 /**
- * Return the top card at specified index
- * @param i index for a card in hand
- * @return a pointer to the card at index i
+ * @brief Return the top card at specified index
+ * @param i Index for a card in hand
+ * @return  A pointer to the card at index i
  */
 Card* Hand::operator[] (int i) {
     int count = 0;
@@ -89,11 +86,18 @@ Card* Hand::operator[] (int i) {
     return buffC;
 }
 
+inline Hand& Hand::operator+= (Card* card) {
+    hand.push(card);
+    return *this;
+}
+
 /**
- * Insert hand into ostream
- * @return ostream with hand inserted
+ * @brief Insert hand into ostream
+ * @param os An ostream
+ * @param h A hand needs to be printed
+ * @return Ostream with hand inserted
  */
-inline ostream& operator<< (ostream& os, Hand& h) {
+ostream& operator<< (ostream& os, Hand& h) {
     const int size = h.size();
     for (int i=0; i<size; i++) {
         os << *h[i] << " ";     // card at position i

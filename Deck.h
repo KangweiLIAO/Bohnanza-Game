@@ -1,20 +1,17 @@
 /**
- * File: Deck.h
+ * @file: Deck.h
  * Group 8:
  *      Kangwei Liao: 8568800
  *      Langqing Zou: 300035036
- * Description:
- * This class inherit from {std::vector<Card*>} and holds the unique deck for the game. 
+ * 
+ * @brief
+ * This class inherits from {std::vector<Card*>} and holds the unique deck for the game. 
  * 
  * Methods: 
  *  - Deck()
- *      a default constructor which using constructor from vector.
  *  - Deck(istream&, const CardFactory*)
- *      a constructor which accepts an istream and reconstructs the deck from file.
  *  - Card* draw()
- *      returns and removes the top card from the deck.
  *  - friend ostream& operator<< (ostream&, const Deck&)
- *      insert all the cards in the deck to an std::ostream.
  */
 
 #ifndef DECK_H
@@ -35,6 +32,9 @@ class Deck : public vector<Card*> {
         static vector<Card*> deck;
         const CardFactory* factory; 
     public:
+    /**
+    @brief a default constructor which using constructor from vector.
+    */
         Deck() : vector<Card*>::vector(0) {};
         Deck(istream& is, const CardFactory* f);
         int numCards() {return this->size();}
@@ -43,10 +43,18 @@ class Deck : public vector<Card*> {
 };
 
 //TODO: Implement constructor that can read from istream
+/**
+ * @brief A constructor which accepts an istream and reconstruct the Deck from file.
+ * @param is An istream address
+ * @param factory A const CardFactory
+*/
 Deck::Deck(istream& is, const CardFactory* f) : factory(f) {
     
 }
 
+/**
+ * @brief Returns and removes the top card from the deck.
+*/
 Card* Deck::draw() {
     // If card not found, throw:
     if (this->size() == 0) throw DeckEmptyException();
@@ -57,6 +65,11 @@ Card* Deck::draw() {
     }
 }
 
+/**
+ * @brief Insert all the cards in the deck to an std::ostream.
+ * @param os An ostream
+ * @param tradeArea A deck needs to be printed
+*/
 inline ostream& operator<< (ostream& os, const Deck& deck) {
     // insert all cards to ostream
     const int size = deck.size();

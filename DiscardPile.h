@@ -1,25 +1,20 @@
 /**
- * File: DiscardPile.h
+ * @file: DiscardPile.h
  * Group 8:
  *      Kangwei Liao: 8568800
  *      Langqing Zou: 300035036
  * 
- * Description:
- * This class holds the hand of a player.
+ * @brief
+ * This class holds the discard pile for a table. DiscardPile support insertion and removal 
+ * but not at random locations but all at the end.
  * 
  * Methods:
- *  - Hand(istream&, const CardFactory*)
- *      a constructor which accepts an istream and reconstruct the Hand from file.
- *  - Hand& operator+=(Card*)
- *      adds the card to the rear of the hand.
- *  - Card* play()
- *      returns and removes the top card from the player's hand.
+ *  - DiscardPile(istream&, const CardFactory*) 
+ *  - DiscardPile& operator+=(Card*)
+ *  - Card* pickUp()
  *  - Card* top()
- *      returns but does not remove the top card from the player's hand.
- *  - Card* operator[](int)
- *      returns and removes the Card at a given index.
- *  - friend ostream& operator<< (ostream&, const Hand&)
- *      insertion operator (friend) to print Hand on an std::ostream.
+ *  - void print(std::ostream&)
+ *  - friend ostream& operator<< (ostream&, const DiscardPile&)
  */
 
 #ifndef DISCARD_PILE_H
@@ -33,15 +28,69 @@
 using namespace std;
 
 class DiscardPile {
-    public:
-        DiscardPile(istream&, const CardFactory*);
-        Card* top();
-        Card* pickUp();
-        void print(std::ostream&);
-        DiscardPile& operator+=(Card*);
     private:
-        vector<Card> pile;      // hold cards
-        int number;             // number of card in pile
+        vector<Card*> pile;      // hold discarded cards
+        const CardFactory* factory;
+    public:
+        // constructors:
+        DiscardPile() {};
+        DiscardPile(istream&, const CardFactory*);
+        // member functions:
+        Card* top() const {return pile.back();}
+        Card* pickUp();
+        void print(ostream&);
+        // operators:
+        DiscardPile& operator+=(Card*);
+        friend ostream& operator<< (ostream&, const Hand&);
 };
+
+/**
+ * @brief A constructor which accepts an istream and reconstruct the DiscardPile from file.
+ * @param is An istream address
+ * @param factory A const CardFactory
+ */
+DiscardPile::DiscardPile(istream& is, const CardFactory* factory) {
+
+}
+
+/**
+ * @brief Returns and removes the top card from the discard pile.
+ */
+inline Card* DiscardPile::pickUp() {
+    Card* c = pile.back();  // top card == last elem
+    pile.pop_back();
+    return c;
+}
+
+/**
+ * @brief Insert all the cards in the DiscardPile to an std::ostream.
+ * @param os An ostream address
+ */
+void DiscardPile::print(ostream& os) {
+    const int size = pile.size();
+    for (int i=0; i<size; i++) {
+        os << *pile[i] << " ";
+    }
+}
+
+/**
+ * @brief Discards the card to the pile.
+ * @param A Card needs to be discarded
+ */
+inline DiscardPile& DiscardPile::operator+= (Card* card) {
+    pile.push_back(card);
+    return *this;
+}
+
+/**
+ * @brief Insert only the top card of the discard pile to an std::ostream.
+ * @param os An ostream
+ * @param tradeArea A discardpileneeds to be printed
+*/
+inline ostream& operator<< (ostream& os, const DiscardPile& pile) {
+    const Card* c = pile.top();
+    os << *c;
+    return os;
+}
 
 #endif

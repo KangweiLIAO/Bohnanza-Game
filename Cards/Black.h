@@ -1,8 +1,15 @@
 /**
- * File: Black.h
+ * @file: Black.h
  * Group 8:
  *      Kangwei Liao: 8568800
  *      Langqing Zou: 300035036
+ * 
+ * @brief
+ * A concrete derived card class that instantiates from the template Chain Class.
+ * 
+ * Methods:
+ * - int getCardsPerCoin(int)
+ * - void print(ostream&) const
  */
 
 #ifndef BLACK_H
@@ -14,12 +21,16 @@ using namespace std;
 class Black : public Card {
     public:
         Black() : Card("black") {};
-        virtual int getCardsPerCoin(int coins);
+        int getCardsPerCoin(int coins);
     protected:
-        virtual void print(ostream& out) const;
+        void print(ostream&) const;
 };
 
-int Black::getCardsPerCoin(int coins) {
+/**
+ * @brief Return the numbers of cards corresponding with the given numbers of coins
+ * @param coins Numbers of coins
+*/
+inline int Black::getCardsPerCoin(int coins) {
     switch (coins) {
         case 0: return 0;
         case 1: return 2;
@@ -30,8 +41,12 @@ int Black::getCardsPerCoin(int coins) {
     }
 }
 
-void Black::print(ostream& out) const {
-    out << name[0];
+/**
+ * @brief Inserts the first character for the card to an std::ostream
+ * @param out An ostream
+*/
+void Black::print(ostream& os) const {
+    os << name[0];
 }
 
 #endif

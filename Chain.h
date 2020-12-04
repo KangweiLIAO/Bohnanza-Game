@@ -29,6 +29,8 @@ template <class T=Card>
 class Chain : public Chain_Base {
     private:
         const string name;
+    protected:
+        void print(ostream&) const;
     public:
         // constructors
         Chain() : name(typeid(T).name()) {};
@@ -39,7 +41,7 @@ class Chain : public Chain_Base {
         // operators
         Chain<T>& operator+= (Card*);
         Card* operator[] (int i) {return this->chain[i];}
-        friend ostream& operator<< (ostream&, const Chain<T>&) {};
+        // friend ostream& operator<< (ostream&, const Chain<T>&) {};
 };
 
 /**
@@ -69,13 +71,24 @@ inline Chain<T>& Chain<T>::operator+= (Card* card){
 }
 
 /**
+ * @brief Inserts the first character for the card to an std::ostream
+ * @param out An ostream
+*/
+template <class T>
+void Chain<T>::print(ostream& os) const {
+    for(auto& card: this->chain) 
+        os << *card << " ";
+}
+
+/**
  * @brief Insertion operator (friend) to print a start column with the full name of the bean on an ostream.
  */
-template <class T>
-inline ostream& operator<< (ostream& os, const Chain<T>& ch){
-    // for(auto& card: ch.chain) 
-    //     os << *card << " ";
-    return os;
-}
+// template <class T>
+// inline ostream& operator<< (ostream& os, const Chain<T>& ch){
+//     os << "yes";
+//     for(auto& card: ch.chain) 
+//         os << *card << " ";
+//     return os;
+// }
 
 #endif

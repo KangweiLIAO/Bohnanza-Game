@@ -15,8 +15,15 @@
 class Chain_Base {
     protected:
         vector<Card*> chain;
+        virtual void print(ostream&) const = 0;
     public:
         virtual int sell() = 0;
+        friend ostream& operator<< (ostream&, const Chain_Base&);
 };
+
+ostream& operator<< (ostream& os, const Chain_Base& chain) {
+  chain.print(os);
+  return os;
+}
 
 #endif

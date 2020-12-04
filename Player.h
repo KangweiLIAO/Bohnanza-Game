@@ -37,12 +37,11 @@ class Player {
     private:
         Hand hand;
         int num_coins;
-        int num_chains;
         const string name;
         vector<Chain_Base*> chains;
     public:
         // constructors
-        Player(const string& name) : name(name) {};
+        Player(const string&);
         Player(istream&, const CardFactory*);
         // member functions
         void buyThirdChain(Card*);
@@ -52,13 +51,17 @@ class Player {
         int getNumChains();
         void printHand(ostream&, bool);
         // operators
-        Player& operator+=(int);
-        template <class T> Chain<T>& operator[](int);
+        Player& operator+= (int);
+        template <class T> Chain<T>& operator[] (int);
         friend ostream& operator<<(ostream&,const Player&);
 };
 
+/**
+ * @brief A constructor which accepts new player's name to create a new player in the game.
+ * @param name Name of the new player
+*/
 inline Player::Player(const string& name) : name(name) {
-    num_coins = 0, num_chains = 0;
+    num_coins = 0;
 }
 
 /**
@@ -83,7 +86,7 @@ inline int Player::getNumCoins() {return num_coins;}
 /**
  * @brief Get the number of chains currently held by the player.
 */
-inline int Player::getNumChains() {return num_chains;}
+inline int Player::getNumChains() {return chains.size();}
 
 /**
  * @brief Adds an empty third chain to the player for three coins. 
@@ -104,14 +107,46 @@ void Player::buyThirdChain(Card* card){
 */
 Chain_Base* Player::createChain(Card* card) {
     string type = typeid(*card).name();     // get the card's type
-    if (type == typeid(Black).name()) chains.push_back(new Chain<Black>());
-    else if (type == typeid(Blue).name()) chains.push_back(new Chain<Blue>());
-    else if (type == typeid(Chili).name()) chains.push_back(new Chain<Chili>());
-    else if (type == typeid(Garden).name()) chains.push_back(new Chain<Garden>());
-    else if (type == typeid(Green).name()) chains.push_back(new Chain<Green>());
-    else if (type == typeid(Red).name()) chains.push_back(new Chain<Red>());
-    else if (type == typeid(Soy).name()) chains.push_back(new Chain<Soy>());
-    else chains.push_back(new Chain<Stink*>());
+    if (type == typeid(Black).name()) {
+        Chain<Black>* chain = new Chain<Black>();
+        *chain += card;
+        chains.push_back(chain);
+    }
+    else if (type == typeid(Blue).name()) {
+        Chain<Blue>* chain = new Chain<Blue>();
+        *chain += card;
+        chains.push_back(chain);
+    }
+    else if (type == typeid(Chili).name()) {
+        Chain<Chili>* chain = new Chain<Chili>();
+        *chain += card;
+        chains.push_back(chain);
+    }
+    else if (type == typeid(Garden).name()) {
+        Chain<Garden>* chain = new Chain<Garden>();
+        *chain += card;
+        chains.push_back(chain);
+    }
+    else if (type == typeid(Green).name()) {
+        Chain<Green>* chain = new Chain<Green>();
+        *chain += card;
+        chains.push_back(chain);
+    }
+    else if (type == typeid(Red).name()) {
+        Chain<Red>* chain = new Chain<Red>();
+        *chain += card;
+        chains.push_back(chain);
+    }
+    else if (type == typeid(Soy).name()) {
+        Chain<Soy>* chain = new Chain<Soy>();
+        *chain += card;
+        chains.push_back(chain);
+    }
+    else {
+        Chain<Stink>* chain = new Chain<Stink>();
+        *chain += card;
+        chains.push_back(chain);
+    }
     return chains.back();
 }
 
@@ -141,14 +176,21 @@ inline Player& Player::operator+= (int coins){
  * @return the chain at the index i
 */
 template <class T>
-inline Chain<T>& Player::operator[] (int i) {return *chains[i];}
+inline Chain<T>& Player::operator[] (int i) {return chains[i];}
 
 /**
- * @brief Insert player to an std::ostream.
+ * @brief Insert the player's name, the number of coins in the player's possession and 
+ *        each of the chains (2 or 3, some possibly empty) to an std::ostream.
  * @param os An ostream
- * @param tradeArea A player needs to be printed
+ * @param player A player needs to be printed
 */
 ostream& operator<< (ostream& os, const Player& player) {
+    os << player.name << "\t" << player.num_coins << " coins\n";
+    if (player.chains.size() != 0) {
+        for(auto& chain: player.chains) {
+            os << *chain;   // call Chain_Base::operator<<
+        }
+    }
     return os;
 }
 

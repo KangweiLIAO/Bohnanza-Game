@@ -23,7 +23,6 @@
 #include <list>
 #include <queue>
 // project headers:
-#include "Player.h"
 
 using namespace std;
 
@@ -38,7 +37,7 @@ class Hand {
         Hand(istream&, const CardFactory*);
         // member functions:
         Card* play(); 
-        Card* top() {return hand.front();} ///returns but does not remove the top card from the player's hand.
+        Card* top() {return hand.front();}  ///returns but does not remove the top card from the player's hand.
         int size() const {return hand.size();}
         // operators:
         Card* operator[] (int);
@@ -96,7 +95,7 @@ Card* Hand::operator[] (int i) {
  * @param h A hand needs to be printed
  * @return Ostream with hand inserted
  */
-inline ostream& operator<< (ostream& os, Hand& h) {
+ostream& operator<< (ostream& os, Hand& h) {
     const int size = h.size();
     for (int i=0; i<size; i++) {
         os << *h[i] << " ";     // card at position i

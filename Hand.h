@@ -42,10 +42,7 @@ class Hand {
         // operators:
         Card* operator[] (int);
         ///adds the card to the rear of the hand.
-        Hand& operator+= (Card* card) {
-            hand.push(card);
-            return *this;
-        }
+        Hand& operator+= (Card*);
         friend ostream& operator<< (ostream&, const Hand&);
 };
 
@@ -87,6 +84,11 @@ Card* Hand::operator[] (int i) {
     }
     if (buffC == NULL) throw CardNotFoundException();
     return buffC;
+}
+
+inline Hand& Hand::operator+= (Card* card) {
+    hand.push(card);
+    return *this;
 }
 
 /**

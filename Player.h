@@ -52,7 +52,7 @@ class Player {
         void printHand(ostream&, bool);
         // operators
         Player& operator+= (int);
-        template <class T> Chain<T>& operator[] (int);
+        Chain_Base& operator[] (int);
         friend ostream& operator<<(ostream&,const Player&);
 };
 
@@ -166,7 +166,7 @@ inline void Player::printHand(ostream& os, bool flag){
  * @param coins Numbers of coins need to be added
 */
 inline Player& Player::operator+= (int coins){
-    num_coins+=coins; 
+    num_coins += coins; 
     return *this;
 }
 
@@ -175,8 +175,7 @@ inline Player& Player::operator+= (int coins){
  * @param i index of a chain of this player
  * @return the chain at the index i
 */
-template <class T>
-inline Chain<T>& Player::operator[] (int i) {return chains[i];}
+inline Chain_Base& Player::operator[] (int i) {return *chains[i];}
 
 /**
  * @brief Insert the player's name, the number of coins in the player's possession and 

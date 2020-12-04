@@ -8,7 +8,7 @@
  * 
  * Methods: 
  *  - CardFactory()
- *      a default constructor in which all the cards need to be created in the numbers needed for the game.
+ *      
  *  - static CardFactory* getFactory()
  *      returns a pointer to the only instance of CardFactory.
  *  - Deck getDeck()
@@ -28,20 +28,23 @@ using namespace std;
 
 class CardFactory{
     private:
-        Deck deck;
+        static CardFactory* factory;
+        static Deck deck;
+        CardFactory();
+        CardFactory(const CardFactory&);
+        void operator=(const CardFactory&);
     public:
-        CardFactory();      // constructor
-        ~CardFactory();     // destructor
-        CardFactory(const CardFactory&) = delete;
-        static CardFactory* getFactory();           // TODO: Implement getFactory()
-        Deck getDeck() {return deck;}
-        // operators:
-        void operator=(const CardFactory&) = delete;
+        ~CardFactory();
+        static CardFactory* getFactory();
+        Deck getDeck();
 };
 
-/// default constructor
+CardFactory* CardFactory::factory {nullptr};
+Deck CardFactory::deck {Deck()};
+/**
+ * @brief A default constructor in which all the cards need to be created in the numbers needed for the game.
+ */
 CardFactory::CardFactory() {
-    deck = Deck();
     for (int i=0; i<20; i++) {
         deck.push_back(new Blue());
         if (i < 18) deck.push_back(new Chili());
@@ -56,9 +59,18 @@ CardFactory::CardFactory() {
     shuffle(deck.begin(),deck.end(),std::default_random_engine(seed));
 }
 
-/// destructor
-CardFactory::~CardFactory() {
-    
+/**
+ * @brief The destructor of Cardfactory.
+ */
+CardFactory::~CardFactory() {}
+
+CardFactory* CardFactory::getFactory() {
+    if (factory==nullptr) factory = new CardFactory();
+    return factory;
+}
+
+inline Deck CardFactory::getDeck() {
+     return deck;
 }
 
 #endif

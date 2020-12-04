@@ -1,10 +1,10 @@
 /**
- * File: Hand.h
+ * @file: Hand.h
  * Group 8:
  *      Kangwei Liao: 8568800
  *      Langqing Zou: 300035036
  * 
- * Description:
+ * @brief
  * This class holds the hand of a player.
  * 
  * Methods:

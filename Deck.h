@@ -1,9 +1,10 @@
 /**
- * File: Deck.h
+ * @file: Deck.h
  * Group 8:
  *      Kangwei Liao: 8568800
  *      Langqing Zou: 300035036
- * Description:
+ * 
+ * @brief
  * This class inherits from {std::vector<Card*>} and holds the unique deck for the game. 
  * 
  * Methods: 

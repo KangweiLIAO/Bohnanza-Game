@@ -9,24 +9,14 @@
 #define CHAIN_BASE_H
 
 // std libraries:
-#include <vector>
 // project headers:
-#include "Player.h"
-
-using namespace std;
+#include "CardFactory.h"
 
 class Chain_Base {
-    private:
-        int num_cards;
-        char* name;
-        int position;
+    protected:
+        vector<Card*> chain;
     public:
-        // Chain(istream& is, const CardFactory* f);
-        // Chain<T>& operator+=(Card*);
-        // int sell();
-        // friend ostream& operator<< (ostream&,const Chain_Base&);
+        virtual int sell() = 0;
 };
-
-
 
 #endif

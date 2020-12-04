@@ -39,8 +39,10 @@ class CardFactory{
         Deck getDeck();
 };
 
+// Static variable initializations:
 CardFactory* CardFactory::factory {nullptr};
 Deck CardFactory::deck {Deck()};
+
 /**
  * @brief A default constructor in which all the cards need to be created in the numbers needed for the game.
  */

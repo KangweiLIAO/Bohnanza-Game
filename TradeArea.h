@@ -86,8 +86,12 @@ inline TradeArea& TradeArea::operator+= (Card* card) {
  * @param tradeArea A tradeArea needs to be printed
  */
 inline ostream& operator<< (ostream& os, const TradeArea& tradeArea) {
-    for(auto& card: tradeArea.area) 
-        os << *card << " ";
+    os << "Trade Area: ";
+    if (tradeArea.area.size() == 0) os << "Empty";
+    else {
+        for(auto& card: tradeArea.area) 
+            os << *card << " ";
+    }
     return os;
 }
 

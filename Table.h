@@ -46,9 +46,7 @@ class Table{
 CardFactory* Table::factory {CardFactory::getFactory()};
 
 Table::Table(string name1, string name2) {
-    // factory = CardFactory::getFactory();
     deck = factory->getDeck();
-    cout << deck << endl;
     player1 = new Player(name1);
     player2 = new Player(name2);
     discardPile = new DiscardPile();
@@ -96,7 +94,10 @@ void Table::printHand(bool flag){
  * @param player A table needs to be printed
 */
 ostream& operator<<(ostream& os, const Table& table) {
-    
+    os << *table.tradeArea << endl;
+    os << *table.discardPile << endl;
+    os << "Player1: " << *table.player1 << endl;
+    os << "Player2: " << *table.player2 << endl;
     return os;
 }
 

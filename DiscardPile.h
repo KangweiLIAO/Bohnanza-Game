@@ -23,7 +23,7 @@
 // std libraries:
 #include <vector>
 // project headers:
-#include "Table.h"
+#include "CardFactory.h"
 
 using namespace std;
 
@@ -41,7 +41,7 @@ class DiscardPile {
         void print(ostream&);
         // operators:
         DiscardPile& operator+=(Card*);
-        friend ostream& operator<< (ostream&, const Hand&);
+        friend ostream& operator<< (ostream&, const DiscardPile&);
 };
 
 /**

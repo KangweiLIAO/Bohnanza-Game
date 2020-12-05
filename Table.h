@@ -16,6 +16,10 @@
 
 #ifndef TABLE_H
 #define TABLE_H
+
+// std libraries:
+
+// project headers:
 #include "CardFactory.h"
 #include "DiscardPile.h"
 #include "TradeArea.h"
@@ -25,15 +29,29 @@ using namespace std;
 
 class Table{
     private:
-        Player player1;
-        Player player2;
-        
+        static CardFactory* factory;
+        Deck deck;
+        Player* player1;
+        Player* player2;
+        TradeArea* tradeArea;
+        DiscardPile* discardPile;
     public:
+        Table(string, string);
         Table(istream&, const CardFactory*);
         bool win(string&);
         void printHand(bool);
         friend ostream& operator<<(ostream&,const Table&);
 };
+
+CardFactory* Table::factory {CardFactory::getFactory()};
+
+Table::Table(string name1, string name2) {
+    deck = factory->getDeck();
+    player1 = new Player(name1);
+    player2 = new Player(name2);
+    discardPile = new DiscardPile();
+    tradeArea = new TradeArea();
+}
 
 /**
  * @brief A constructor which accepts an istream and reconstruct the Table from file.
@@ -48,8 +66,13 @@ Table::Table(istream& is, const CardFactory* factory) {
  * @brief Returns true when a player has won.
  * @param s The address of the name of player
 */
-bool Table::win(string& s){
-
+inline bool Table::win(string& name){
+    if(deck.numCards() == 0) {
+        if (player1->getName()==name) name = player1->getName();
+        else name = player2->getName();
+        return true;
+    }
+    return false;
 }
 
 /**
@@ -59,7 +82,10 @@ bool Table::win(string& s){
 */
 
 void Table::printHand(bool flag){
-
+    cout << player1->getName() << " ";
+    player1->printHand(cout,flag);
+    cout << "\n" << player2->getName() << " ";
+    player2->printHand(cout,flag);
 }
 
 /**
@@ -68,7 +94,10 @@ void Table::printHand(bool flag){
  * @param player A table needs to be printed
 */
 ostream& operator<<(ostream& os, const Table& table) {
-    os << table;
+    os << *table.tradeArea << endl;
+    os << *table.discardPile << endl;
+    os << "Player1: " << *table.player1 << endl;
+    os << "Player2: " << *table.player2 << endl;
     return os;
 }
 

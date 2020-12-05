@@ -23,7 +23,8 @@
 // std libraries:
 #include <vector>
 // project headers:
-#include "Table.h"
+#include "CardFactory.h"
+#include "MyException.h"
 
 using namespace std;
 
@@ -36,12 +37,12 @@ class DiscardPile {
         DiscardPile() {};
         DiscardPile(istream&, const CardFactory*);
         // member functions:
-        Card* top() const {return pile.back();}
+        Card* top() const;
         Card* pickUp();
         void print(ostream&);
         // operators:
         DiscardPile& operator+=(Card*);
-        friend ostream& operator<< (ostream&, const Hand&);
+        friend ostream& operator<< (ostream&, const DiscardPile&);
 };
 
 /**
@@ -51,6 +52,12 @@ class DiscardPile {
  */
 DiscardPile::DiscardPile(istream& is, const CardFactory* factory) {
 
+}
+
+Card* DiscardPile::top() const {
+    if (pile.size() != 0)
+        return pile.back();
+    else throw DeckEmptyException();
 }
 
 /**
@@ -88,8 +95,8 @@ inline DiscardPile& DiscardPile::operator+= (Card* card) {
  * @param tradeArea A discardpileneeds to be printed
 */
 inline ostream& operator<< (ostream& os, const DiscardPile& pile) {
-    const Card* c = pile.top();
-    os << *c;
+    try {os << "Discard pile (top): " << pile.top();}
+    catch (DeckEmptyException e) {os << "Empty";}
     return os;
 }
 

@@ -171,7 +171,7 @@ inline Player& Player::operator+= (int coins){
 }
 
 /**
- * @brief Returns the 
+ * @brief Returns the chain at specific index
  * @param i index of a chain of this player
  * @return the chain at the index i
 */

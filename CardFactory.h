@@ -66,13 +66,11 @@ CardFactory::CardFactory() {
  */
 CardFactory::~CardFactory() {}
 
-CardFactory* CardFactory::getFactory() {
+inline CardFactory* CardFactory::getFactory() {
     if (factory==nullptr) factory = new CardFactory();
     return factory;
 }
 
-inline Deck CardFactory::getDeck() {
-     return deck;
-}
+inline Deck CardFactory::getDeck() {return deck;}
 
 #endif

@@ -45,7 +45,7 @@ class Deck : public vector<Card*> {
  * @param factory A const CardFactory
 */
 Deck::Deck(istream& is, const CardFactory* f) {
-    this->factory = f->getFactory();
+    
 }
 
 /**

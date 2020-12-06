@@ -34,7 +34,7 @@ using namespace std;
 
 class Player {
     private:
-        Hand hand;
+        Hand* hand;
         int num_coins;
         const string name;
         vector<Chain_Base*> chains;
@@ -45,6 +45,8 @@ class Player {
         // member functions
         void buyThirdChain(Card*);
         Chain_Base* createChain(Card*);
+        bool chainMatch(Card*);
+        Hand* getHand();
         string getName();
         int getNumCoins();
         int getNumChains();
@@ -52,7 +54,7 @@ class Player {
         // operators
         Player& operator+= (int);
         Chain_Base& operator[] (int);
-        friend ostream& operator<<(ostream&,const Player&);
+        friend ostream& operator<< (ostream&,const Player&);
 };
 
 /**
@@ -61,6 +63,7 @@ class Player {
 */
 inline Player::Player(const string& name) : name(name) {
     num_coins = 0;
+    hand = new Hand();
 }
 
 /**
@@ -70,54 +73,64 @@ inline Player::Player(const string& name) : name(name) {
 */
 Player::Player(istream& is, const CardFactory* factory){
     //istram: Player Skye 3 Red 3 Blue 3
-    Deck deck = factory->getFactory()->getDeck();
-    string array[128];
-    string line,s;
-    getline(is,line);
-    istringstream buff(line);
-    int i=0,k=3;
-    while(buff>>s){
-        array[i++]=s;
-    }
-    Player player(array[1]);
-    player.num_coins=stol(array[2]);
-    while(array[k]!=""){
-        //pick a specific card from deck
-        for(int i=0;i<104;i++){
-            if(typeid(deck[i]).name()==array[k]){
-                player.createChain(deck[i]);
-                deck.erase(deck.begin()+i-1);
-                break;
-            }
-        }
-        k++;
-        for(int i=0; i<stol(array[k])-1;i++){
-            for(int i=0;i<104;i++){
-                if(typeid(deck[i]).name()==array[k-1]){
-                    player.chains.back()->operator+=(deck[i]);
-                    deck.erase(deck.begin()+i-1);
-                    break;
-                }
-            }
-        }
-        k++;
-    }
+    // static Deck deck = factory->getFactory()->getDeck();
+    // string array[128];
+    // string line,s;
+    // getline(is,line);
+    // istringstream buff(line);
+    // int i=0,k=3;
+    // while(buff>>s){
+    //     array[i++]=s;
+    // }
+    // Player player(array[1]);
+    // player.num_coins=stol(array[2]);
+    // while(array[k]!=""){
+    //     //pick a specific card from deck
+    //     for(int i=0;i<104;i++){
+    //         if(typeid(deck[i]).name()==array[k]){
+    //             player.createChain(deck[i]);
+    //             deck.erase(deck.begin()+i-1);
+    //             break;
+    //         }
+    //     }
+    //     k++;
+    //     for(int i=0; i<stol(array[k])-1;i++){
+    //         for(int i=0;i<104;i++){
+    //             if(typeid(deck[i]).name()==array[k-1]){
+    //                 player.chains.back()->operator+=(deck[i]);
+    //                 deck.erase(deck.begin()+i-1);
+    //                 break;
+    //             }
+    //         }
+    //     }
+    //     k++;
+    // }
 }
 
 /**
  * @brief Get the name of the player
+ * @return the name of player
 */
 inline string Player::getName() {return name;}
 
 /**
  * @brief Get the number of coins currently held by the player.
+ * @ return number of coins
 */
 inline int Player::getNumCoins() {return num_coins;}
 
 /**
  * @brief Get the number of chains currently held by the player.
+ * @return number of chains
 */
 inline int Player::getNumChains() {return chains.size();}
+
+/**
+ * @brief returns the hand object of the player
+ * @return Hand of the player
+*/
+inline Hand* Player::getHand(){return hand;}
+
 
 /**
  * @brief Adds an empty third chain to the player for three coins. 
@@ -133,7 +146,7 @@ void Player::buyThirdChain(Card* card){
 }
 
 /**
- * @brief Create new chain which type is base on a card, but did not add the card to it.
+ * @brief Create new chain which type is base on a card and add the card to it.
  * @param card A card that indicating the type of new chain.
 */
 Chain_Base* Player::createChain(Card* card) {
@@ -182,13 +195,24 @@ Chain_Base* Player::createChain(Card* card) {
 }
 
 /**
+ * @brief Try match the card with a existed chain and add to it.
+ * @param card a specific card
+*/
+bool Player::chainMatch(Card* card) {
+    for(auto& chain: chains) {
+        if(chain->match(card)) return true;
+    }
+    return false;
+}
+
+/**
  * @brief Prints the top card of the player's hand (with argument false) 
  *        or all of the player's hand (with argument true) to the supplied ostream.
  * @param os An ostream
  * @param flag A boolean
 */
 inline void Player::printHand(ostream& os, bool flag){
-    if (!flag) os << hand.top();
+    if (!flag) os << hand->top();
     else os << hand;
 }
 
@@ -217,9 +241,7 @@ inline Chain_Base& Player::operator[] (int i) {return *chains[i];}
 ostream& operator<< (ostream& os, const Player& player) {
     os << player.name << "\t" << player.num_coins << " coins\n";
     if (player.chains.size() != 0) {
-        for(auto& chain: player.chains) {
-            os << *chain;   // call Chain_Base::operator<<
-        }
+        for(auto& chain: player.chains) os << *chain;   // call Chain_Base::operator<<()
     }
     return os;
 }

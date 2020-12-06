@@ -28,13 +28,14 @@
 using namespace std;
 
 class TradeArea{
-    public:
+    private:
         list<Card*> area;
+    public:
         // constructors
         TradeArea() {};
         TradeArea(istream&, const CardFactory*);
         // member functions
-        int numCards() {return area.size();}
+        int numCards();
         bool legal(Card*);
         Card* trade(string);
         // operators
@@ -83,13 +84,24 @@ inline bool TradeArea::legal(Card* c) {
     return false;
 }
 
+inline int TradeArea::numCards() {return area.size();}
+
 /**
  * @brief removes a card of the corresponding bean name from the trade area.
  * @param s A string which is the card name
  */
 inline Card* TradeArea::trade(string s) {
-    for(auto& card: area)
-        if(card->getName() == s) return card;
+    int index = 0;
+    for (Card* card: area) {
+        index++;
+        if(card->getName() == s) {
+            Card* c = card;
+            list<Card*>::iterator iter = area.begin();
+            advance(iter,index);
+            area.erase(iter);
+            return card;
+        }
+    }
     return nullptr;
 }
 
@@ -108,7 +120,6 @@ inline TradeArea& TradeArea::operator+= (Card* card) {
  * @param tradeArea A tradeArea needs to be printed
  */
 inline ostream& operator<< (ostream& os, const TradeArea& tradeArea) {
-    os << "Trade Area: ";
     if (tradeArea.area.size() == 0) os << "Empty";
     else {
         for(auto& card: tradeArea.area) 

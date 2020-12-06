@@ -28,24 +28,27 @@ using namespace std;
 
 class Table{
     private:
-        static CardFactory* factory;
+        // static CardFactory* factory;
         Deck deck;
-        Player* player1;
-        Player* player2;
         TradeArea* tradeArea;
         DiscardPile* discardPile;
+        Player* player1;
+        Player* player2;
     public:
-        Table(string, string);
-        Table(istream&, const CardFactory*);
+        Table(string,string,const CardFactory*);
+        Table(istream&,const CardFactory*);
         bool win(string&);
         void printHand(bool);
-        friend ostream& operator<<(ostream&,const Table&);
+        Player* getPlayer(int);
+        TradeArea* getTradeArea();
+        DiscardPile* getDiscardPile();
+        friend ostream& operator<< (ostream&,const Table&);
 };
 
-CardFactory* Table::factory {CardFactory::getFactory()};
+// CardFactory* Table::factory {CardFactory::getFactory()};
 
-Table::Table(string name1, string name2) {
-    deck = factory->getDeck();
+Table::Table(string name1, string name2, const CardFactory* factory) {
+    deck = factory->getFactory()->getDeck();
     player1 = new Player(name1);
     player2 = new Player(name2);
     discardPile = new DiscardPile();
@@ -58,9 +61,9 @@ Table::Table(string name1, string name2) {
  * @param factory A const CardFactory
 */
 Table::Table(istream& is, const CardFactory* factory) {
-    Player player(is,factory);
-    DiscardPile pile(is,factory);
-    TradeArea area(is,factory);
+    // Player player(is,factory);
+    // DiscardPile pile(is,factory);
+    // TradeArea area(is,factory);
 }
 
 /**
@@ -76,12 +79,21 @@ inline bool Table::win(string& name){
     return false;
 }
 
+
+inline Player* Table::getPlayer(int i) {
+    if(i == 1) return player1;
+    else return player2;
+}
+
+inline TradeArea* Table::getTradeArea() {return tradeArea;}
+
+inline DiscardPile* Table::getDiscardPile() {return discardPile;}
+
 /**
  * @brief Prints the top card of the player's hand (with argument false) 
  * or all of the player's hand (with argument true)
  * @param flag a boolean
 */
-
 void Table::printHand(bool flag){
     cout << player1->getName() << " ";
     player1->printHand(cout,flag);
@@ -95,10 +107,10 @@ void Table::printHand(bool flag){
  * @param player A table needs to be printed
 */
 ostream& operator<<(ostream& os, const Table& table) {
-    os << *table.tradeArea << endl;
-    os << *table.discardPile << endl;
-    os << "Player1: " << *table.player1 << endl;
-    os << "Player2: " << *table.player2 << endl;
+    os << "##### Trade Area #####\n" << *table.tradeArea << endl;
+    os << "##### Discard Pile (top) #####\n" << *table.discardPile << endl;
+    os << "##### Player1 #####\n" << *table.player1 << endl;
+    os << "##### Player2 #####\n" << *table.player2 << endl;
     return os;
 }
 

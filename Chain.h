@@ -27,13 +27,11 @@ using namespace std;
 
 template <class T> 
 class Chain : public Chain_Base {
-    private:
-        const string name;
     protected:
         void print(ostream&) const override;
     public:
         // constructors
-        Chain() : name(typeid(T).name()) {};
+        Chain() {this->name = typeid(T).name();}
         Chain(istream&, const CardFactory*);
         // member functions
         int sell() override;
@@ -43,6 +41,11 @@ class Chain : public Chain_Base {
         Card* operator[] (int i) {return this->chain[i];}
         // friend ostream& operator<< (ostream&, const Chain<T>&) {};
 };
+
+template <class T>
+Chain<T>::Chain(istream&, const CardFactory*) {
+    
+}
 
 /**
  * @brief Counts the number cards in the current chain and returns the number coins 
@@ -63,11 +66,10 @@ inline int Chain<T>::sell() {
  */
 template <class T>
 inline Chain<T>& Chain<T>::operator+= (Card* card){
-    if (name == typeid(*card).name()) {
+    if (this->match(card)) {
         this->chain.push_back(card);
         return *this;
-    }
-    else throw IllegalTypeException();
+    } else throw IllegalTypeException();
 }
 
 /**

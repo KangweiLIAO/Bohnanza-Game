@@ -27,6 +27,7 @@
 // std libraries:
 #include<sstream> 
 // project headers:
+#include "DiscardPile.h"
 #include "Chain.h"
 #include "Hand.h"
 
@@ -45,7 +46,7 @@ class Player {
         Player(const string&);
         Player(istream&, const CardFactory*);
         // member functions
-        Card* play();
+        void play();
         void buyThirdChain();
         bool chainMatch(Card*);
         void addCardToHand(Card*);
@@ -68,7 +69,7 @@ class Player {
  * @param name Name of the new player
 */
 inline Player::Player(const string& name) : name(name) {
-    num_coins, max_chain = 0, 2;
+    this->max_chain = 2;
     hand = new Hand();
 }
 
@@ -120,7 +121,7 @@ inline void Player::addCardToHand(Card* card){*hand += card;}
 
 /**
  * @brief Prompt user to discard a card to discard pile
- * @param pile A pile
+ * @param pile a pile
 */
 void Player::discardHand(DiscardPile* pile) {
     cout << *hand << endl;
@@ -135,12 +136,11 @@ void Player::discardHand(DiscardPile* pile) {
 /**
  * @brief Try match the card with a existed chain and add to it.
  * @param card a specific card
- * @return true if matched a chain
+ * @return true if a chain matched, false otherwise
 */
 inline bool Player::chainMatch(Card* card) {
-    for(auto& chain: chains) {
+    for(auto& chain: chains)
         if(chain->match(card)) return true;
-    }
     return false;
 }
 
@@ -185,7 +185,7 @@ bool Player::sellChain(){
  * @brief play the topmost card in hand
  * @return topmost card in hand
 */
-Card* Player::play(){
+void Player::play(){
     Card* card = hand->play();  // play the topmost card from hand
     cout << "You played (topmost) card: " << *card << endl;
     if (!this->chainMatch(card)) {
@@ -235,7 +235,6 @@ Card* Player::play(){
             break;
         }
     }
-    return card;
 }
 
 /**

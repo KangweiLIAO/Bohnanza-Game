@@ -25,6 +25,7 @@
 // project headers:
 #include "CardFactory.h"
 #include "DiscardPile.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -33,13 +34,16 @@ class TradeArea{
         list<Card*> area;
     public:
         // constructors
-        TradeArea() {};
+        TradeArea() {}
         TradeArea(istream&, const CardFactory*);
+
         // member functions
         int numCards();
-        bool legal(Card*);
-        void discardAll(DiscardPile*);
+        void trade(Player*);
         Card* trade(string);
+        bool legal(const Card*);
+        void discardAll(DiscardPile*);
+        
         // operators
         TradeArea& operator+= (Card* c);
         friend ostream& operator<< (ostream&, const TradeArea&);
@@ -94,30 +98,10 @@ inline int TradeArea::numCards() {return area.size();}
  * @param c A card that will be tested
  * @return legality of the card
  */
-inline bool TradeArea::legal(Card* c) {
-    for(auto& card: area)
+inline bool TradeArea::legal(const Card* c) {
+    for(auto const& card: area)
         if(card->getName() == c->getName()) return true;
     return false;
-}
-
-/**
- * @brief removes a card of the corresponding bean name from the trade area.
- * @param s A string which is the card name
- */
-inline Card* TradeArea::trade(string s) {
-    int index = 0;
-    for (Card* card: area) {
-        index++;
-        if(card->getName() == s) {
-            Card* c = card;
-            // remove the card in area:
-            list<Card*>::iterator iter = area.begin();
-            advance(iter,index);
-            area.erase(iter);
-            return card;
-        }
-    }
-    return nullptr;
 }
 
 /**
@@ -127,6 +111,46 @@ inline Card* TradeArea::trade(string s) {
 inline void TradeArea::discardAll(DiscardPile* pile) {
     for (auto& card: area) *pile += card;
     area.clear();
+}
+
+/**
+ * @brief removes a card of the corresponding bean name from the trade area.
+ * @param s A string which is the card name
+ */
+Card* TradeArea::trade(string s) {
+    int index = 0;
+    for (Card* card: area) {
+        if(card->getName() == s) {
+            Card* c = card;
+            // remove the card in area:
+            list<Card*>::iterator iter = area.begin();
+            advance(iter,index);
+            area.erase(iter);
+            return card;
+        }
+        index++;
+    }
+    return nullptr;
+}
+
+/**
+ * @brief Prompt player to make decision on each card in trade area.
+ * @param A player
+ */
+void TradeArea::trade(Player* player) {
+    char buff;
+    int index;
+    for (Card* card: area) {
+        cout << "Do you want to chain this card: " << *card << "? (y/n)" << endl;
+        cin >> buff;
+        if (buff == 'y' && player->chainMatch(card)) {
+            list<Card*>::iterator iter = area.begin();
+            advance(iter,index);
+            area.erase(iter);
+            cout << "Card added to a chain.";
+        }
+        index++;
+    }
 }
 
 /**
@@ -143,7 +167,7 @@ inline TradeArea& TradeArea::operator+= (Card* card) {
  * @param os An ostream
  * @param tradeArea A tradeArea needs to be printed
  */
-inline ostream& operator<< (ostream& os, const TradeArea& tradeArea) {
+ostream& operator<< (ostream& os, const TradeArea& tradeArea) {
     if (tradeArea.area.size() == 0) os << "Empty";
     else {
         for(auto& card: tradeArea.area) 

@@ -37,11 +37,14 @@ class Table{
     public:
         Table(string,string,const CardFactory*);
         Table(istream&,const CardFactory*);
+
         bool win(string&);
         void printHand(bool);
+
         Player* getPlayer(int);
         TradeArea* getTradeArea();
         DiscardPile* getDiscardPile();
+        
         friend ostream& operator<< (ostream&,const Table&);
 };
 

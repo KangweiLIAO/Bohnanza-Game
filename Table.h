@@ -58,7 +58,9 @@ Table::Table(string name1, string name2) {
  * @param factory A const CardFactory
 */
 Table::Table(istream& is, const CardFactory* factory) {
-    
+    Player player(is,factory);
+    DiscardPile pile(is,factory);
+    TradeArea area(is,factory);
 }
 
 /**

@@ -28,7 +28,7 @@
 #include<sstream> 
 // project headers:
 #include "Chain.h"
-#include "hand->h"
+#include "Hand.h"
 
 using namespace std;
 

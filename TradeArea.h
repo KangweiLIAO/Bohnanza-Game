@@ -3,6 +3,7 @@
  * Group 8:
  *      Kangwei Liao: 8568800
  *      Langqing Zou: 300035036
+ * 
  * @brief
  * This class holds the discard pile for a table. DiscardPile support insertion and removal 
  * but not at random locations but all at the end.
@@ -74,7 +75,7 @@ TradeArea::TradeArea(istream& is, const CardFactory* factory) {
 /**
  * @brief Returns true if the card can be legally added to the TradeArea, 
  *        i.e. a card of the same bean is already in the TradeArea.
- * @param card A card that will be test
+ * @param c A card that will be test
  */
 inline bool TradeArea::legal(Card* c) {
     for(auto& card: area)

@@ -3,16 +3,14 @@
  * Group 8:
  *      Kangwei Liao: 8568800; 
  *      Langqing Zou: 300035036
- * Description:
+ * 
+ * @brief
  * This class is a factory class for cards.
  * 
  * Methods: 
  *  - CardFactory()
- *      
  *  - static CardFactory* getFactory()
- *      returns a pointer to the only instance of CardFactory.
  *  - Deck getDeck()
- *      Deck getDeck() returns a shuffled deck with all 104 bean cards.
  */
 
 #ifndef CARDFACTORY_H
@@ -66,11 +64,17 @@ CardFactory::CardFactory() {
  */
 CardFactory::~CardFactory() {}
 
+/**
+ * @brief Returns a pointer to the only instance of CardFactory.
+ */
 inline CardFactory* CardFactory::getFactory() {
     if (factory==nullptr) factory = new CardFactory();
     return factory;
 }
 
+/**
+ * @brief Returns a shuffled deck with all 104 bean cards.
+ */
 inline Deck CardFactory::getDeck() {return deck;}
 
 #endif

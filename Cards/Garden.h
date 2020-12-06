@@ -3,6 +3,7 @@
  * Group 8:
  *      Kangwei Liao: 8568800
  *      Langqing Zou: 300035036
+ * 
  * @brief
  * A concrete derived card class that instantiates from the template Chain Class.
  * 

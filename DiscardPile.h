@@ -112,7 +112,7 @@ inline DiscardPile& DiscardPile::operator+= (Card* card) {
 /**
  * @brief Insert only the top card of the discard pile to an std::ostream.
  * @param os An ostream
- * @param tradeArea A discardpileneeds to be printed
+ * @param pile A discardpileneeds to be printed
 */
 inline ostream& operator<< (ostream& os, const DiscardPile& pile) {
     try {os << "Discard pile (top): " << pile.top();}

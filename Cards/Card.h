@@ -32,7 +32,7 @@ class Card {
         virtual ~Card(){};                  // destructor
         Card (const Card&) = delete;
         string getName() const {return name;}
-        virtual int getCardsPerCoin(int) = 0;
+        virtual int getCardsPerCoin(int) = 0; ///Return the numbers of cards corresponding with the given numbers of coins
         // operators:
         Card& operator= (const Card&) = delete;
         friend ostream& operator<< (ostream&, const Card&);

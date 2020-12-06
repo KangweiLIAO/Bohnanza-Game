@@ -68,7 +68,7 @@ Card* Deck::draw() {
 /**
  * @brief Insert all the cards in the deck to an std::ostream.
  * @param os An ostream
- * @param tradeArea A deck needs to be printed
+ * @param deck A deck needs to be printed
 */
 inline ostream& operator<< (ostream& os, const Deck& deck) {
     // insert all cards to ostream

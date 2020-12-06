@@ -51,27 +51,41 @@ class Hand {
  * @param factory A const CardFactory
  */
 Hand::Hand(istream& is, const CardFactory* factory){
-    //Hand Black Green Green Green Stink
-    // Deck deck = factory->getFactory()->getDeck();
-    // string array[128];
-    // string line,s;
-    // getline(is,line);
-    // istringstream buff(line);
-    // int i=0,k=1;
-    // while(buff>>s){
-    //     array[i++]=s;
-    // }
-    // Hand hand;
-    // while(array[k]!=""){
-    //     for(int i=0;i<104;i++){
-    //         if(typeid(deck[i]).name()==array[k]){
-    //             hand.operator+=(deck[i]);
-    //             deck.erase(deck.begin()+i-1);
-    //             break;
-    //         }
-    //     }
-    //     k++;
-    // }
+    Deck deck = factory->getFactory()->getDeck();
+    string line,s;
+    while(getline(is,line)){
+        auto delimiterPos = line.find("=");
+        auto name = line.substr(0, delimiterPos);
+        auto value = line.substr(delimiterPos + 1);
+
+        if(name=="hand"){
+            string s;
+            vector<string> res; //save for each word
+            stringstream input(value);
+            while(input>>s){
+                res.push_back(s);
+            }
+            for(int i=0;i<res.size();i++){
+                if(res[i]=="R"){
+                    hand.push(new Red());
+                }else if(res[i]=="C"){
+                    hand.push(new Chili());
+                }else if(res[i]=="G"){
+                    hand.push(new Green());
+                }else if(res[i]=="B"){
+                    hand.push(new Blue());
+                }else if(res[i]=="S"){
+                    hand.push(new Stink());
+                }else if(res[i]=="g"){
+                    hand.push(new Garden());
+                }else if(res[i]=="s"){
+                    hand.push(new Soy());
+                }else if(res[i]=="b"){
+                    hand.push(new Black());
+                }
+            }
+        }
+    }
 }
 
 /**

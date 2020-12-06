@@ -49,26 +49,33 @@ class TradeArea{
  * @param factory A const CardFactory
  */
 TradeArea::TradeArea(istream& is, const CardFactory* factory) {
-    //TradeArea Garden Garden Stink Red Soy
     Deck deck = factory->getFactory()->getDeck();
-    string array[128];
+    string array[104];
     string line,s;
     getline(is,line);
     istringstream buff(line);
-    int i=0,k=1;
+    int i=0;
     while(buff>>s){
         array[i++]=s;
     }
-    TradeArea area;
-    while(array[k]!=""){
-        for(int i=0;i<104;i++){
-            if(typeid(deck[i]).name()==array[k]){
-                area.operator+=(deck[i]);
-                deck.erase(deck.begin()+i-1);
-                break;
-            }
+    for(int k=0;k<104;k++){
+        if(array[k]=="R"){
+            area.push_back(new Red());
+        }else if(array[k]=="C"){
+            area.push_back(new Chili());
+        }else if(array[k]=="G"){
+            area.push_back(new Green());
+        }else if(array[k]=="B"){
+            area.push_back(new Blue());
+        }else if(array[k]=="S"){
+            area.push_back(new Stink());
+        }else if(array[k]=="g"){
+            area.push_back(new Garden());
+        }else if(array[k]=="s"){
+            area.push_back(new Soy());
+        }else if(array[k]=="b"){
+            area.push_back(new Black());
         }
-        k++;
     }
 
 }

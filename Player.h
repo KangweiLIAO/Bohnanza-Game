@@ -28,7 +28,7 @@
 #include<sstream> 
 // project headers:
 #include "Chain.h"
-#include "Hand.h"
+#include "hand->h"
 
 using namespace std;
 
@@ -72,39 +72,99 @@ inline Player::Player(const string& name) : name(name) {
  * @param factory A const CardFactory
 */
 Player::Player(istream& is, const CardFactory* factory){
-    //istram: Player Skye 3 Red 3 Blue 3
-    // static Deck deck = factory->getFactory()->getDeck();
-    // string array[128];
-    // string line,s;
-    // getline(is,line);
-    // istringstream buff(line);
-    // int i=0,k=3;
-    // while(buff>>s){
-    //     array[i++]=s;
-    // }
-    // Player player(array[1]);
-    // player.num_coins=stol(array[2]);
-    // while(array[k]!=""){
-    //     //pick a specific card from deck
-    //     for(int i=0;i<104;i++){
-    //         if(typeid(deck[i]).name()==array[k]){
-    //             player.createChain(deck[i]);
-    //             deck.erase(deck.begin()+i-1);
-    //             break;
-    //         }
-    //     }
-    //     k++;
-    //     for(int i=0; i<stol(array[k])-1;i++){
-    //         for(int i=0;i<104;i++){
-    //             if(typeid(deck[i]).name()==array[k-1]){
-    //                 player.chains.back()->operator+=(deck[i]);
-    //                 deck.erase(deck.begin()+i-1);
-    //                 break;
-    //             }
-    //         }
-    //     }
-    //     k++;
-    // }
+    Deck deck = factory->getFactory()->getDeck();
+    string line,s;
+    while(getline(is,line)){
+        auto delimiterPos = line.find("=");
+        auto name = line.substr(0, delimiterPos);
+        auto value = line.substr(delimiterPos + 1);
+
+        if(name=="name"){
+            name=value;
+        }
+        if(name=="coin"){
+            num_coins=stol(value);
+        }
+        if(name=="hand"){
+            string s;
+            vector<string> res; //save for each word
+            stringstream input(value);
+            while(input>>s){
+                res.push_back(s);
+            }
+            for(int i=0;i<res.size();i++){
+                if(res[i]=="R"){
+                    hand->operator+=(new Red());
+                }else if(res[i]=="C"){
+                    hand->operator+=(new Chili());
+                }else if(res[i]=="G"){
+                    hand->operator+=(new Green());
+                }else if(res[i]=="B"){
+                    hand->operator+=(new Blue());
+                }else if(res[i]=="S"){
+                    hand->operator+=(new Stink());
+                }else if(res[i]=="g"){
+                    hand->operator+=(new Garden());
+                }else if(res[i]=="s"){
+                    hand->operator+=(new Soy());
+                }else if(res[i]=="b"){
+                    hand->operator+=(new Black());
+                }
+            }
+        }
+        if(name=="chain1" || name=="chain2" || name=="chain3"){
+            string s;
+            vector<string> res; //save for each word
+            stringstream input(value);
+            while(input>>s){
+                res.push_back(s);
+            }
+            if(res[0]=="R"){
+                createChain(new Red());
+                for(int i=0; i<stol(res[1])-1;i++){
+                    chains.back()->operator+=(new Red());
+                }
+            }else if(res[0]=="C"){
+                createChain(new Chili());
+                for(int i=0; i<stol(res[1])-1;i++){
+                    chains.back()->operator+=(new Chili());
+                }
+            }else if(res[0]=="G"){
+                createChain(new Green());
+                for(int i=0; i<stol(res[1])-1;i++){
+                    chains.back()->operator+=(new Green());
+                }
+            }else if(res[0]=="B"){
+                createChain(new Blue());
+                for(int i=0; i<stol(res[1])-1;i++){
+                    chains.back()->operator+=(new Blue());
+                }
+            }else if(res[0]=="S"){
+                createChain(new Stink());
+                for(int i=0; i<stol(res[1])-1;i++){
+                    chains.back()->operator+=(new Stink());
+                }
+            }else if(res[0]=="g"){
+                createChain(new Garden());
+                for(int i=0; i<stol(res[1])-1;i++){
+                    chains.back()->operator+=(new Garden());
+                }
+            }else if(res[0]=="s"){
+                createChain(new Soy());
+                for(int i=0; i<stol(res[1])-1;i++){
+                    chains.back()->operator+=(new Soy());
+                }
+            }else if(res[0]=="b"){
+                createChain(new Black());
+                for(int i=0; i<stol(res[1])-1;i++){
+                    chains.back()->operator+=(new Black());
+                }
+            }
+
+        }
+    }
+
+
 }
 
 /**

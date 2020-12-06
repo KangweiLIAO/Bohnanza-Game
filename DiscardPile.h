@@ -51,27 +51,34 @@ class DiscardPile {
  * @param factory A const CardFactory
  */
 DiscardPile::DiscardPile(istream& is, const CardFactory* factory) {
-    //DiscardPile Green Green Black Chili
-    // Deck deck = factory->getFactory()->getDeck();
-    // string array[128];
-    // string line,s;
-    // getline(is,line);
-    // istringstream buff(line);
-    // int i=0,k=1;
-    // while(buff>>s){
-    //     array[i++]=s;
-    // }
-    // DiscardPile pile;
-    // while(array[k]!=""){
-    //     for(int i=0;i<104;i++){
-    //         if(typeid(deck[i]).name()==array[k]){
-    //             pile.operator+=(deck[i]);
-    //             deck.erase(deck.begin()+i-1);
-    //             break;
-    //         }
-    //     }
-    //     k++;
-    // }
+    Deck deck = factory->getFactory()->getDeck();
+    string array[104];
+    string line,s;
+    getline(is,line);
+    istringstream buff(line);
+    int i=0,k=1;
+    while(buff>>s){
+        array[i++]=s;
+    }
+    for(int k=0;k<104;k++){
+        if(array[k]=="R"){
+            pile.push_back(new Red());
+        }else if(array[k]=="C"){
+            pile.push_back(new Chili());
+        }else if(array[k]=="G"){
+            pile.push_back(new Green());
+        }else if(array[k]=="B"){
+            pile.push_back(new Blue());
+        }else if(array[k]=="S"){
+            pile.push_back(new Stink());
+        }else if(array[k]=="g"){
+            pile.push_back(new Garden());
+        }else if(array[k]=="s"){
+            pile.push_back(new Soy());
+        }else if(array[k]=="b"){
+            pile.push_back(new Black());
+        }
+    }
 }
 
 Card* DiscardPile::top() const {

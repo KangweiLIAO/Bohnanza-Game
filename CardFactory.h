@@ -44,19 +44,25 @@ Deck CardFactory::deck {Deck()};
 /**
  * @brief A default constructor in which all the cards need to be created in the numbers needed for the game.
  */
-CardFactory::CardFactory() {
-    for (int i=0; i<20; i++) {
-        deck.push_back(new Blue());
-        if (i < 18) deck.push_back(new Chili());
-        if (i < 16) deck.push_back(new Stink());
-        if (i < 14) deck.push_back(new Green());
-        if (i < 12) deck.push_back(new Soy());
-        if (i < 10) deck.push_back(new Black());
-        if (i < 8) deck.push_back(new Red());
-        if (i < 6) deck.push_back(new Garden());
+CardFactory::CardFactory(istream& is=NULL) {
+    if (is != NULL) {
+        // reconstruct deck from save file
+        deck = Deck(is,this);
+    } else {
+        // construct a new deck
+        for (int i=0; i<20; i++) {
+            deck.push_back(new Blue());
+            if (i < 18) deck.push_back(new Chili());
+            if (i < 16) deck.push_back(new Stink());
+            if (i < 14) deck.push_back(new Green());
+            if (i < 12) deck.push_back(new Soy());
+            if (i < 10) deck.push_back(new Black());
+            if (i < 8) deck.push_back(new Red());
+            if (i < 6) deck.push_back(new Garden());
+        }
+        unsigned seed = chrono::system_clock::now().time_since_epoch().count();
+        shuffle(deck.begin(),deck.end(),std::default_random_engine(seed));
     }
-    unsigned seed = chrono::system_clock::now().time_since_epoch().count();
-    shuffle(deck.begin(),deck.end(),std::default_random_engine(seed));
 }
 
 /**

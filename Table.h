@@ -20,7 +20,6 @@
 // std libraries:
 
 // project headers:
-#include "CardFactory.h"
 #include "DiscardPile.h"
 #include "TradeArea.h"
 #include "Player.h"
@@ -59,7 +58,7 @@ Table::Table(string name1, string name2) {
  * @param factory A const CardFactory
 */
 Table::Table(istream& is, const CardFactory* factory) {
-
+    
 }
 
 /**

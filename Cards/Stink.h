@@ -28,7 +28,7 @@ class Stink : public Card {
  * @brief Return the numbers of cards corresponding with the given numbers of coins
  * @param coins Numbers of coins
 */
-int Stink::getCardsPerCoin(int coins) {
+inline int Stink::getCardsPerCoin(int coins) {
     switch (coins) {
         case 0: return 0;
         case 1: return 3;
@@ -43,8 +43,8 @@ int Stink::getCardsPerCoin(int coins) {
  * @brief Inserts the first character for the card to an std::ostream
  * @param out An ostream
 */
-void Stink::print(ostream& out) const {
-    out << name[0];
+void Stink::print(ostream& os) const {
+    os << name[0];
 }
 
 #endif

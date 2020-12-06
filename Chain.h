@@ -59,34 +59,42 @@ Chain<T>::Chain(istream& is, const CardFactory* factory) {
                 res.push_back(s);
             }
             if(res[0]=="R"){
+                name=typeid(T).name();
                 for(int i=0; i<stol(res[1])-1;i++){
                     operator+=(new Red());
                 }
             }else if(res[0]=="C"){
+                name=typeid(T).name();
                 for(int i=0; i<stol(res[1])-1;i++){
                     operator+=(new Chili());
                 }
             }else if(res[0]=="G"){
+                name=typeid(T).name();
                 for(int i=0; i<stol(res[1])-1;i++){
                     operator+=(new Green());
                 }
             }else if(res[0]=="B"){
+                name=typeid(T).name();
                 for(int i=0; i<stol(res[1])-1;i++){
                     operator+=(new Blue());
                 }
             }else if(res[0]=="S"){
+                name=typeid(T).name();
                 for(int i=0; i<stol(res[1])-1;i++){
                     operator+=(new Stink());
                 }
             }else if(res[0]=="g"){
+                name=typeid(T).name();
                 for(int i=0; i<stol(res[1])-1;i++){
                     operator+=(new Garden());
                 }
             }else if(res[0]=="s"){
+                name=typeid(T).name();
                 for(int i=0; i<stol(res[1])-1;i++){
                     operator+=(new Soy());
                 }
             }else if(res[0]=="b"){
+                name=typeid(T).name();
                 for(int i=0; i<stol(res[1])-1;i++){
                     operator+=(new Black());
                 }

@@ -27,7 +27,7 @@ class Chili : public Card {
  * @brief Return the numbers of cards corresponding with the given numbers of coins
  * @param coins Numbers of coins
 */
-int Chili::getCardsPerCoin(int coins) {
+inline int Chili::getCardsPerCoin(int coins) {
     switch (coins) {
         case 0: return 0;
         case 1: return 3;
@@ -42,8 +42,8 @@ int Chili::getCardsPerCoin(int coins) {
  * @brief Inserts the first character for the card to an std::ostream
  * @param out An ostream
 */
-void Chili::print(ostream& out) const {
-    out << name[0];
+void Chili::print(ostream& os) const {
+    os << name[0];
 }
 
 #endif

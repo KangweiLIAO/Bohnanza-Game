@@ -51,7 +51,27 @@ class DiscardPile {
  * @param factory A const CardFactory
  */
 DiscardPile::DiscardPile(istream& is, const CardFactory* factory) {
-
+    //DiscardPile Green Green Black Chili
+    Deck deck = factory->getFactory()->getDeck();
+    string array[128];
+    string line,s;
+    getline(is,line);
+    istringstream buff(line);
+    int i=0,k=1;
+    while(buff>>s){
+        array[i++]=s;
+    }
+    DiscardPile pile;
+    while(array[k]!=""){
+        for(int i=0;i<104;i++){
+            if(typeid(deck[i]).name()==array[k]){
+                pile.operator+=(deck[i]);
+                deck.erase(deck.begin()+i-1);
+                break;
+            }
+        }
+        k++;
+    }
 }
 
 Card* DiscardPile::top() const {

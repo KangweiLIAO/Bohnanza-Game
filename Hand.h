@@ -51,7 +51,27 @@ class Hand {
  * @param factory A const CardFactory
  */
 Hand::Hand(istream& is, const CardFactory* factory){
-
+    //Hand Black Green Green Green Stink
+    Deck deck = factory->getFactory()->getDeck();
+    string array[128];
+    string line,s;
+    getline(is,line);
+    istringstream buff(line);
+    int i=0,k=1;
+    while(buff>>s){
+        array[i++]=s;
+    }
+    Hand hand;
+    while(array[k]!=""){
+        for(int i=0;i<104;i++){
+            if(typeid(deck[i]).name()==array[k]){
+                hand.operator+=(deck[i]);
+                deck.erase(deck.begin()+i-1);
+                break;
+            }
+        }
+        k++;
+    }
 }
 
 /**

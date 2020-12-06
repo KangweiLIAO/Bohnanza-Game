@@ -25,7 +25,7 @@
 #define PLAYER_H
 
 // std libraries:
-
+#include<sstream> 
 // project headers:
 #include "Chain.h"
 #include "Hand.h"
@@ -69,7 +69,39 @@ inline Player::Player(const string& name) : name(name) {
  * @param factory A const CardFactory
 */
 Player::Player(istream& is, const CardFactory* factory){
-
+    //istram: Player Skye 3 Red 3 Blue 3
+    Deck deck = factory->getFactory()->getDeck();
+    string array[128];
+    string line,s;
+    getline(is,line);
+    istringstream buff(line);
+    int i=0,k=3;
+    while(buff>>s){
+        array[i++]=s;
+    }
+    Player player(array[1]);
+    player.num_coins=stol(array[2]);
+    while(array[k]!=""){
+        //pick a specific card from deck
+        for(int i=0;i<104;i++){
+            if(typeid(deck[i]).name()==array[k]){
+                player.createChain(deck[i]);
+                deck.erase(deck.begin()+i-1);
+                break;
+            }
+        }
+        k++;
+        for(int i=0; i<stol(array[k])-1;i++){
+            for(int i=0;i<104;i++){
+                if(typeid(deck[i]).name()==array[k-1]){
+                    player.chains.back()->operator+=(deck[i]);
+                    deck.erase(deck.begin()+i-1);
+                    break;
+                }
+            }
+        }
+        k++;
+    }
 }
 
 /**

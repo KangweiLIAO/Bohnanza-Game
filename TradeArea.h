@@ -83,17 +83,22 @@ TradeArea::TradeArea(istream& is, const CardFactory* factory) {
 }
 
 /**
+ * @brief Returns number of cards in trade area
+ * @return number of cards
+ */
+inline int TradeArea::numCards() {return area.size();}
+
+/**
  * @brief Returns true if the card can be legally added to the TradeArea, 
  *        i.e. a card of the same bean is already in the TradeArea.
- * @param c A card that will be test
+ * @param c A card that will be tested
+ * @return legality of the card
  */
 inline bool TradeArea::legal(Card* c) {
     for(auto& card: area)
         if(card->getName() == c->getName()) return true;
     return false;
 }
-
-inline int TradeArea::numCards() {return area.size();}
 
 /**
  * @brief removes a card of the corresponding bean name from the trade area.
@@ -105,6 +110,7 @@ inline Card* TradeArea::trade(string s) {
         index++;
         if(card->getName() == s) {
             Card* c = card;
+            // remove the card in area:
             list<Card*>::iterator iter = area.begin();
             advance(iter,index);
             area.erase(iter);

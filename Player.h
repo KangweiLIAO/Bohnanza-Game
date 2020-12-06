@@ -36,18 +36,21 @@ class Player {
     private:
         Hand* hand;
         int num_coins;
+        int max_chain;
         const string name;
         vector<Chain_Base*> chains;
+        bool sellChain();
     public:
         // constructors
         Player(const string&);
         Player(istream&, const CardFactory*);
         // member functions
         Card* play();
+        void buyThirdChain();
         bool chainMatch(Card*);
         void addCardToHand(Card*);
-        void buyThirdChain(Card*);
         Chain_Base* createChain(Card*);
+        void discardHand(DiscardPile*);
         
         string getName();
         int getNumCoins();
@@ -65,7 +68,7 @@ class Player {
  * @param name Name of the new player
 */
 inline Player::Player(const string& name) : name(name) {
-    num_coins = 0;
+    num_coins, max_chain = 0, 2;
     hand = new Hand();
 }
 
@@ -163,11 +166,8 @@ Player::Player(istream& is, const CardFactory* factory){
                     chains.back()->operator+=(new Black());
                 }
             }
-
         }
     }
-
-
 }
 
 /**
@@ -195,25 +195,29 @@ inline int Player::getNumChains() {return chains.size();}
 inline void Player::addCardToHand(Card* card){*hand += card;}
 
 /**
- * @brief play the topmost card in hand
- * @return topmost card in hand
+ * @brief Prompt user to discard a card to discard pile
+ * @param pile A pile
 */
-Card* Player::play(){
-    Card* card = hand->play();
-    cout << "You played (topmost): " << *card << endl;
-    if (!this->chainMatch(card)) {
-        if(this->getNumChains() == 3) {
-            // sell a chain
-            int chain_num;
-            int count = 1;
-            cout << "You have 3 chains and you can't match the card you played:" << endl;
-            for(auto& chain: chains)
-                cout << count++ << ": " << *chain << endl;
-            cout << "Please enter a chain number to sell (1-3): ";
-            cin >> chain_num;
-        }
+void Player::discardHand(DiscardPile* pile) {
+    cout << *hand << endl;
+    int card_num;
+    while (card_num < 1 || card_num > (*hand).size()) {
+        cout << "Please enter a card number to discard (1-N): ";
+        cin >> card_num;
     }
-    return card;
+    *pile += (*hand)[card_num];
+}
+
+/**
+ * @brief Try match the card with a existed chain and add to it.
+ * @param card a specific card
+ * @return true if matched a chain
+*/
+inline bool Player::chainMatch(Card* card) {
+    for(auto& chain: chains) {
+        if(chain->match(card)) return true;
+    }
+    return false;
 }
 
 /**
@@ -222,11 +226,92 @@ Card* Player::play(){
  *        If the player does not have enough coins then an exception NotEnoughCoins is thrown.
  * @param card A card that needed to be added to the new chain
 */
-void Player::buyThirdChain(Card* card){
+void Player::buyThirdChain(){
+    if (chains.size()+1 > max_chain) throw MaxChainReachedException();
     if (num_coins >= 3) {
         num_coins -= 3;
-        this->createChain(card);
+        max_chain++;
     } else throw NotEnoughCoinsException();
+}
+
+/**
+ * @brief Prompt player to sell a chain
+ * @return true if the chain is sold, false otherwise
+*/
+bool Player::sellChain(){
+    try{
+        int chain_num;
+        int count = 1;
+        for(auto& chain: chains)
+            cout << count++ << ": " << *chain << endl;
+        while (chain_num < 1 || chain_num > chains.size()) {
+            cout << "Please enter a chain number to sell (1-3): ";
+            cin >> chain_num;
+        }
+        *this += chains[chain_num]->sell();
+        chains.erase(chains.begin()+chain_num-1);   // remove the chain just sold
+        return true;
+    } catch (exception e) {
+        cout << e.what() << endl;
+        return false;
+    }
+}
+
+/**
+ * @brief play the topmost card in hand
+ * @return topmost card in hand
+*/
+Card* Player::play(){
+    Card* card = hand->play();  // play the topmost card from hand
+    cout << "You played (topmost) card: " << *card << endl;
+    if (!this->chainMatch(card)) {
+        char buff;
+        cout << "This card mismatched, do you want to create a new chain for this card? (y/n): ";
+        cin >> buff;
+        switch (chains.size()) {
+        case 3:
+            cout << "Currently you have 3 chains, but no one matched this card." << endl;
+            if (this->sellChain()) cout << "Chain sold successfully." << endl;
+            this->createChain(card);    // add the mismatched card to a new chain
+            cout << "The mismatched card added to a new chain." << endl;
+            break;
+        case 2:
+            if (num_coins >= 3) {
+                // player has more than 3 coins
+                if(buff == 'y') {
+                    // player choose to buy a third chain
+                    this->buyThirdChain();
+                    this->createChain(card);
+                    cout << "Third chain created with the card added to it." << endl;
+                }
+            } else {
+                // player has less than 3 coins
+                cout << "You have less than 3 coins and both your 2 chains mismatched." << endl;
+                if (this->sellChain()) cout << "Chain sold successfully." << endl;
+                else cout << "Chain cannot be sold." << endl;
+            }
+            break;
+        case 1:
+            // player has only 1 chain
+            if(buff == 'y') {
+                // player choose to create a second chain
+                this->createChain(card);
+                cout << "Second chain created with the card added to it." << endl;
+            } else {
+                // player choose to sell a chain
+                cout << "Don't want to create a new chain? OK!" << endl;
+                if (this->sellChain()) cout << "Chain sold successfully." << endl;
+                else cout << "Chain cannot be sold." << endl;
+            }
+            break;
+        default:
+            // player do not have a chain
+            this->createChain(card);
+            cout << "Your first chain created with the card added to it." << endl;
+            break;
+        }
+    }
+    return card;
 }
 
 /**
@@ -234,6 +319,7 @@ void Player::buyThirdChain(Card* card){
  * @param card A card that indicating the type of new chain.
 */
 Chain_Base* Player::createChain(Card* card) {
+    if (chains.size()+1 > max_chain) throw MaxChainReachedException();
     string type = typeid(*card).name();     // get the card's type
     if (type == typeid(Black).name()) {
         Chain<Black>* chain = new Chain<Black>();
@@ -276,17 +362,6 @@ Chain_Base* Player::createChain(Card* card) {
         chains.push_back(chain);
     }
     return chains.back();
-}
-
-/**
- * @brief Try match the card with a existed chain and add to it.
- * @param card a specific card
-*/
-bool Player::chainMatch(Card* card) {
-    for(auto& chain: chains) {
-        if(chain->match(card)) return true;
-    }
-    return false;
 }
 
 /**

@@ -36,6 +36,7 @@ class Hand {
         Hand(istream&, const CardFactory*);
         // member functions:
         Card* play(); 
+        Card* at(int);
         Card* top() {return hand.front();}  ///returns but does not remove the top card from the player's hand.
         int size() const {return hand.size();}
         // operators:
@@ -88,6 +89,22 @@ Hand::Hand(istream& is, const CardFactory* factory){
     }
 }
 
+Card* Hand::at(int i) {
+    int count;
+    Card* cBuff = nullptr;
+    queue<Card*,list<Card*> > buff;
+    buff.swap(hand);
+    while (!buff.empty()) {
+        Card* c = buff.front();
+        if(count == i) cBuff = c;
+        buff.pop();
+        hand.push(c);
+        count++;
+    }
+    if (!cBuff) throw CardNotFoundException();
+    return cBuff;
+}
+
 /**
  * @brief Pop and return the top card in hand
  * @return A pointer to the card just popped
@@ -99,24 +116,28 @@ Card* Hand::play() {
 }
 
 /**
- * @brief Return the top card at specified index
+ * @brief Returns and removes the card at specified index
  * @param i Index for a card in hand
  * @return  A pointer to the card at index i
  */
 Card* Hand::operator[] (int i) {
     int count = 0;
-    Card* buffC = NULL;
+    Card* cBuff = nullptr;
     queue<Card*,list<Card*> > buff;
     buff.swap(hand);
     while (!buff.empty()) {
         Card* c = buff.front();
-        if(count == i) buffC = c;
-        buff.pop();
-        hand.push(c);
+        if(count == i) {
+            cBuff = c;
+            buff.pop();
+        } else {
+            buff.pop();
+            hand.push(c);
+        }
         count++;
     }
-    if (buffC == NULL) throw CardNotFoundException();
-    return buffC;
+    if (!cBuff) throw CardNotFoundException();
+    return cBuff;
 }
 
 inline Hand& Hand::operator+= (Card* card) {
@@ -131,10 +152,7 @@ inline Hand& Hand::operator+= (Card* card) {
  * @return Ostream with hand inserted
  */
 ostream& operator<< (ostream& os, Hand& h) {
-    const int size = h.size();
-    for (int i=0; i<size; i++) {
-        os << *h[i] << " ";     // card at position i
-    }
+    for (size_t i=0; i<h.size(); i++) os << h.at(i) << " ";
     return os;
 }
 

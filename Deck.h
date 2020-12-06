@@ -89,7 +89,7 @@ Card* Deck::draw() {
  * @param os An ostream
  * @param deck A deck needs to be printed
 */
-inline ostream& operator<< (ostream& os, const Deck& deck) {
+ostream& operator<< (ostream& os, const Deck& deck) {
     // insert all cards to ostream
     const int size = deck.size();
     for (int i=0; i<size; i++) {

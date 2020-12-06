@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "*.h": "cpp",
         "iosfwd": "cpp",
         "string": "cpp",
         "array": "cpp",
@@ -50,5 +51,8 @@
         "streambuf": "cpp",
         "typeinfo": "cpp",
         "bitset": "cpp",
+        "__bit_reference": "cpp",
+        "chrono": "cpp",
+        "queue": "cpp"
     }
 }

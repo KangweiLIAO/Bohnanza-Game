@@ -23,10 +23,9 @@
 #include <list>
 #include <queue>
 // project headers:
+#include "CardFactory.h"
 
 using namespace std;
-
-class Player;
 
 class Hand {
     private:

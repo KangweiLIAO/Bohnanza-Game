@@ -27,7 +27,6 @@
 // std libraries:
 
 // project headers:
-#include "CardFactory.h"
 #include "Chain.h"
 #include "Hand.h"
 

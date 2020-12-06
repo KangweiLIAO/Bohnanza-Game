@@ -1,5 +1,5 @@
 /**
- * File: Main.h
+ * @file: Main.h
  * Description: 
  * Group 8:
  *      Kangwei Liao: 8568800
@@ -50,9 +50,8 @@ int main() {
         DiscardPile* discardPile = table->getDiscardPile(); 
         for (int i=1; i<=2; i++) {
             Player* player = table->getPlayer(i);
-            Hand* hand = player->getHand();
+            player->addCardToHand(deck.draw());     // draw card to hand
             cout << *table;
-            *hand += deck.draw();
             if (tradeArea->numCards() != 0) {
                 // Add bean card from area?
                 char buff;
@@ -73,11 +72,9 @@ int main() {
                     // loop selected cards vector and add them to player's chains
                     for(auto& card: selectedCards) 
                         player->chainMatch(card);
-                    
-                } else {
-                    // Discards cards
-
-                }
+                } else tradeArea->discardAll(discardPile);      // discards all cards in trade area
+                Card* cardPlayed = player->play();              // play the topmost card
+                
             }
         }
         char buff;

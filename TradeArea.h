@@ -24,6 +24,7 @@
 #include <list>
 // project headers:
 #include "CardFactory.h"
+#include "DiscardPile.h"
 
 using namespace std;
 
@@ -37,6 +38,7 @@ class TradeArea{
         // member functions
         int numCards();
         bool legal(Card*);
+        void discardAll(DiscardPile*);
         Card* trade(string);
         // operators
         TradeArea& operator+= (Card* c);
@@ -110,6 +112,15 @@ inline Card* TradeArea::trade(string s) {
         }
     }
     return nullptr;
+}
+
+/**
+ * @brief Discard all cards in trade area.
+ * @param pile discard pile
+ */
+inline void TradeArea::discardAll(DiscardPile* pile) {
+    for (auto& card: area) *pile += card;
+    area.clear();
 }
 
 /**

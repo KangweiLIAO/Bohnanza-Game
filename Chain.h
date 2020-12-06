@@ -126,6 +126,7 @@ inline Chain<T>& Chain<T>::operator+= (Card* card){
 */
 template <class T>
 void Chain<T>::print(ostream& os) const {
+    os << chain[0]->getName() << "\t";
     for(auto& card: this->chain) 
         os << *card << " ";
 }

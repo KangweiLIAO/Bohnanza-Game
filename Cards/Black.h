@@ -16,8 +16,6 @@
 #define BLACK_H
 #include "Card.h"
 
-using namespace std;
-
 class Black : public Card {
     public:
         Black() : Card("black") {};

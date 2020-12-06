@@ -43,13 +43,16 @@ class Player {
         Player(const string&);
         Player(istream&, const CardFactory*);
         // member functions
+        Card* play();
+        bool chainMatch(Card*);
+        void addCardToHand(Card*);
         void buyThirdChain(Card*);
         Chain_Base* createChain(Card*);
-        bool chainMatch(Card*);
-        Hand* getHand();
+        
         string getName();
         int getNumCoins();
         int getNumChains();
+
         void printHand(ostream&, bool);
         // operators
         Player& operator+= (int);
@@ -189,8 +192,29 @@ inline int Player::getNumChains() {return chains.size();}
  * @brief returns the hand object of the player
  * @return Hand of the player
 */
-inline Hand* Player::getHand(){return hand;}
+inline void Player::addCardToHand(Card* card){*hand += card;}
 
+/**
+ * @brief play the topmost card in hand
+ * @return topmost card in hand
+*/
+Card* Player::play(){
+    Card* card = hand->play();
+    cout << "You played (topmost): " << *card << endl;
+    if (!this->chainMatch(card)) {
+        if(this->getNumChains() == 3) {
+            // sell a chain
+            int chain_num;
+            int count = 1;
+            cout << "You have 3 chains and you can't match the card you played:" << endl;
+            for(auto& chain: chains)
+                cout << count++ << ": " << *chain << endl;
+            cout << "Please enter a chain number to sell (1-3): ";
+            cin >> chain_num;
+        }
+    }
+    return card;
+}
 
 /**
  * @brief Adds an empty third chain to the player for three coins. 
@@ -301,7 +325,7 @@ inline Chain_Base& Player::operator[] (int i) {return *chains[i];}
 ostream& operator<< (ostream& os, const Player& player) {
     os << player.name << "\t" << player.num_coins << " coins\n";
     if (player.chains.size() != 0) {
-        for(auto& chain: player.chains) os << *chain;   // call Chain_Base::operator<<()
+        for(auto& chain: player.chains) os << *chain << endl;   // call Chain_Base::operator<<()
     }
     return os;
 }

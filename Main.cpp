@@ -29,7 +29,7 @@ int main() {
     while (deck.numCards() > 0) {
         if (newGame) {
             if (saveFile.good()) {
-                readString("Saves found, do you want to reload the game? (y/n): ", buff);
+                readStringInput("Saves found, do you want to reload the game? (y/n): ", buff);
                 if (*buff=="y") {
                     // Load and initialize table
                     // table = new Table(Reconstructor);
@@ -37,8 +37,8 @@ int main() {
             }
             if (*buff!="y") {
                 // Create new table
-                readString("Please enter the name of player1: ", p1Name);
-                readString("Please enter the name of player2: ", p2Name);
+                readStringInput("Please enter the name of player1: ", p1Name);
+                readStringInput("Please enter the name of player2: ", p2Name);
                 table = new Table(*p1Name,*p2Name,factory);
             }
         }
@@ -62,7 +62,7 @@ int main() {
             // step 1:
             if (tradeArea->numCards() != 0) {
                 // Add bean card from area?
-                readString("("+player->getName()+") Do you want to get a card from the trade area? (y/n): ", buff);
+                readStringInput("("+player->getName()+") Do you want to get a card from the trade area? (y/n): ", buff);
                 if (*buff=="y") {
                     // Add cards from trade area
                     string* card_name = new string();
@@ -71,7 +71,7 @@ int main() {
                         // while player want to get a card from trade area
                         Card* cBuff = nullptr;
                         cout << "("+player->getName()+") Which card do you want to trade with?" << endl;
-                        readString("("+player->getName()+") Please enter the name of it (e.g. Red/black) or enter 'q' to quit: ", card_name);
+                        readStringInput("("+player->getName()+") Please enter the name of it (e.g. Red/black) or enter 'q' to quit: ", card_name);
                         if (*card_name != "q") {
                             // if player entered a card name
                             cBuff = tradeArea->trade(*card_name);
@@ -85,7 +85,7 @@ int main() {
                             cout << "(" << player->getName() << ") " << *card << " added to your chain." << endl;
                         else {
                             cout << "(" << player->getName() << ") " << *card << " did not matched one of your chain." << endl;
-                            readString("("+player->getName()+") Do you want to create a new chain for it? (y/n): ", buff);
+                            readStringInput("("+player->getName()+") Do you want to create a new chain for it? (y/n): ", buff);
                             if (*buff=="y") {
                                 if (player->createChain(card) == nullptr) 
                                     *discardPile += card;   // discard the mismatched card if can't create new chain
@@ -103,10 +103,10 @@ int main() {
             if (player->getHandSize() != 0) {
                 cout << "\n(" << player->getName() << ") Hand: ";
                 player->printHand(cout,true);
-                readString("\n("+player->getName()+") Do you want to play one more card? (y/n): ", buff);
+                readStringInput("\n("+player->getName()+") Do you want to play one more card? (y/n): ", buff);
                 if (*buff=="y") player->play();
                 // step 4:
-                readString("("+player->getName()+") Discard 1 card from hand? (y/n): ", buff);
+                readStringInput("("+player->getName()+") Discard 1 card from hand? (y/n): ", buff);
                 if (*buff=="y") player->discardHand(discardPile);
             } else
                 cout << "\n("+player->getName()+") Hand is empty, skip playing/discarding one more card." << endl;
@@ -128,7 +128,7 @@ int main() {
                 cout << "("+player->getName()+") Draws a card from deck: "<< *cDraw << endl;
             }
         }
-        readString("\nSave the game? (y/n): ", buff);
+        readStringInput("\nSave the game? (y/n): ", buff);
         if (*buff=="y") pause = true;
     }
     cout << "\n\n!!!!!!!!!! The deck is empty !!!!!!!!!!\n" << endl;

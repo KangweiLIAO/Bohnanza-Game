@@ -61,25 +61,25 @@ TradeArea::TradeArea(istream& is, const CardFactory* factory) {
     getline(is,line);
     istringstream buff(line);
     int i=0;
-    while(buff>>s){
+    while(buff>>s) {
         array[i++]=s;
     }
-    for(int k=0;k<104;k++){
-        if(array[k]=="R"){
+    for(int k=0;k<104;k++) {
+        if (array[k]=="R") {
             area.push_back(new Red());
-        }else if(array[k]=="C"){
+        }else if (array[k]=="C") {
             area.push_back(new Chili());
-        }else if(array[k]=="G"){
+        }else if (array[k]=="G") {
             area.push_back(new Green());
-        }else if(array[k]=="B"){
+        }else if (array[k]=="B") {
             area.push_back(new Blue());
-        }else if(array[k]=="S"){
+        }else if (array[k]=="S") {
             area.push_back(new Stink());
-        }else if(array[k]=="g"){
+        }else if (array[k]=="g") {
             area.push_back(new Garden());
-        }else if(array[k]=="s"){
+        }else if (array[k]=="s") {
             area.push_back(new Soy());
-        }else if(array[k]=="b"){
+        }else if (array[k]=="b") {
             area.push_back(new Black());
         }
     }
@@ -100,7 +100,7 @@ inline int TradeArea::numCards() {return area.size();}
  */
 inline bool TradeArea::legal(const Card* c) {
     for(auto const& card: area)
-        if(card->getName()==c->getName()) return true;
+        if (card->getName()==c->getName()) return true;
     return false;
 }
 
@@ -120,7 +120,7 @@ inline void TradeArea::discardAll(DiscardPile* pile) {
 Card* TradeArea::trade(string s) {
     int index = 0;
     for (Card* card: area) {
-        if(card->getName()==s) {
+        if (card->getName()==s) {
             Card* c = card;
             // remove the card in area:
             list<Card*>::iterator iter = area.begin();

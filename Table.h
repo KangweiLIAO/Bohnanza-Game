@@ -35,7 +35,7 @@ class Table{
         Player* player1;
         Player* player2;
     public:
-        Table(string,string,const CardFactory*);
+        Table(string&,string&,const CardFactory*);
         Table(istream&,const CardFactory*);
 
         bool win(string&);
@@ -50,7 +50,7 @@ class Table{
 
 // CardFactory* Table::factory {CardFactory::getFactory()};
 
-Table::Table(string name1, string name2, const CardFactory* factory) {
+Table::Table(string& name1, string& name2, const CardFactory* factory) {
     deck = factory->getFactory()->getDeck();
     player1 = new Player(name1);
     player2 = new Player(name2);
@@ -73,7 +73,7 @@ Table::Table(istream& is, const CardFactory* factory) {
  * @brief Returns true when a player has won.
  * @param s The address of the name of player
 */
-inline bool Table::win(string& name){
+inline bool Table::win(string& name) {
     if (player1->getName()==name && player1->getNumCoins() >= player2->getNumCoins())
         return true;
     else if (player2->getName()==name && player2->getNumCoins() >= player1->getNumCoins())
@@ -83,7 +83,7 @@ inline bool Table::win(string& name){
 
 
 inline Player* Table::getPlayer(int i) {
-    if(i==1) return player1;
+    if (i==1) return player1;
     else return player2;
 }
 
@@ -96,7 +96,7 @@ inline DiscardPile* Table::getDiscardPile() {return discardPile;}
  * or all of the player's hand (with argument true)
  * @param flag a boolean
 */
-void Table::printHand(bool flag){
+void Table::printHand(bool flag) {
     cout << player1->getName() << " ";
     player1->printHand(cout,flag);
     cout << "\n" << player2->getName() << " ";

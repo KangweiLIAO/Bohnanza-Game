@@ -51,35 +51,35 @@ class Hand {
  * @param is An istream address
  * @param factory A const CardFactory
  */
-Hand::Hand(istream& is, const CardFactory* factory){
+Hand::Hand(istream& is, const CardFactory* factory) {
     Deck deck = factory->getFactory()->getDeck();
     string line,s;
-    while(getline(is,line)){
+    while(getline(is,line)) {
         auto delimiterPos = line.find("=");
         auto name = line.substr(0, delimiterPos);
         auto value = line.substr(delimiterPos + 1);
 
-        if(name=="hand"){
+        if (name=="hand") {
             string s;
             vector<string> res; //save for each word
             stringstream input(value);
             while(input>>s) res.push_back(s);
-            for(int i=0;i<res.size();i++){
-                if(res[i]=="R"){
+            for(int i=0;i<res.size();i++) {
+                if (res[i]=="R") {
                     hand.push(new Red());
-                }else if(res[i]=="C"){
+               } else if (res[i]=="C") {
                     hand.push(new Chili());
-                }else if(res[i]=="G"){
+               } else if (res[i]=="G") {
                     hand.push(new Green());
-                }else if(res[i]=="B"){
+               } else if (res[i]=="B") {
                     hand.push(new Blue());
-                }else if(res[i]=="S"){
+               } else if (res[i]=="S") {
                     hand.push(new Stink());
-                }else if(res[i]=="g"){
+               } else if (res[i]=="g") {
                     hand.push(new Garden());
-                }else if(res[i]=="s"){
+               } else if (res[i]=="s") {
                     hand.push(new Soy());
-                }else if(res[i]=="b"){
+               } else if (res[i]=="b") {
                     hand.push(new Black());
                 }
             }
@@ -94,7 +94,7 @@ Card* Hand::at(int i) {
     buff.swap(hand);
     while (!buff.empty()) {
         Card* c = buff.front();
-        if(count==i) cBuff = c;
+        if (count==i) cBuff = c;
         buff.pop();
         hand.push(c);
         count++;
@@ -125,7 +125,7 @@ Card* Hand::operator[] (int i) {
     buff.swap(hand);
     while (!buff.empty()) {
         Card* c = buff.front();
-        if(count==i) {
+        if (count==i) {
             cBuff = c;
             buff.pop();
         } else {

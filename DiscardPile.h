@@ -62,21 +62,21 @@ DiscardPile::DiscardPile(istream& is, const CardFactory* factory) {
         array[i++]=s;
     }
     for(int k=0;k<104;k++){
-        if(array[k]=="R"){
+        if (array[k]=="R"){
             pile.push_back(new Red());
-        }else if(array[k]=="C"){
+        } else if (array[k]=="C"){
             pile.push_back(new Chili());
-        }else if(array[k]=="G"){
+        } else if (array[k]=="G"){
             pile.push_back(new Green());
-        }else if(array[k]=="B"){
+        } else if (array[k]=="B"){
             pile.push_back(new Blue());
-        }else if(array[k]=="S"){
+        } else if (array[k]=="S"){
             pile.push_back(new Stink());
-        }else if(array[k]=="g"){
+        } else if (array[k]=="g"){
             pile.push_back(new Garden());
-        }else if(array[k]=="s"){
+        } else if (array[k]=="s"){
             pile.push_back(new Soy());
-        }else if(array[k]=="b"){
+        } else if (array[k]=="b"){
             pile.push_back(new Black());
         }
     }

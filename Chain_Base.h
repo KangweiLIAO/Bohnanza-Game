@@ -37,7 +37,7 @@ inline const char Chain_Base::getName() {return name.at(0);}
  * @return true if matched, false otherwise.
  */
 inline bool Chain_Base::match(Card* card) {
-  if(type==typeid(*card).name()) {
+  if (type==typeid(*card).name()) {
     chain.push_back(card);
     return true;
   } else return false;

@@ -80,20 +80,15 @@ inline Player::Player(const string& name) : name(name) {
  * @param is An istream address
  * @param factory A const CardFactory
 */
-Player::Player(istream& is, const CardFactory* factory){
-    Deck deck = factory->getFactory()->getDeck();
-    string line,s;
-    while(getline(is,line)){
+Player::Player(istream& is, const CardFactory* factory) {
+    string line;
+    while(getline(is,line)) {
         auto delimiterPos = line.find("=");
         auto name = line.substr(0, delimiterPos);
         auto value = line.substr(delimiterPos + 1);
 
-        if(name=="name"){
-            name=value;
-        }
-        if(name=="coin"){
-            num_coins=stol(value);
-        }
+        if (name=="name") name=value;
+        else if (name=="coin") num_coins=stol(value);
     }
 }
 
@@ -121,14 +116,14 @@ inline int Player::getNumChains() {return chains.size();}
 */
 inline int Player::getHandSize() {return hand->size();}
 
-inline void Player::addCardToHand(Card* card){*hand += card;}
+inline void Player::addCardToHand(Card* card) {*hand += card;}
 
 /**
  * @brief Prompt user to discard a card to discard pile
  * @param pile a pile
 */
 void Player::discardHand(DiscardPile* pile) {
-    if (hand->size()==0){
+    if (hand->size()==0) {
         cout << this->name << " don't have any card in hand." << endl;
         return;
     }
@@ -148,7 +143,7 @@ void Player::discardHand(DiscardPile* pile) {
 */
 inline bool Player::cardMatch(Card* card) {
     for(auto& chain: chains)
-        if(chain->match(card)) return true;
+        if (chain->match(card)) return true;
     return false;
 }
 
@@ -158,7 +153,7 @@ inline bool Player::cardMatch(Card* card) {
  *        If the player does not have enough coins then an exception NotEnoughCoins is thrown.
  * @param card A card that needed to be added to the new chain
 */
-void Player::buyThirdChain(){
+void Player::buyThirdChain() {
     if (chains.size()+1 > max_chain) throw MaxChainReachedException();
     if (num_coins >= 3) {
         num_coins -= 3;
@@ -170,7 +165,7 @@ void Player::buyThirdChain(){
  * @brief Prompt player to sell a chain
  * @return true if the chain is sold, false otherwise
 */
-void Player::sellChain(){
+void Player::sellChain() {
     string* chain_num = new string("0");
     int count = 1;
     for(auto it=chains.begin(); it!=chains.end(); ++it)
@@ -191,8 +186,8 @@ void Player::sellChain(){
  * @brief play the topmost card in hand
  * @return topmost card in hand
 */
-void Player::play(){
-    if (hand->size()==0){
+void Player::play() {
+    if (hand->size()==0) {
         cout << this->name << " don't have any card in hand." << endl;
         return;
     }
@@ -211,7 +206,7 @@ void Player::play(){
         case 2:
             if (num_coins >= 3) {
                 // player has more than 3 coins
-                if(*buff=="y") {
+                if (*buff=="y") {
                     // player choose to buy a third chain
                     this->buyThirdChain();
                     this->createChain(card);
@@ -227,7 +222,7 @@ void Player::play(){
             break;
         case 1:
             // player has only 1 chain
-            if(*buff=="y") {
+            if (*buff=="y") {
                 // player choose to create a second chain
                 this->createChain(card);
                 cout << "(" << this->name << ") Second chain created with the card added to it." << endl;
@@ -308,7 +303,7 @@ Chain_Base* Player::createChain(Card* card) {
  * @param os An ostream
  * @param flag A boolean
 */
-inline void Player::printHand(ostream& os, bool flag){
+inline void Player::printHand(ostream& os, bool flag) {
     if (!flag) os << *(hand->top());
     else os << *hand;
 }
@@ -317,7 +312,7 @@ inline void Player::printHand(ostream& os, bool flag){
  * @brief Add a number of coins
  * @param coins Numbers of coins need to be added
 */
-inline Player& Player::operator+= (int coins){
+inline Player& Player::operator+= (int coins) {
     num_coins += coins; 
     return *this;
 }

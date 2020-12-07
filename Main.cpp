@@ -15,10 +15,12 @@
 using namespace std;
 
 int main() {
+    filebuf file;
+    istream m_stream(&file);
     ifstream saveFile("saves\\deck.cfg");
 
-    static CardFactory* factory = CardFactory::getFactory();
-    static Deck deck = factory->getDeck();
+    static CardFactory* factory;
+    static Deck deck;
 
     Table* table;
     TradeArea* tradeArea = nullptr;
@@ -41,6 +43,8 @@ int main() {
             }
             if (*buff!="y") {
                 // Create new table
+                factory = CardFactory::getFactory();
+                deck = factory->getDeck();
                 readStringInput("Please enter the name of player1: ", p1Name);
                 readStringInput("Please enter the name of player2: ", p2Name);
                 table = new Table(*p1Name,*p2Name,factory);
@@ -118,7 +122,7 @@ int main() {
             // step 5:
             cout << "\n!!! 3 Cards added to trade area !!!" << endl;
             for(int i=0; i<3; i++) *tradeArea += deck.draw();   // draw 3 cards and add to trade area
-            while (!discardPile->isEmpty() && tradeArea->legal(discardPile->top())){
+            while (!discardPile->isEmpty() && tradeArea->legal(discardPile->top())) {
                 Card* cBuff = discardPile->pickUp();
                 cout << "Card " << *cBuff << " popped from discard pile and added to trade area." << endl;
                 *tradeArea += cBuff;            // add the legal card to trade area

@@ -51,49 +51,49 @@ Chain<T>::Chain(istream& is, const CardFactory* factory) {
         auto name = line.substr(0, delimiterPos);
         auto value = line.substr(delimiterPos + 1);
 
-        if(name=="chain1" || name=="chain2" || name=="chain3"){
+        if (name=="chain1" || name=="chain2" || name=="chain3"){
             string s;
             vector<string> res; //save for each word
             stringstream input(value);
             while(input>>s){
                 res.push_back(s);
             }
-            if(res[0]=="R"){
+            if (res[0]=="R"){
                 name=typeid(T).name();
                 for(int i=0; i<stol(res[1])-1;i++){
                     operator+=(new Red());
                 }
-            }else if(res[0]=="C"){
+            } else if (res[0]=="C"){
                 name=typeid(T).name();
                 for(int i=0; i<stol(res[1])-1;i++){
                     operator+=(new Chili());
                 }
-            }else if(res[0]=="G"){
+            } else if (res[0]=="G"){
                 name=typeid(T).name();
                 for(int i=0; i<stol(res[1])-1;i++){
                     operator+=(new Green());
                 }
-            }else if(res[0]=="B"){
+            } else if (res[0]=="B"){
                 name=typeid(T).name();
                 for(int i=0; i<stol(res[1])-1;i++){
                     operator+=(new Blue());
                 }
-            }else if(res[0]=="S"){
+            } else if (res[0]=="S"){
                 name=typeid(T).name();
                 for(int i=0; i<stol(res[1])-1;i++){
                     operator+=(new Stink());
                 }
-            }else if(res[0]=="g"){
+            } else if (res[0]=="g"){
                 name=typeid(T).name();
                 for(int i=0; i<stol(res[1])-1;i++){
                     operator+=(new Garden());
                 }
-            }else if(res[0]=="s"){
+            } else if (res[0]=="s"){
                 name=typeid(T).name();
                 for(int i=0; i<stol(res[1])-1;i++){
                     operator+=(new Soy());
                 }
-            }else if(res[0]=="b"){
+            } else if (res[0]=="b"){
                 name=typeid(T).name();
                 for(int i=0; i<stol(res[1])-1;i++){
                     operator+=(new Black());

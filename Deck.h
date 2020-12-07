@@ -55,21 +55,21 @@ Deck::Deck(istream& is, const CardFactory* f) {
     //     array[i++]=s;
     // }
     // for(int k=0; k<104; k++){
-    //     if(array[k]=="R"){
+    //     if (array[k]=="R"){
     //         deck.push_back(new Red());
-    //     }else if(array[k]=="C"){
+    //    } else if (array[k]=="C"){
     //         deck.push_back(new Chili());
-    //     }else if(array[k]=="G"){
+    //    } else if (array[k]=="G"){
     //         deck.push_back(new Green());
-    //     }else if(array[k]=="B"){
+    //    } else if (array[k]=="B"){
     //         deck.push_back(new Blue());
-    //     }else if(array[k]=="S"){
+    //    } else if (array[k]=="S"){
     //         deck.push_back(new Stink());
-    //     }else if(array[k]=="g"){
+    //    } else if (array[k]=="g"){
     //         deck.push_back(new Garden());
-    //     }else if(array[k]=="s"){
+    //    } else if (array[k]=="s"){
     //         deck.push_back(new Soy());
-    //     }else if(array[k]=="b"){
+    //    } else if (array[k]=="b"){
     //         deck.push_back(new Black());
     //     }
     // }    

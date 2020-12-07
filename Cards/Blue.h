@@ -30,12 +30,11 @@ class Blue : public Card {
 */
 inline int Blue::getCardsPerCoin(int coins) {
     switch (coins) {
-        case 0: return 0;
         case 1: return 4;
         case 2: return 6;
         case 3: return 8;
         case 4: return 10;
-        default: return -1;
+        default: return 0;
     }
 }
 

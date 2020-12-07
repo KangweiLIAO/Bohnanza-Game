@@ -29,12 +29,11 @@ class Chili : public Card {
 */
 inline int Chili::getCardsPerCoin(int coins) {
     switch (coins) {
-        case 0: return 0;
         case 1: return 3;
         case 2: return 6;
         case 3: return 8;
         case 4: return 9;
-        default: return -1;
+        default: return 0;
     }
 }
 

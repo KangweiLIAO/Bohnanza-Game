@@ -17,6 +17,7 @@
 #define CARDFACTORY_H
 // std libraries:
 #include <random>
+#include <chrono>
 #include <sstream>
 #include <algorithm>    // for shuffle()
 // project headers:
@@ -30,13 +31,13 @@ class CardFactory{
         static CardFactory* factory;
         Deck deck;
         CardFactory();
+        CardFactory(istream&);
         void operator=(const CardFactory&);
     public:
-        CardFactory(istream&);
         ~CardFactory();
         static CardFactory* getFactory();
-        static CardFactory* getFactory();
-        Deck getDeck();
+        static CardFactory* getFactory(istream&);
+        Deck getDeck() {return deck;}
 };
 
 // Static variable initializations:
@@ -46,30 +47,43 @@ CardFactory* CardFactory::factory {nullptr};
  * @brief A default constructor in which all the cards need to be created in the numbers needed for the game.
  */
 CardFactory::CardFactory() {
-    // if (!is) {
-    //     // reconstruct deck from save file
-    //     deck = Deck(is,this);
-    // } else {
-        // construct a new deck
-        deck = Deck();
-        for (int i=0; i<20; i++) {
-            deck.push_back(new Blue());
-            if (i < 18) deck.push_back(new Chili());
-            if (i < 16) deck.push_back(new Stink());
-            if (i < 14) deck.push_back(new Green());
-            if (i < 12) deck.push_back(new Soy());
-            if (i < 10) deck.push_back(new Black());
-            if (i < 8) deck.push_back(new Red());
-            if (i < 6) deck.push_back(new Garden());
-        }
-        unsigned seed = chrono::system_clock::now().time_since_epoch().count();
-        shuffle(deck.begin(),deck.end(),std::default_random_engine(seed));
-    // }
+    // construct a new deck
+    deck = Deck();
+    for (int i=0; i<20; i++) {
+        deck.push_back(new Blue());
+        if (i < 18) deck.push_back(new Chili());
+        if (i < 16) deck.push_back(new Stink());
+        if (i < 14) deck.push_back(new Green());
+        if (i < 12) deck.push_back(new Soy());
+        if (i < 10) deck.push_back(new Black());
+        if (i < 8) deck.push_back(new Red());
+        if (i < 6) deck.push_back(new Garden());
+    }
+    unsigned seed = chrono::system_clock::now().time_since_epoch().count();
+    shuffle(deck.begin(),deck.end(),std::default_random_engine(seed));
 }
 
+/**
+ * @brief A reconstructor in which all the cards reconstruct for the saved game.
+ */
 CardFactory::CardFactory(istream& is) {
     deck = Deck(is,this);
-
+    int i=0;
+    string line,s;
+    getline(is,line);
+    istringstream buff(line);
+    for(int k=0; k<104; k++){
+        buff >> s;
+        if (s == "R") deck.push_back(new Red());
+        else if (s == "C") deck.push_back(new Chili());
+        else if (s == "G") deck.push_back(new Green());
+        else if (s == "B") deck.push_back(new Blue());
+        else if (s == "S") deck.push_back(new Stink());
+        else if (s == "g") deck.push_back(new Garden());
+        else if (s == "s") deck.push_back(new Soy());
+        else if (s == "b") deck.push_back(new Black());
+        s.clear();
+    }
 }
 
 /**
@@ -92,10 +106,5 @@ inline CardFactory* CardFactory::getFactory(istream& is) {
     if (factory==nullptr) factory = new CardFactory(is);
     return factory;
 }
-
-/**
- * @brief Returns a shuffled deck with all 104 bean cards.
- */
-inline Deck CardFactory::getDeck() {return deck;}
 
 #endif

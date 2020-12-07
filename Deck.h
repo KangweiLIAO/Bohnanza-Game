@@ -22,9 +22,9 @@
 // project headers:
 #include "CardFactory.h"
 
-using namespace std;
-
 class CardFactory;
+
+using namespace std;
 
 class Deck : public vector<Card*> {
     private:
@@ -33,8 +33,8 @@ class Deck : public vector<Card*> {
     public:
         Deck() : vector<Card*>::vector(0) {};
         Deck(istream& is, const CardFactory* f);
-        int numCards() {return this->size();}
         Card* draw();
+        int numCards() {return this->size();}
         friend ostream& operator<< (ostream& os, const Deck& deck);
 };
 
@@ -44,23 +44,7 @@ class Deck : public vector<Card*> {
  * @param factory A const CardFactory
 */
 Deck::Deck(istream& is, const CardFactory* f) {
-    this->factory = f->getFactory();
-    int i=0;
-    string line,s;
-    getline(is,line);
-    istringstream buff(line);
-    for(int k=0; k<104; k++){
-        buff >> s;
-        if (s == "R") deck.push_back(new Red());
-        else if (s == "C") deck.push_back(new Chili());
-        else if (s == "G") deck.push_back(new Green());
-        else if (s == "B") deck.push_back(new Blue());
-        else if (s == "S") deck.push_back(new Stink());
-        else if (s == "g") deck.push_back(new Garden());
-        else if (s == "s") deck.push_back(new Soy());
-        else if (s == "b") deck.push_back(new Black());
-        s.clear();
-    }
+    
 }
 
 /**
@@ -69,7 +53,7 @@ Deck::Deck(istream& is, const CardFactory* f) {
 Card* Deck::draw() {
     Card* c = this->back();
     this->pop_back();
-    return c;  // top card==last elem of the vector
+    return c;  // top card == last elem of the vector
 }
 
 /**
@@ -79,10 +63,7 @@ Card* Deck::draw() {
 */
 ostream& operator<< (ostream& os, const Deck& deck) {
     // insert all cards to ostream
-    const int size = deck.size();
-    for (int i=0; i<size; i++) {
-        os << *deck[i] << " ";
-    }
+    for (size_t i=0; i<deck.size(); i++) os << *deck[i] << " ";
     return os;
 }
 

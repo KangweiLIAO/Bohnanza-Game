@@ -48,7 +48,17 @@ class Table{
         friend ostream& operator<< (ostream&,const Table&);
 };
 
-// CardFactory* Table::factory {CardFactory::getFactory()};
+/**
+ * @brief A constructor which accepts an istream and reconstruct the Table from file.
+ * @param is An istream address
+ * @param factory A const CardFactory
+*/
+Table::Table(istream& is, const CardFactory* factory) {
+    discardPile = new DiscardPile(is,factory);
+    tradeArea = new TradeArea(is,factory);
+    player1 = new Player(is,factory);
+    player2 = new Player(is,factory);
+}
 
 Table::Table(string& name1, string& name2, const CardFactory* factory) {
     deck = factory->getFactory()->getDeck();
@@ -58,15 +68,25 @@ Table::Table(string& name1, string& name2, const CardFactory* factory) {
     tradeArea = new TradeArea();
 }
 
+inline TradeArea* Table::getTradeArea() {return tradeArea;}
+
+inline DiscardPile* Table::getDiscardPile() {return discardPile;}
+
+inline Player* Table::getPlayer(int i) {
+    if (i==1) return player1;
+    else return player2;
+}
+
 /**
- * @brief A constructor which accepts an istream and reconstruct the Table from file.
- * @param is An istream address
- * @param factory A const CardFactory
+ * @brief Prints the top card of the player's hand (with argument false) 
+ *        or all of the player's hand (with argument true)
+ * @param flag a boolean
 */
-Table::Table(istream& is, const CardFactory* factory) {
-    // Player player(is,factory);
-    // DiscardPile pile(is,factory);
-    // TradeArea area(is,factory);
+void Table::printHand(bool flag) {
+    cout << player1->getName() << ": ";
+    player1->printHand(cout,flag);
+    cout << endl << player2->getName() << ": ";
+    player2->printHand(cout,flag);
 }
 
 /**
@@ -79,28 +99,6 @@ inline bool Table::win(string& name) {
     else if (player2->getName()==name && player2->getNumCoins() >= player1->getNumCoins())
         return true;
     return false;
-}
-
-
-inline Player* Table::getPlayer(int i) {
-    if (i==1) return player1;
-    else return player2;
-}
-
-inline TradeArea* Table::getTradeArea() {return tradeArea;}
-
-inline DiscardPile* Table::getDiscardPile() {return discardPile;}
-
-/**
- * @brief Prints the top card of the player's hand (with argument false) 
- * or all of the player's hand (with argument true)
- * @param flag a boolean
-*/
-void Table::printHand(bool flag) {
-    cout << player1->getName() << " ";
-    player1->printHand(cout,flag);
-    cout << "\n" << player2->getName() << " ";
-    player2->printHand(cout,flag);
 }
 
 /**

@@ -7,17 +7,16 @@
  */
 
 // std libraries:
-
+#include <fstream>
 // project headers:
-#include "Save.h"
 #include "Table.h"
 
 using namespace std;
 
 int main() {
     filebuf file;
-    istream m_stream(&file);
-    ifstream saveFile("saves\\deck.cfg");
+    ifstream savedDeck("saves\\deck.cfg");
+    ifstream savedTable("saves\\table.cfg");
 
     static CardFactory* factory;
     static Deck deck;
@@ -34,12 +33,12 @@ int main() {
     
     while (deck.numCards() > 0) {
         if (newGame) {
-            if (saveFile.good()) {
+            if (savedDeck.good() && savedTable.good()) {
                 readStringInput("Saves found, do you want to reload the game? (y/n): ", buff);
                 if (*buff=="y") {
                     // Load and initialize table
-                    factory = CardFactory::getFactory();
-                    // table = new Table(Reconstructor);
+                    factory = CardFactory::getFactory(savedDeck);
+                    table = new Table(savedTable,factory);
                 }
             }
             if (*buff!="y") {

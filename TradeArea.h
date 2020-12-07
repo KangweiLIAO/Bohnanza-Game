@@ -100,7 +100,7 @@ inline int TradeArea::numCards() {return area.size();}
  */
 inline bool TradeArea::legal(const Card* c) {
     for(auto const& card: area)
-        if(card->getName() == c->getName()) return true;
+        if(card->getName()==c->getName()) return true;
     return false;
 }
 
@@ -120,7 +120,7 @@ inline void TradeArea::discardAll(DiscardPile* pile) {
 Card* TradeArea::trade(string s) {
     int index = 0;
     for (Card* card: area) {
-        if(card->getName() == s) {
+        if(card->getName()==s) {
             Card* c = card;
             // remove the card in area:
             list<Card*>::iterator iter = area.begin();
@@ -143,11 +143,11 @@ void TradeArea::trade(Player* player) {
     bool erase = true;
     for (Card* card: area) {
         readStringInput("("+player->getName()+") Do you want to chain the card: "+card->getName()+" (y/n)? ", buff);
-        if (*buff == "y") {
+        if (*buff=="y") {
             if (!player->cardMatch(card)) {
                 readStringInput("("+player->getName()+") Do you want to create a new chain to match this card? (y/n): ", buff);
-                if (*buff == "y") {
-                    if (player->createChain(card) == nullptr) erase = false;
+                if (*buff=="y") {
+                    if (player->createChain(card)==nullptr) erase = false;
                     else cout << "(" << player->getName() << ") New " << card->getName() << " chain created." << endl;
                 } else erase = false;
             } else cout << "(" << player->getName() << ") Card added to a chain." << endl;
@@ -177,7 +177,7 @@ inline TradeArea& TradeArea::operator+= (Card* card) {
  * @param tradeArea A tradeArea needs to be printed
  */
 ostream& operator<< (ostream& os, const TradeArea& tradeArea) {
-    if (tradeArea.area.size() == 0) os << "Empty";
+    if (tradeArea.area.size()==0) os << "Empty";
     else {
         for(auto& card: tradeArea.area) 
             os << *card << " ";

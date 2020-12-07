@@ -63,9 +63,7 @@ Hand::Hand(istream& is, const CardFactory* factory){
             string s;
             vector<string> res; //save for each word
             stringstream input(value);
-            while(input>>s){
-                res.push_back(s);
-            }
+            while(input>>s) res.push_back(s);
             for(int i=0;i<res.size();i++){
                 if(res[i]=="R"){
                     hand.push(new Red());
@@ -96,12 +94,12 @@ Card* Hand::at(int i) {
     buff.swap(hand);
     while (!buff.empty()) {
         Card* c = buff.front();
-        if(count == i) cBuff = c;
+        if(count==i) cBuff = c;
         buff.pop();
         hand.push(c);
         count++;
     }
-    if (cBuff == nullptr) throw CardNotFoundException();
+    if (cBuff==nullptr) throw CardNotFoundException();
     return cBuff;
 }
 
@@ -127,7 +125,7 @@ Card* Hand::operator[] (int i) {
     buff.swap(hand);
     while (!buff.empty()) {
         Card* c = buff.front();
-        if(count == i) {
+        if(count==i) {
             cBuff = c;
             buff.pop();
         } else {
@@ -152,7 +150,7 @@ inline Hand& Hand::operator+= (Card* card) {
  * @return Ostream with hand inserted
  */
 ostream& operator<< (ostream& os, Hand& h) {
-    if (h.size() == 0) {
+    if (h.size()==0) {
         os << "Empty";
         return os;
     }

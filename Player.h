@@ -128,14 +128,14 @@ inline void Player::addCardToHand(Card* card){*hand += card;}
  * @param pile a pile
 */
 void Player::discardHand(DiscardPile* pile) {
-    if (hand->size() == 0){
+    if (hand->size()==0){
         cout << this->name << " don't have any card in hand." << endl;
         return;
     }
     cout << *hand << endl;
     string* card_num = new string("0");
     while (stoi(*card_num) < 1 || stoi(*card_num) > (*hand).size())
-        readString("("+this->name+")Please enter a card number to discard (1-"+to_string(hand->size())+"): ", card_num);
+        readStringInput("("+this->name+")Please enter a card number to discard (1-"+to_string(hand->size())+"): ", card_num);
     Card* cBuff = (*hand)[stoi(*card_num)-1];
     *pile += cBuff;
     cout << "(" <<this->name << ") " << *cBuff << " popped from hand." << endl;
@@ -178,7 +178,7 @@ void Player::sellChain(){
     // for(auto& chain: chains)
     //     cout << count++ << ": " << *chain << endl;
     while (!(stoi(*chain_num) > 0 && stoi(*chain_num) <= chains.size())) {
-        readString("Please enter a chain number to sell (1-"+to_string(chains.size())+"): ", chain_num);
+        readStringInput("Please enter a chain number to sell (1-"+to_string(chains.size())+"): ", chain_num);
     }
     char chain_name = chains[stoi(*chain_num)-1]->getName();
     *this += chains[stoi(*chain_num)-1]->sell();        // add coins to player
@@ -192,7 +192,7 @@ void Player::sellChain(){
  * @return topmost card in hand
 */
 void Player::play(){
-    if (hand->size() == 0){
+    if (hand->size()==0){
         cout << this->name << " don't have any card in hand." << endl;
         return;
     }
@@ -200,7 +200,7 @@ void Player::play(){
     cout << endl << this->name << " played topmost card in hand: " << *card << endl;
     if (!this->cardMatch(card)) {
         string* buff = new string();
-        readString("("+this->name+") This card mismatched, do you want to create a new chain for this card? (y/n): ", buff);
+        readStringInput("("+this->name+") This card mismatched, do you want to create a new chain for this card? (y/n): ", buff);
         switch (chains.size()) {
         case 3:
             cout << "Currently "<< this->name <<" have 3 chains, but no one matched this card." << endl;
@@ -259,37 +259,37 @@ Chain_Base* Player::createChain(Card* card) {
         return nullptr;
     }
     string type = typeid(*card).name();     // get the card's type
-    if (type == typeid(Black).name()) {
+    if (type==typeid(Black).name()) {
         Chain<Black>* chain = new Chain<Black>();
         *chain += card;
         chains.push_back(chain);
     }
-    else if (type == typeid(Blue).name()) {
+    else if (type==typeid(Blue).name()) {
         Chain<Blue>* chain = new Chain<Blue>();
         *chain += card;
         chains.push_back(chain);
     }
-    else if (type == typeid(Chili).name()) {
+    else if (type==typeid(Chili).name()) {
         Chain<Chili>* chain = new Chain<Chili>();
         *chain += card;
         chains.push_back(chain);
     }
-    else if (type == typeid(Garden).name()) {
+    else if (type==typeid(Garden).name()) {
         Chain<Garden>* chain = new Chain<Garden>();
         *chain += card;
         chains.push_back(chain);
     }
-    else if (type == typeid(Green).name()) {
+    else if (type==typeid(Green).name()) {
         Chain<Green>* chain = new Chain<Green>();
         *chain += card;
         chains.push_back(chain);
     }
-    else if (type == typeid(Red).name()) {
+    else if (type==typeid(Red).name()) {
         Chain<Red>* chain = new Chain<Red>();
         *chain += card;
         chains.push_back(chain);
     }
-    else if (type == typeid(Soy).name()) {
+    else if (type==typeid(Soy).name()) {
         Chain<Soy>* chain = new Chain<Soy>();
         *chain += card;
         chains.push_back(chain);

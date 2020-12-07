@@ -83,7 +83,7 @@ inline bool Table::win(string& name){
 
 
 inline Player* Table::getPlayer(int i) {
-    if(i == 1) return player1;
+    if(i==1) return player1;
     else return player2;
 }
 

@@ -81,7 +81,7 @@ Deck::Deck(istream& is, const CardFactory* f) {
 Card* Deck::draw() {
     Card* c = this->back();
     this->pop_back();
-    return c;  // top card == last elem of the vector
+    return c;  // top card==last elem of the vector
 }
 
 /**

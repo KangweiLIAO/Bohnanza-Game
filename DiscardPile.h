@@ -83,7 +83,7 @@ DiscardPile::DiscardPile(istream& is, const CardFactory* factory) {
 }
 
 inline bool DiscardPile::isEmpty() {
-    if (pile.size() == 0) return true;
+    if (pile.size()==0) return true;
     return false;
 }
 
@@ -97,7 +97,7 @@ inline Card* DiscardPile::top() const {
  * @brief Returns and removes the top card from the discard pile.
  */
 inline Card* DiscardPile::pickUp() {
-    Card* c = pile.back();  // top card == last elem
+    Card* c = pile.back();  // top card==last elem
     pile.pop_back();
     return c;
 }

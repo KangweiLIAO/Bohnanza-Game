@@ -114,7 +114,7 @@ inline int Chain<T>::sell() {
     for(int i=1; i<5; i++) {
         if (chain.size() < card.getCardsPerCoin(i))
             return i-1;
-        else if (chain.size() == card.getCardsPerCoin(i))
+        else if (chain.size()==card.getCardsPerCoin(i))
             return i;
     }
     return 0;

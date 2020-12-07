@@ -7,25 +7,29 @@
  */
 
 // std libraries:
-#include <fstream>
 
 // project headers:
+#include "Save.h"
 #include "Table.h"
 
 using namespace std;
 
 int main() {
+    ifstream saveFile("saves\\deck.cfg");
+
     static CardFactory* factory = CardFactory::getFactory();
     static Deck deck = factory->getDeck();
-    ifstream saveFile("saves\\player.cfg");
+
     Table* table;
     TradeArea* tradeArea = nullptr;
     DiscardPile* discardPile = nullptr;
+
     bool pause = false;
     bool newGame = true;
     string* p1Name = new string();
     string* p2Name = new string();
     string* buff = new string();    // buffer to store the input of player
+    
     while (deck.numCards() > 0) {
         if (newGame) {
             if (saveFile.good()) {
@@ -87,7 +91,7 @@ int main() {
                             cout << "(" << player->getName() << ") " << *card << " did not matched one of your chain." << endl;
                             readStringInput("("+player->getName()+") Do you want to create a new chain for it? (y/n): ", buff);
                             if (*buff=="y") {
-                                if (player->createChain(card) == nullptr) 
+                                if (player->createChain(card)==nullptr) 
                                     *discardPile += card;   // discard the mismatched card if can't create new chain
                             }
                         }

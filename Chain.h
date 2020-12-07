@@ -31,7 +31,7 @@ class Chain : public Chain_Base {
         void print(ostream&) const override;
     public:
         // constructors
-        Chain() {this->name = typeid(T).name();}
+        Chain() {T card; this->name = card.getName(); this->type = typeid(T).name();}
         Chain(istream&, const CardFactory*);
         // member functions
         int sell() override;
@@ -111,9 +111,12 @@ Chain<T>::Chain(istream& is, const CardFactory* factory) {
 template <class T>
 inline int Chain<T>::sell() {
     T card;
-    for(int i=1; i<5; i++)
-        if(chain.size() < card.getCardsPerCoin(i))
-            return card.getCardsPerCoin(i-1);
+    for(int i=1; i<5; i++) {
+        if (chain.size() < card.getCardsPerCoin(i))
+            return i-1;
+        else if (chain.size() == card.getCardsPerCoin(i))
+            return i;
+    }
 }
 
 /**
@@ -134,7 +137,7 @@ inline Chain<T>& Chain<T>::operator+= (Card* card){
 */
 template <class T>
 void Chain<T>::print(ostream& os) const {
-    os << chain[0]->getName() << "\t";
+    os << chain[0]->getName() << " \t";
     for(auto& card: this->chain) 
         os << *card << " ";
 }

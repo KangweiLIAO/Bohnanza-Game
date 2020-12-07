@@ -152,6 +152,10 @@ inline Hand& Hand::operator+= (Card* card) {
  * @return Ostream with hand inserted
  */
 ostream& operator<< (ostream& os, Hand& h) {
+    if (h.size() == 0) {
+        os << "Empty";
+        return os;
+    }
     for (size_t i=0; i<h.size(); i++) os << i+1 << ":" << *(h.at(i)) << "\t";
     return os;
 }

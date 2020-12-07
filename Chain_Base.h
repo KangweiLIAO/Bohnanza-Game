@@ -15,10 +15,11 @@
 class Chain_Base {
     protected:
         string name;
+        string type;
         vector<Card*> chain;
         virtual void print(ostream&) const = 0;
     public:
-        char getName();
+        const char getName();
         bool match(Card* c);
         virtual int sell() = 0;
         virtual Chain_Base& operator+= (Card*) = 0;
@@ -29,14 +30,14 @@ class Chain_Base {
  * @brief Return the name of a chain
  * @return chain's name
  */
-inline char Chain_Base::getName() {return name.at(1);}
+inline const char Chain_Base::getName() {return name.at(0);}
 
 /**
  * @brief Try match the card with this chain and add to it.
  * @return true if matched, false otherwise.
  */
 inline bool Chain_Base::match(Card* card) {
-  if(name==typeid(*card).name()) {
+  if(type==typeid(*card).name()) {
     chain.push_back(card);
     return true;
   } else return false;

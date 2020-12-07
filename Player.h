@@ -169,8 +169,10 @@ void Player::buyThirdChain(){
 void Player::sellChain(){
     string* chain_num = new string("0");
     int count = 1;
-    for(auto& chain: chains)
-        cout << count++ << ": " << *chain << endl;
+    for(auto it=chains.begin(); it!=chains.end(); ++it)
+        cout << count++ << ": " << *(*it) << "\n";
+    // for(auto& chain: chains)
+    //     cout << count++ << ": " << *chain << endl;
     while (!(stoi(*chain_num) > 0 && stoi(*chain_num) <= chains.size())) {
         readString("Please enter a chain number to sell (1-3): ", chain_num);
     }
@@ -298,8 +300,8 @@ Chain_Base* Player::createChain(Card* card) {
  * @param flag A boolean
 */
 inline void Player::printHand(ostream& os, bool flag){
-    if (!flag) os << hand->top();
-    else os << hand;
+    if (!flag) os << *(hand->top());
+    else os << *hand;
 }
 
 /**

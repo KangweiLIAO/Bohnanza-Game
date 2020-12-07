@@ -82,7 +82,7 @@ int main() {
                     for(auto& card: selectedCards) {
                         // loop selected cards vector and add them to player's chains
                         if (player->cardMatch(card)) 
-                            cout << "(" << player->getName() << ")" << *card << " added to your chain." << endl;
+                            cout << "(" << player->getName() << ") " << *card << " added to your chain." << endl;
                         else {
                             cout << "(" << player->getName() << ") " << *card << " did not matched one of your chain." << endl;
                             readString("("+player->getName()+") Do you want to create a new chain for it? (y/n): ", buff);
@@ -98,22 +98,23 @@ int main() {
             // step 2:
             player->play();              // play the topmost card
             // step 3:
-            // TODO: Add print hand option here
-            readString("("+player->getName()+") Do you want to play one more card? (y/n): ", buff);
+            cout << "\n(" << player->getName() << ") Hand: ";
+            player->printHand(cout,true);
+            readString("\n("+player->getName()+") Do you want to play one more card? (y/n): ", buff);
             if (*buff=="y") player->play();
             // step 4:
             readString("("+player->getName()+") Discard 1 card from hand? (y/n): ", buff);
             if (*buff=="y") player->discardHand(discardPile);
 
             // step 5:
-            cout << "!!! 3 Cards added to trade area !!!" << endl;
+            cout << "\n!!! 3 Cards added to trade area !!!" << endl;
             for(int i=0; i<3; i++) *tradeArea += deck.draw();   // draw 3 cards and add to trade area
-            cout << "---------- Trade Area ----------\n" << *tradeArea << endl;
             while (!discardPile->isEmpty() && tradeArea->legal(discardPile->top())){
                 Card* cBuff = discardPile->pickUp();
-                cout << "Card " << *cBuff << " added to trade area." << endl;
+                cout << "Card " << *cBuff << " popped from discard pile and added to trade area." << endl;
                 *tradeArea += cBuff;            // add the legal card to trade area
             }
+            cout << "---------- Trade Area ----------\n" << *tradeArea << endl;
             if(tradeArea->numCards() != 0) tradeArea->trade(player);   // prompt player to make decision on each card in trade area
             // step 6:
             for(int i=0; i<2; i++) {

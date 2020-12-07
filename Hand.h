@@ -12,6 +12,8 @@
  *  - Hand& operator+=(Card*)
  *  - Card* play()
  *  - Card* top()
+ *  - int size()
+ *  - Card* at(int)
  *  - Card* operator[](int)
  *  - friend ostream& operator<< (ostream&, const Hand&)
  */
@@ -61,32 +63,27 @@ Hand::Hand(istream& is, const CardFactory* factory) {
 
         if (name=="hand") {
             string s;
-            vector<string> res; //save for each word
             stringstream input(value);
-            while(input>>s) res.push_back(s);
-            for(int i=0;i<res.size();i++) {
-                if (res[i]=="R") {
-                    hand.push(new Red());
-               } else if (res[i]=="C") {
-                    hand.push(new Chili());
-               } else if (res[i]=="G") {
-                    hand.push(new Green());
-               } else if (res[i]=="B") {
-                    hand.push(new Blue());
-               } else if (res[i]=="S") {
-                    hand.push(new Stink());
-               } else if (res[i]=="g") {
-                    hand.push(new Garden());
-               } else if (res[i]=="s") {
-                    hand.push(new Soy());
-               } else if (res[i]=="b") {
-                    hand.push(new Black());
-                }
+            while(input >> s) {
+                if (s=="R") hand.push(new Red());
+                else if(s=="C") hand.push(new Chili());
+                else if(s=="G") hand.push(new Green());
+                else if(s=="B") hand.push(new Blue());
+                else if(s=="S") hand.push(new Stink());
+                else if(s=="g") hand.push(new Garden());
+                else if(s=="s") hand.push(new Soy());
+                else if(s=="b") hand.push(new Black());
+                s.clear();
             }
         }
     }
 }
 
+/**
+ * @brief Return the card in specific index from Hand, but did not popped.
+ * @param i Index for a card in hand
+ * @return A card in the given index
+ */
 Card* Hand::at(int i) {
     int count = 0;
     Card* cBuff = nullptr;
@@ -138,6 +135,11 @@ Card* Hand::operator[] (int i) {
     return cBuff;
 }
 
+/**
+ * @brief Add a card to hand.
+ * @param card A card need to be added
+ * @return Return hand
+ */
 inline Hand& Hand::operator+= (Card* card) {
     hand.push(card);
     return *this;

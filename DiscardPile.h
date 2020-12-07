@@ -12,6 +12,7 @@
  *  - DiscardPile(istream&, const CardFactory*) 
  *  - DiscardPile& operator+=(Card*)
  *  - Card* pickUp()
+ *  - bool isEmpty()
  *  - Card* top()
  *  - void print(std::ostream&)
  *  - friend ostream& operator<< (ostream&, const DiscardPile&)
@@ -53,40 +54,35 @@ class DiscardPile {
  */
 DiscardPile::DiscardPile(istream& is, const CardFactory* factory) {
     Deck deck = factory->getFactory()->getDeck();
-    string array[104];
     string line,s;
     getline(is,line);
     istringstream buff(line);
     int i=0,k=1;
     while(buff>>s){
-        array[i++]=s;
-    }
-    for(int k=0;k<104;k++){
-        if (array[k]=="R"){
-            pile.push_back(new Red());
-        } else if (array[k]=="C"){
-            pile.push_back(new Chili());
-        } else if (array[k]=="G"){
-            pile.push_back(new Green());
-        } else if (array[k]=="B"){
-            pile.push_back(new Blue());
-        } else if (array[k]=="S"){
-            pile.push_back(new Stink());
-        } else if (array[k]=="g"){
-            pile.push_back(new Garden());
-        } else if (array[k]=="s"){
-            pile.push_back(new Soy());
-        } else if (array[k]=="b"){
-            pile.push_back(new Black());
-        }
-    }
+        if (s=="R") pile.push_back(new Red());
+        else if (s=="C") pile.push_back(new Chili());
+        else if (s=="G") pile.push_back(new Green());
+        else if (s=="B") pile.push_back(new Blue());
+        else if (s=="S") pile.push_back(new Stink());
+        else if (s=="g") pile.push_back(new Garden());
+        else if (s=="s") pile.push_back(new Soy());
+        else if (s=="b") pile.push_back(new Black());
+    }   
 }
 
+/**
+ * @brief Return true if the discardpile is empty, false otherwise.
+ * @return Boolean
+ */
 inline bool DiscardPile::isEmpty() {
     if (pile.size()==0) return true;
     return false;
 }
 
+/**
+ * @brief Return the top card from the discardpile, but did not popped.
+ * @return The top card
+ */
 inline Card* DiscardPile::top() const {
     if (pile.size() != 0)
         return pile.back();

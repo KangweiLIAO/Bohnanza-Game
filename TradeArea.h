@@ -13,7 +13,9 @@
  *  - TradeArea& operator+=(Card*)
  *  - bool legal(Card*)
  *  - Card* trade(string)
+ *  - void trade(Player*)
  *  - int numCards()
+ *  - void discardAll(DiscardPile*)
  *  - friend ostream& operator<< (ostream&, const DiscardPile&)
  */
 
@@ -88,7 +90,7 @@ TradeArea::TradeArea(istream& is, const CardFactory* factory) {
 
 /**
  * @brief Returns number of cards in trade area
- * @return number of cards
+ * @return Number of cards
  */
 inline int TradeArea::numCards() {return area.size();}
 
@@ -96,7 +98,7 @@ inline int TradeArea::numCards() {return area.size();}
  * @brief Returns true if the card can be legally added to the TradeArea, 
  *        i.e. a card of the same bean is already in the TradeArea.
  * @param c A card that will be tested
- * @return legality of the card
+ * @return Legality of the card
  */
 inline bool TradeArea::legal(const Card* c) {
     for(auto const& card: area)
@@ -106,7 +108,7 @@ inline bool TradeArea::legal(const Card* c) {
 
 /**
  * @brief Discard all cards in trade area.
- * @param pile discard pile
+ * @param pile Discard pile
  */
 inline void TradeArea::discardAll(DiscardPile* pile) {
     for (auto& card: area) *pile += card;
@@ -114,7 +116,7 @@ inline void TradeArea::discardAll(DiscardPile* pile) {
 }
 
 /**
- * @brief removes a card of the corresponding bean name from the trade area.
+ * @brief Removes a card of the corresponding bean name from the trade area.
  * @param s A string which is the card name
  */
 Card* TradeArea::trade(string s) {

@@ -11,6 +11,7 @@
  *  - Chain(istream&, const CardFactory*)
  *  - int sell()
  *  - Chain<T>& operator+=(Card*)
+ *  - size_t getSize()
  *  - friend ostream& operator<< (ostream&, const Chain&)
  */
 

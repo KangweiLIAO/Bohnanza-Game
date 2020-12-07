@@ -11,6 +11,9 @@
  * - virtual int getCardsPerCoin(int)
  * - virtual string getName()
  * - virtual void print(ostream&)
+ * - string getName()
+ * - ard& operator= (const Card&)
+ * - friend ostream& operator<< (ostream&, const Card&)
  */
 
 #ifndef CARD_H

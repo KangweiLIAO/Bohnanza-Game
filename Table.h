@@ -74,11 +74,10 @@ Table::Table(istream& is, const CardFactory* factory) {
  * @param s The address of the name of player
 */
 inline bool Table::win(string& name){
-    if(deck.numCards() == 0) {
-        if (player1->getName()==name) name = player1->getName();
-        else name = player2->getName();
+    if (player1->getName()==name && player1->getNumCoins() >= player2->getNumCoins())
         return true;
-    }
+    else if (player2->getName()==name && player2->getNumCoins() >= player1->getNumCoins())
+        return true;
     return false;
 }
 

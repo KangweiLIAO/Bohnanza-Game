@@ -23,6 +23,8 @@ int main() {
     DiscardPile* discardPile = nullptr;
     bool pause = false;
     bool newGame = true;
+    string* p1Name = new string();
+    string* p2Name = new string();
     string* buff = new string();    // buffer to store the input of player
     while (deck.numCards() > 0) {
         if (newGame) {
@@ -35,8 +37,6 @@ int main() {
             }
             if (*buff!="y") {
                 // Create new table
-                string* p1Name = new string();
-                string* p2Name = new string();
                 readString("Please enter the name of player1: ", p1Name);
                 readString("Please enter the name of player2: ", p2Name);
                 table = new Table(*p1Name,*p2Name,factory);
@@ -95,16 +95,21 @@ int main() {
                 }
                 tradeArea->discardAll(discardPile); // discards all cards in trade area
             }
+            
             // step 2:
             player->play();              // play the topmost card
+            
             // step 3:
-            cout << "\n(" << player->getName() << ") Hand: ";
-            player->printHand(cout,true);
-            readString("\n("+player->getName()+") Do you want to play one more card? (y/n): ", buff);
-            if (*buff=="y") player->play();
-            // step 4:
-            readString("("+player->getName()+") Discard 1 card from hand? (y/n): ", buff);
-            if (*buff=="y") player->discardHand(discardPile);
+            if (player->getHandSize() != 0) {
+                cout << "\n(" << player->getName() << ") Hand: ";
+                player->printHand(cout,true);
+                readString("\n("+player->getName()+") Do you want to play one more card? (y/n): ", buff);
+                if (*buff=="y") player->play();
+                // step 4:
+                readString("("+player->getName()+") Discard 1 card from hand? (y/n): ", buff);
+                if (*buff=="y") player->discardHand(discardPile);
+            } else
+                cout << "\n("+player->getName()+") Hand is empty, skip playing/discarding one more card." << endl;
 
             // step 5:
             cout << "\n!!! 3 Cards added to trade area !!!" << endl;
@@ -126,5 +131,9 @@ int main() {
         readString("\nSave the game? (y/n): ", buff);
         if (*buff=="y") pause = true;
     }
+    cout << "\n\n!!!!!!!!!! The deck is empty !!!!!!!!!!\n" << endl;
+    if (table->win(*p1Name)) 
+        cout << "The winner is " << p1Name << "!!!" << endl;
+    else cout << "The winner is " << p2Name << "!!!" << endl;
     return 0;
 };

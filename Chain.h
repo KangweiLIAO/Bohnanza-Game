@@ -117,6 +117,7 @@ inline int Chain<T>::sell() {
         else if (chain.size() == card.getCardsPerCoin(i))
             return i;
     }
+    return 0;
 }
 
 /**
@@ -137,7 +138,7 @@ inline Chain<T>& Chain<T>::operator+= (Card* card){
 */
 template <class T>
 void Chain<T>::print(ostream& os) const {
-    os << chain[0]->getName() << " \t";
+    os << chain[0]->getName() << "  ";
     for(auto& card: this->chain) 
         os << *card << " ";
 }

@@ -56,6 +56,7 @@ class Player {
         
         string getName();
         int getNumCoins();
+        int getHandSize();
         int getNumChains();
 
         void printHand(ostream&, bool);
@@ -115,9 +116,11 @@ inline int Player::getNumCoins() {return num_coins;}
 inline int Player::getNumChains() {return chains.size();}
 
 /**
- * @brief returns the hand object of the player
- * @return Hand of the player
+ * @brief Get the number of cards in player's hand
+ * @return number of cards in hand
 */
+inline int Player::getHandSize() {return hand->size();}
+
 inline void Player::addCardToHand(Card* card){*hand += card;}
 
 /**
@@ -132,9 +135,10 @@ void Player::discardHand(DiscardPile* pile) {
     cout << *hand << endl;
     string* card_num = new string("0");
     while (stoi(*card_num) < 1 || stoi(*card_num) > (*hand).size())
-        readString("("+this->name+")Please enter a card number to discard (1-N): ", card_num);
-    *pile += (*hand)[stoi(*card_num)-1];
-    cout << this->name << " popped " << *card_num << " from the hand." << endl;
+        readString("("+this->name+")Please enter a card number to discard (1-"+to_string(hand->size())+"): ", card_num);
+    Card* cBuff = (*hand)[stoi(*card_num)-1];
+    *pile += cBuff;
+    cout << "(" <<this->name << ") " << *cBuff << " popped from hand." << endl;
 }
 
 /**
@@ -174,12 +178,13 @@ void Player::sellChain(){
     // for(auto& chain: chains)
     //     cout << count++ << ": " << *chain << endl;
     while (!(stoi(*chain_num) > 0 && stoi(*chain_num) <= chains.size())) {
-        readString("Please enter a chain number to sell (1-3): ", chain_num);
+        readString("Please enter a chain number to sell (1-"+to_string(chains.size())+"): ", chain_num);
     }
     char chain_name = chains[stoi(*chain_num)-1]->getName();
     *this += chains[stoi(*chain_num)-1]->sell();        // add coins to player
     chains.erase(chains.begin()+stoi(*chain_num)-1);    // remove the chain just sold
-    cout << "(" << this->name << ") " << chain_name << " Chain sold successfully." << endl;
+    cout << "(" << this->name << ") " << chain_name << " Chain sold successfully and have " 
+        << num_coins << " coins now." << endl;
 }
 
 /**
@@ -201,7 +206,7 @@ void Player::play(){
             cout << "Currently "<< this->name <<" have 3 chains, but no one matched this card." << endl;
             this->sellChain();
             this->createChain(card);    // add the mismatched card to a new chain
-            cout << "The mismatched card added to a new chain." << endl;
+            cout << "(" << this->name << ") The mismatched card added to a new chain." << endl;
             break;
         case 2:
             if (num_coins >= 3) {
@@ -216,6 +221,8 @@ void Player::play(){
                 // player has less than 3 coins
                 cout << this->name << " have less than 3 coins and all 2 chains mismatched." << endl;
                 this->sellChain();
+                this->createChain(card);    // add the mismatched card to a new chain
+                cout << "(" << this->name << ") The mismatched card added to a new chain." << endl;
             }
             break;
         case 1:
@@ -228,6 +235,8 @@ void Player::play(){
                 // player choose to sell a chain
                 cout << "(" << this->name << ") Don't want to create a new chain? OK!" << endl;
                 this->sellChain();
+                this->createChain(card);    // add the mismatched card to a new chain
+                cout << "(" << this->name << ") The mismatched card added to a new chain." << endl;
             }
             break;
         default:

@@ -149,7 +149,7 @@ void TradeArea::trade(Player* player) {
                 if (*buff == "y") {
                     if (player->createChain(card) == nullptr) erase = false;
                     else cout << "(" << player->getName() << ") New " << card->getName() << " chain created." << endl;
-                }
+                } else erase = false;
             } else cout << "(" << player->getName() << ") Card added to a chain." << endl;
             if (erase) {
                 list<Card*>::iterator iter = area.begin();

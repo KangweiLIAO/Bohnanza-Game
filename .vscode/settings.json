@@ -80,6 +80,11 @@
         "stack": "cpp",
         "thread": "cpp",
         "stop_token": "cpp",
-        "cinttypes": "cpp"
-    }
+        "cinttypes": "cpp",
+        "__tree": "cpp",
+        "map": "cpp"
+    },
+    "cSpell.words": [
+        "stoi"
+    ]
 }

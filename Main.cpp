@@ -38,6 +38,7 @@ int main() {
                 readStringInput("Saves found, do you want to reload the game? (y/n): ", buff);
                 if (*buff=="y") {
                     // Load and initialize table
+                    factory = CardFactory::getFactory();
                     // table = new Table(Reconstructor);
                 }
             }

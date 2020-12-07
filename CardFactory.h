@@ -30,10 +30,11 @@ class CardFactory{
         static CardFactory* factory;
         Deck deck;
         CardFactory();
-        CardFactory(const CardFactory&);
         void operator=(const CardFactory&);
     public:
+        CardFactory(istream&);
         ~CardFactory();
+        static CardFactory* getFactory();
         static CardFactory* getFactory();
         Deck getDeck();
 };
@@ -66,8 +67,9 @@ CardFactory::CardFactory() {
     // }
 }
 
-CardFactory::CardFactory(const CardFactory& factory) {
-    this->factory = factory;
+CardFactory::CardFactory(istream& is) {
+    deck = Deck(is,this);
+
 }
 
 /**
@@ -80,6 +82,14 @@ CardFactory::~CardFactory() {}
  */
 inline CardFactory* CardFactory::getFactory() {
     if (factory==nullptr) factory = new CardFactory();
+    return factory;
+}
+
+/**
+ * @brief Returns a pointer to the only instance of CardFactory.
+ */
+inline CardFactory* CardFactory::getFactory(istream& is) {
+    if (factory==nullptr) factory = new CardFactory(is);
     return factory;
 }
 

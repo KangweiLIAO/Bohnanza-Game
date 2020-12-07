@@ -37,8 +37,9 @@ class DiscardPile {
         DiscardPile() {};
         DiscardPile(istream&, const CardFactory*);
         // member functions:
-        Card* top() const;
         Card* pickUp();
+        bool isEmpty();
+        Card* top() const;
         void print(ostream&);
         // operators:
         DiscardPile& operator+=(Card*);
@@ -81,7 +82,12 @@ DiscardPile::DiscardPile(istream& is, const CardFactory* factory) {
     }
 }
 
-Card* DiscardPile::top() const {
+inline bool DiscardPile::isEmpty() {
+    if (pile.size() == 0) return true;
+    return false;
+}
+
+inline Card* DiscardPile::top() const {
     if (pile.size() != 0)
         return pile.back();
     else throw DeckEmptyException();

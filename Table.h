@@ -110,10 +110,10 @@ void Table::printHand(bool flag){
  * @param player A table needs to be printed
 */
 ostream& operator<<(ostream& os, const Table& table) {
-    os << "##### Trade Area #####\n" << *table.tradeArea << endl;
-    os << "##### Discard Pile (top) #####\n" << *table.discardPile << endl;
-    os << "##### Player1 #####\n" << *table.player1 << endl;
-    os << "##### Player2 #####\n" << *table.player2 << endl;
+    os << "---------- Trade Area ----------\n" << *table.tradeArea << endl;
+    os << "---------- Discard Pile (top) ----------\n" << *table.discardPile << endl;
+    os << "---------- Player1 ----------\n" << *table.player1 << endl;
+    os << "---------- Player2 ----------\n" << *table.player2 << endl;
     return os;
 }
 

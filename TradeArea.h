@@ -138,16 +138,25 @@ Card* TradeArea::trade(string s) {
  * @param A player
  */
 void TradeArea::trade(Player* player) {
-    char buff;
-    int index;
+    string* buff = new string();
+    int index = 0;
+    bool erase = true;
     for (Card* card: area) {
-        cout << "Do you want to chain this card: " << *card << "? (y/n)" << endl;
-        cin >> buff;
-        if (buff == 'y' && player->chainMatch(card)) {
-            list<Card*>::iterator iter = area.begin();
-            advance(iter,index);
-            area.erase(iter);
-            cout << "Card added to a chain.";
+        readString("("+player->getName()+") Do you want to chain the card: "+card->getName()+" (y/n)? ", buff);
+        if (*buff == "y") {
+            if (!player->cardMatch(card)) {
+                readString("("+player->getName()+") Do you want to create a new chain to match this card? (y/n): ", buff);
+                if (*buff == "y") {
+                    if (player->createChain(card) == nullptr) erase = false;
+                    else cout << "(" << player->getName() << ") New " << card->getName() << " chain created." << endl;
+                }
+            } else cout << "(" << player->getName() << ") Card added to a chain." << endl;
+            if (erase) {
+                list<Card*>::iterator iter = area.begin();
+                advance(iter,index);
+                area.erase(iter);
+                index--;
+            }
         }
         index++;
     }

@@ -122,10 +122,8 @@ inline int Chain<T>::sell() {
  */
 template <class T>
 inline Chain<T>& Chain<T>::operator+= (Card* card){
-    if (this->match(card)) {
-        this->chain.push_back(card);
-        return *this;
-    } else throw IllegalTypeException();
+    if (this->match(card)) return *this;
+    else throw IllegalTypeException();
 }
 
 /**

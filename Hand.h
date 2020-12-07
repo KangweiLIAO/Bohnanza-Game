@@ -90,7 +90,7 @@ Hand::Hand(istream& is, const CardFactory* factory){
 }
 
 Card* Hand::at(int i) {
-    int count;
+    int count = 0;
     Card* cBuff = nullptr;
     queue<Card*,list<Card*> > buff;
     buff.swap(hand);
@@ -101,7 +101,7 @@ Card* Hand::at(int i) {
         hand.push(c);
         count++;
     }
-    if (!cBuff) throw CardNotFoundException();
+    if (cBuff == nullptr) throw CardNotFoundException();
     return cBuff;
 }
 
@@ -152,7 +152,7 @@ inline Hand& Hand::operator+= (Card* card) {
  * @return Ostream with hand inserted
  */
 ostream& operator<< (ostream& os, Hand& h) {
-    for (size_t i=0; i<h.size(); i++) os << h.at(i) << " ";
+    for (size_t i=0; i<h.size(); i++) os << i+1 << ":" << *(h.at(i)) << "\t";
     return os;
 }
 

@@ -135,7 +135,7 @@ Card* TradeArea::trade(string s) {
 
 /**
  * @brief Prompt player to make decision on each card in trade area.
- * @param A player
+ * @param player A player
  */
 void TradeArea::trade(Player* player) {
     string* buff = new string();

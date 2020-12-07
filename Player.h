@@ -133,7 +133,8 @@ void Player::discardHand(DiscardPile* pile) {
     string* card_num = new string("0");
     while (stoi(*card_num) < 1 || stoi(*card_num) > (*hand).size())
         readString("("+this->name+")Please enter a card number to discard (1-N): ", card_num);
-    *pile += (*hand)[stoi(*card_num)];
+    *pile += (*hand)[stoi(*card_num)-1];
+    cout << this->name << " popped " << *card_num << " from the hand." << endl;
 }
 
 /**
@@ -170,12 +171,13 @@ void Player::sellChain(){
     int count = 1;
     for(auto& chain: chains)
         cout << count++ << ": " << *chain << endl;
-    while (stoi(*chain_num)-1 < 1 || stoi(*chain_num)-1 > chains.size()) {
+    while (!(stoi(*chain_num) > 0 && stoi(*chain_num) <= chains.size())) {
         readString("Please enter a chain number to sell (1-3): ", chain_num);
     }
+    char chain_name = chains[stoi(*chain_num)-1]->getName();
     *this += chains[stoi(*chain_num)-1]->sell();        // add coins to player
     chains.erase(chains.begin()+stoi(*chain_num)-1);    // remove the chain just sold
-    cout << "(" << this->name << ") Chain sold successfully.";
+    cout << "(" << this->name << ") " << chain_name << " Chain sold successfully." << endl;
 }
 
 /**
@@ -188,7 +190,7 @@ void Player::play(){
         return;
     }
     Card* card = hand->play();  // play the topmost card from hand
-    cout << this->name << " played topmost card in hand: " << *card << endl;
+    cout << endl << this->name << " played topmost card in hand: " << *card << endl;
     if (!this->cardMatch(card)) {
         string* buff = new string();
         readString("("+this->name+") This card mismatched, do you want to create a new chain for this card? (y/n): ", buff);
@@ -232,7 +234,7 @@ void Player::play(){
             cout << this->name << "'s first chain created with the card added to it." << endl;
             break;
         }
-    }
+    } else cout << "(" << this->name << ") " << *card << " added to a chain." << endl;
 }
 
 /**

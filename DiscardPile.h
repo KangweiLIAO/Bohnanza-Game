@@ -128,7 +128,7 @@ inline DiscardPile& DiscardPile::operator+= (Card* card) {
  * @param pile A discardpileneeds to be printed
 */
 inline ostream& operator<< (ostream& os, const DiscardPile& pile) {
-    try {os << pile.top();}
+    try {os << *(pile.top());}
     catch (DeckEmptyException e) {os << "Empty";}
     return os;
 }

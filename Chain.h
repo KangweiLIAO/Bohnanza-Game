@@ -111,7 +111,9 @@ Chain<T>::Chain(istream& is, const CardFactory* factory) {
 template <class T>
 inline int Chain<T>::sell() {
     T card;
-    return card.getCardsPerCoin(this->chain.size());
+    for(int i=1; i<5; i++)
+        if(chain.size() < card.getCardsPerCoin(i))
+            return card.getCardsPerCoin(i-1);
 }
 
 /**

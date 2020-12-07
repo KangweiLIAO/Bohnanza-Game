@@ -18,11 +18,18 @@ class Chain_Base {
         vector<Card*> chain;
         virtual void print(ostream&) const = 0;
     public:
+        char getName();
         bool match(Card* c);
         virtual int sell() = 0;
         virtual Chain_Base& operator+= (Card*) = 0;
         friend ostream& operator<< (ostream&, const Chain_Base&);
 };
+
+/**
+ * @brief Return the name of a chain
+ * @return chain's name
+ */
+inline char Chain_Base::getName() {return name.at(1);}
 
 /**
  * @brief Try match the card with this chain and add to it.

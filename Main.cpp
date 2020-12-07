@@ -81,10 +81,11 @@ int main() {
                     }
                     for(auto& card: selectedCards) {
                         // loop selected cards vector and add them to player's chains
-                        if (player->cardMatch(card)) cout << *card << " added to your chain." << endl;
+                        if (player->cardMatch(card)) 
+                            cout << "(" << player->getName() << ")" << *card << " added to your chain." << endl;
                         else {
                             cout << "(" << player->getName() << ") " << *card << " did not matched one of your chain." << endl;
-                            readString("("+player->getName()+") Do you want to create a new chain for it? ", buff);
+                            readString("("+player->getName()+") Do you want to create a new chain for it? (y/n): ", buff);
                             if (*buff=="y") {
                                 if (player->createChain(card) == nullptr) 
                                     *discardPile += card;   // discard the mismatched card if can't create new chain
@@ -97,6 +98,7 @@ int main() {
             // step 2:
             player->play();              // play the topmost card
             // step 3:
+            // TODO: Add print hand option here
             readString("("+player->getName()+") Do you want to play one more card? (y/n): ", buff);
             if (*buff=="y") player->play();
             // step 4:
@@ -120,7 +122,7 @@ int main() {
                 cout << "("+player->getName()+") Draws a card from deck: "<< *cDraw << endl;
             }
         }
-        readString("Save the game? (y/n): ", buff);
+        readString("\nSave the game? (y/n): ", buff);
         if (*buff=="y") pause = true;
     }
     return 0;

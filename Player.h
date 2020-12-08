@@ -52,7 +52,7 @@ class Player {
         void buyThirdChain();
         bool cardMatch(Card*);
         void addCardToHand(Card*);
-        Chain_Base* createChain(Card*);
+        Chain_Base* createChain(Card*, string type="");
         void discardHand(DiscardPile*);
         ostream& save(ostream& os);
         
@@ -86,26 +86,50 @@ Player::Player(istream& is, const CardFactory* factory) {
     string line;
     Deck deck = factory->getFactory()->getDeck();
     while(getline(is,line)) {
+        istringstream buff(line);
         auto delimiterPos = line.find("=");
         string key = line.substr(0, delimiterPos);
         string value = line.substr(delimiterPos + 1);
 
         if (key=="name") this->name = value;
         else if (key=="coin") num_coins=stoi(value);
+        else if (key=="max") max_chain=stoi(value);
         else if (key=="chain1" || key=="chain2" || key=="chain3") {
-            if (value=="R") chains.push_back(new Chain<Red>());
-            else if(value=="C") {
-                chains.push_back(new Chain<Chili>());
-                *chains.back() += new Chili();
+            int num = (int)value.at(2)-'0';     // get the number of cards in chain
+            if (value.at(0)=='R') {
+                this->createChain(new Red(),typeid(Red).name());
+                for(size_t i=0;i<num;i++) *(chains.back()) += new Red();
             }
-            else if(value=="G") chains.push_back(new Chain<Green>());
-            else if(value=="B") chains.push_back(new Chain<Blue>());
-            else if(value=="S") chains.push_back(new Chain<Stink>());
-            else if(value=="g") chains.push_back(new Chain<Garden>());
-            else if(value=="s") chains.push_back(new Chain<Soy>());
-            else chains.push_back(new Chain<Black>());
-        } else if (key=="hand") hand = new Hand(is, factory);
-        if (is.peek() == '2') break;    // player1's data read completed
+            else if(value.at(0)=='C') {
+                this->createChain(new Chili(),typeid(Chili).name());
+                for(size_t i=0;i<num;i++) *(chains.back()) += new Chili();
+            }
+            else if(value.at(0)=='G') {
+                this->createChain(new Green(),typeid(Green).name());
+                for(size_t i=0;i<num;i++) *(chains.back()) += new Green();
+            }
+            else if(value.at(0)=='B') {
+                this->createChain(new Blue(),typeid(Blue).name());
+                for(size_t i=0;i<num;i++) *(chains.back()) += new Blue();
+            }
+            else if(value.at(0)=='S') {
+                this->createChain(new Stink(),typeid(Stink).name());
+                for(size_t i=0;i<num;i++) *(chains.back()) += new Stink();
+            }
+            else if(value.at(0)=='g') {
+                this->createChain(new Garden(),typeid(Garden).name());
+                for(size_t i=0;i<num;i++) *(chains.back()) += new Garden();
+            }
+            else if(value.at(0)=='s') {
+                this->createChain(new Soy(),typeid(Soy).name());
+                for(size_t i=0;i<num;i++) *(chains.back()) += new Soy();
+            } else {
+                this->createChain(new Black(),typeid(Black).name());
+                for(size_t i=0;i<num;i++) *(chains.back()) += new Black();
+            }
+        } else if (key=="hand") hand = new Hand(buff, factory);
+        char peeked = is.peek();
+        if (peeked == 'n') break;    // player1's data read completed
     }
 }
 
@@ -265,52 +289,47 @@ void Player::play() {
  * @param card A card that indicating the type of new chain
  * @return Returns nullptr if cannot create more chains, else return new chain pointer
 */
-Chain_Base* Player::createChain(Card* card) {
+Chain_Base* Player::createChain(Card* card, string t) {
     if (chains.size()+1 > max_chain) {
         cout << this->name << "'s maximum number of chain reached!" << endl;
         return nullptr;
     }
-    string type = typeid(*card).name();     // get the card's type
+    string type;
+    if(t!="") type = t;                   // reconstruct chain
+    else type = typeid(*card).name();       // get the card's type
     if (type==typeid(Black).name()) {
         Chain<Black>* chain = new Chain<Black>();
-        *chain += card;
         chains.push_back(chain);
     }
     else if (type==typeid(Blue).name()) {
         Chain<Blue>* chain = new Chain<Blue>();
-        *chain += card;
         chains.push_back(chain);
     }
     else if (type==typeid(Chili).name()) {
         Chain<Chili>* chain = new Chain<Chili>();
-        *chain += card;
         chains.push_back(chain);
     }
     else if (type==typeid(Garden).name()) {
         Chain<Garden>* chain = new Chain<Garden>();
-        *chain += card;
         chains.push_back(chain);
     }
     else if (type==typeid(Green).name()) {
         Chain<Green>* chain = new Chain<Green>();
-        *chain += card;
         chains.push_back(chain);
     }
     else if (type==typeid(Red).name()) {
         Chain<Red>* chain = new Chain<Red>();
-        *chain += card;
         chains.push_back(chain);
     }
     else if (type==typeid(Soy).name()) {
         Chain<Soy>* chain = new Chain<Soy>();
-        *chain += card;
         chains.push_back(chain);
     }
     else {
         Chain<Stink>* chain = new Chain<Stink>();
-        *chain += card;
         chains.push_back(chain);
     }
+    if(t=="") *(chains.back()) += card;
     return chains.back();
 }
 

@@ -33,7 +33,7 @@ class Chain : public Chain_Base {
     public:
         // constructors
         Chain();
-        Chain(istream&, const CardFactory*) {};
+        Chain(istream&, const CardFactory*);
         // member functions
         int sell() override;
         size_t getSize() {return this->chain.size();}
@@ -45,9 +45,25 @@ class Chain : public Chain_Base {
 
 template <class T>
 Chain<T>::Chain() {
-    T card; 
+    T card;
     this->name = card.getName();
     this->type = typeid(T).name();
+}
+
+template <class T>
+Chain<T>::Chain(istream& is, const CardFactory* factory) {
+    string type;
+    while(is >> type) {
+        if (type=="R") chain.push_back(new Red());
+        else if (type=="C") chain.push_back(new Chili());
+        else if (type=="G") chain.push_back(new Green());
+        else if (type=="B") chain.push_back(new Blue());
+        else if (type=="S") chain.push_back(new Stink());
+        else if (type=="g") chain.push_back(new Garden());
+        else if (type=="s") chain.push_back(new Soy());
+        else if (type=="b") chain.push_back(new Black());
+        type.clear();
+    }
 }
 
 /**

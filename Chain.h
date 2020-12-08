@@ -11,6 +11,7 @@
  *  - Chain(istream&, const CardFactory*)
  *  - int sell()
  *  - Chain<T>& operator+=(Card*)
+ *  - size_t getSize()
  *  - friend ostream& operator<< (ostream&, const Chain&)
  */
 
@@ -27,13 +28,11 @@ using namespace std;
 
 template <class T> 
 class Chain : public Chain_Base {
-    private:
-        const string name;
     protected:
         void print(ostream&) const override;
     public:
         // constructors
-        Chain() : name(typeid(T).name()) {};
+        Chain();
         Chain(istream&, const CardFactory*);
         // member functions
         int sell() override;
@@ -44,6 +43,29 @@ class Chain : public Chain_Base {
         // friend ostream& operator<< (ostream&, const Chain<T>&) {};
 };
 
+template <class T>
+Chain<T>::Chain() {
+    T card;
+    this->name = card.getName();
+    this->type = typeid(T).name();
+}
+
+template <class T>
+Chain<T>::Chain(istream& is, const CardFactory* factory) {
+    string type;
+    while(is >> type) {
+        if (type=="R") chain.push_back(new Red());
+        else if (type=="C") chain.push_back(new Chili());
+        else if (type=="G") chain.push_back(new Green());
+        else if (type=="B") chain.push_back(new Blue());
+        else if (type=="S") chain.push_back(new Stink());
+        else if (type=="g") chain.push_back(new Garden());
+        else if (type=="s") chain.push_back(new Soy());
+        else if (type=="b") chain.push_back(new Black());
+        type.clear();
+    }
+}
+
 /**
  * @brief Counts the number cards in the current chain and returns the number coins 
  *        according to the function {Card::getCardsPerCoin}. 
@@ -52,7 +74,13 @@ class Chain : public Chain_Base {
 template <class T>
 inline int Chain<T>::sell() {
     T card;
-    return card.getCardsPerCoin(this->chain.size());
+    for(int i=1; i<5; i++) {
+        if (chain.size() < card.getCardsPerCoin(i))
+            return i-1;
+        else if (chain.size()==card.getCardsPerCoin(i))
+            return i;
+    }
+    return 0;
 }
 
 /**
@@ -63,10 +91,7 @@ inline int Chain<T>::sell() {
  */
 template <class T>
 inline Chain<T>& Chain<T>::operator+= (Card* card){
-    if (name == typeid(*card).name()) {
-        this->chain.push_back(card);
-        return *this;
-    }
+    if (this->match(card)) return *this;
     else throw IllegalTypeException();
 }
 
@@ -76,6 +101,7 @@ inline Chain<T>& Chain<T>::operator+= (Card* card){
 */
 template <class T>
 void Chain<T>::print(ostream& os) const {
+    os << chain[0]->getName() << "  ";
     for(auto& card: this->chain) 
         os << *card << " ";
 }

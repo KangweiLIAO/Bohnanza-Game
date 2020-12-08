@@ -60,4 +60,14 @@ struct NotEnoughCoinsException : public exception {
     }
 };
 
+/**
+ * @brief Raise when there is not enough coins.
+ * @return Return an exception
+*/
+struct MaxChainReachedException : public exception {
+	const char * what() const throw () {
+    	return "Max Chain Reached Exception - The maximum number of chains is reached, no more new chains allowed.";
+    }
+};
+
 #endif

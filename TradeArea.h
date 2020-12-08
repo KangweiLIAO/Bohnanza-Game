@@ -3,6 +3,7 @@
  * Group 8:
  *      Kangwei Liao: 8568800
  *      Langqing Zou: 300035036
+ * 
  * @brief
  * This class holds the discard pile for a table. DiscardPile support insertion and removal 
  * but not at random locations but all at the end.
@@ -12,7 +13,10 @@
  *  - TradeArea& operator+=(Card*)
  *  - bool legal(Card*)
  *  - Card* trade(string)
+ *  - void trade(Player*)
  *  - int numCards()
+ *  - void discardAll(DiscardPile*)
+ *  - void ave(ostream&)
  *  - friend ostream& operator<< (ostream&, const DiscardPile&)
  */
 
@@ -23,19 +27,28 @@
 #include <list>
 // project headers:
 #include "CardFactory.h"
+#include "DiscardPile.h"
+#include "Player.h"
+
 
 using namespace std;
 
 class TradeArea{
-    public:
+    private:
         list<Card*> area;
+    public:
         // constructors
-        TradeArea() {};
+        TradeArea() {}
         TradeArea(istream&, const CardFactory*);
+
         // member functions
-        int numCards() {return area.size();}
-        bool legal(Card*);
+        int numCards();
+        void trade(Player*);
         Card* trade(string);
+        bool legal(const Card*);
+        void discardAll(DiscardPile*);
+        void save(ostream& os);
+        
         // operators
         TradeArea& operator+= (Card* c);
         friend ostream& operator<< (ostream&, const TradeArea&);
@@ -47,28 +60,105 @@ class TradeArea{
  * @param factory A const CardFactory
  */
 TradeArea::TradeArea(istream& is, const CardFactory* factory) {
-
+    string line;
+    while(getline(is,line)) {
+        auto delimiterPos = line.find("=");
+        string type;
+        string key = line.substr(0, delimiterPos);
+        string value = line.substr(delimiterPos + 1);
+        if(key=="trade"){
+            istringstream buff(line);
+            while(buff>>type) {
+                if (type=="R") area.push_back(new Red());
+                else if (type=="C") area.push_back(new Chili());
+                else if (type=="G") area.push_back(new Green());
+                else if (type=="B") area.push_back(new Blue());
+                else if (type=="S") area.push_back(new Stink());
+                else if (type=="g") area.push_back(new Garden());
+                else if (type=="s") area.push_back(new Soy());
+                else if (type=="b") area.push_back(new Black());
+                type.clear();
+            }
+        }
+        break;
+    } 
 }
+
+/**
+ * @brief Returns number of cards in trade area
+ * @return Number of cards
+ */
+inline int TradeArea::numCards() {return area.size();}
 
 /**
  * @brief Returns true if the card can be legally added to the TradeArea, 
  *        i.e. a card of the same bean is already in the TradeArea.
- * @param card A card that will be test
+ * @param c A card that will be tested
+ * @return Legality of the card
  */
-inline bool TradeArea::legal(Card* c) {
-    for(auto& card: area)
-        if(card->getName() == c->getName()) return true;
+inline bool TradeArea::legal(const Card* c) {
+    for(auto const& card: area)
+        if (card->getName()==c->getName()) return true;
     return false;
 }
 
 /**
- * @brief removes a card of the corresponding bean name from the trade area.
+ * @brief Discard all cards in trade area.
+ * @param pile Discard pile
+ */
+inline void TradeArea::discardAll(DiscardPile* pile) {
+    for (auto& card: area) *pile += card;
+    area.clear();
+}
+
+/**
+ * @brief Removes a card of the corresponding bean name from the trade area.
  * @param s A string which is the card name
  */
-inline Card* TradeArea::trade(string s) {
-    for(auto& card: area)
-        if(card->getName() == s) return card;
+Card* TradeArea::trade(string s) {
+    int index = 0;
+    for (Card* card: area) {
+        if (card->getName()==s) {
+            Card* c = card;
+            // remove the card in area:
+            list<Card*>::iterator iter = area.begin();
+            advance(iter,index);
+            area.erase(iter);
+            return card;
+        }
+        index++;
+    }
     return nullptr;
+}
+
+/**
+ * @brief Prompt player to make decision on each card in trade area.
+ * @param player A player
+ */
+void TradeArea::trade(Player* player) {
+    string* buff = new string();
+    int index = 0;
+    for (Card* card: area) {
+        bool erase = true;
+        string pName = *(player->getName());
+        readStringInput("("+pName+") Do you want to chain the card: "+card->getName()+" (y/n)? ", buff);
+        if (*buff=="y") {
+            if (!player->cardMatch(card)) {
+                readStringInput("("+pName+") Do you want to create a new chain to match this card? (y/n): ", buff);
+                if (*buff=="y") {
+                    if (player->createChain(card)==nullptr) erase = false;
+                    else cout << "(" << player->getName() << ") New " << card->getName() << " chain created." << endl;
+                } else erase = false;
+            } else cout << "(" << player->getName() << ") Card added to a chain." << endl;
+            if (erase) {
+                list<Card*>::iterator iter = area.begin();
+                advance(iter,index);
+                area.erase(iter);
+                index--;
+            }
+        }
+        index++;
+    }
 }
 
 /**
@@ -85,14 +175,25 @@ inline TradeArea& TradeArea::operator+= (Card* card) {
  * @param os An ostream
  * @param tradeArea A tradeArea needs to be printed
  */
-inline ostream& operator<< (ostream& os, const TradeArea& tradeArea) {
-    os << "Trade Area: ";
-    if (tradeArea.area.size() == 0) os << "Empty";
+ostream& operator<< (ostream& os, const TradeArea& tradeArea) {
+    if (tradeArea.area.size()==0) os << "Empty";
     else {
         for(auto& card: tradeArea.area) 
             os << *card << " ";
     }
     return os;
+}
+
+
+/**
+ * @brief Write the info of trade area to ostream.
+ * @param os An ostream
+ */
+void TradeArea::save(ostream& os){
+    os << "trade= ";
+    list<Card*>::iterator iter;
+    for(iter = area.begin(); iter!=area.end(); iter++) 
+        os << **iter << " ";
 }
 
 #endif

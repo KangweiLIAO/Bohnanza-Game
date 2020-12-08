@@ -21,8 +21,14 @@
         "problemMatcher": ["$gcc"],
         "group": {
           "kind": "build",
-          "isDefault": true
+          "isDefault": true,
         }
+      },
+      {
+        "label": "Open Terminal",
+        "type": "shell",
+        "command": "osascript -e 'tell application \"Terminal\"\ndo script \"echo hello\"\nend tell'",
+        "problemMatcher": []
       }
     ]
   }

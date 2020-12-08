@@ -1,5 +1,4 @@
-.vscode/*
-Main.dSYM/*
 .DS_Store
 Project.pdf
-
+Main
+Main.dSYM/

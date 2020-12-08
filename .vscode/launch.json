@@ -13,9 +13,9 @@
         "stopAtEntry": true,
         "cwd": "${workspaceFolder}",
         "environment": [],
-        "externalConsole": false,
+        "externalConsole": true,
         "MIMode": "lldb",
-        "preLaunchTask": "clang++ build active file"
+        "preLaunchTask": "clang++ build active file",
       }
     ]
   }

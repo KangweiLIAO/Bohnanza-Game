@@ -54,8 +54,8 @@ class Table{
  * @param factory A const CardFactory
 */
 Table::Table(istream& is, const CardFactory* factory) {
-    discardPile = new DiscardPile(is,factory);
     tradeArea = new TradeArea(is,factory);
+    discardPile = new DiscardPile(is,factory);
     player1 = new Player(is,factory);
     player2 = new Player(is,factory);
 }

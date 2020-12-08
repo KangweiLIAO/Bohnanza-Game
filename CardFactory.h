@@ -68,21 +68,19 @@ CardFactory::CardFactory() {
  */
 CardFactory::CardFactory(istream& is) {
     deck = Deck(is,this);
-    int i=0;
-    string line,s;
+    string line,type;
     getline(is,line);
     istringstream buff(line);
-    for(int k=0; k<104; k++){
-        buff >> s;
-        if (s == "R") deck.push_back(new Red());
-        else if (s == "C") deck.push_back(new Chili());
-        else if (s == "G") deck.push_back(new Green());
-        else if (s == "B") deck.push_back(new Blue());
-        else if (s == "S") deck.push_back(new Stink());
-        else if (s == "g") deck.push_back(new Garden());
-        else if (s == "s") deck.push_back(new Soy());
-        else if (s == "b") deck.push_back(new Black());
-        s.clear();
+    while (buff >> type){
+        if (type == "R") deck.push_back(new Red());
+        else if (type == "C") deck.push_back(new Chili());
+        else if (type == "G") deck.push_back(new Green());
+        else if (type == "B") deck.push_back(new Blue());
+        else if (type == "S") deck.push_back(new Stink());
+        else if (type == "g") deck.push_back(new Garden());
+        else if (type == "type") deck.push_back(new Soy());
+        else if (type == "b") deck.push_back(new Black());
+        type.clear();
     }
 }
 

@@ -15,8 +15,8 @@ using namespace std;
 
 int main() {
     filebuf file;
-    ifstream savedDeck("saves\\deck.cfg");
-    ifstream savedTable("saves\\table.cfg");
+    ifstream savedDeck("deck.txt");
+    ifstream savedTable("table.txt");
 
     static CardFactory* factory;
     static Deck deck;
@@ -31,14 +31,17 @@ int main() {
     string* p2Name = new string();
     string* buff = new string();    // buffer to store the input of player
     
-    while (deck.numCards() > 0) {
+    while (newGame || deck.numCards() > 0) {
         if (newGame) {
             if (savedDeck.good() && savedTable.good()) {
                 readStringInput("Saves found, do you want to reload the game? (y/n): ", buff);
                 if (*buff=="y") {
                     // Load and initialize table
                     factory = CardFactory::getFactory(savedDeck);
+                    deck = factory->getDeck();
                     table = new Table(savedTable,factory);
+                    savedDeck.close();
+                    savedTable.close();
                 }
             }
             if (*buff!="y") {

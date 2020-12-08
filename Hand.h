@@ -55,32 +55,17 @@ class Hand {
  * @param factory A const CardFactory
  */
 Hand::Hand(istream& is, const CardFactory* factory) {
-    Deck deck = factory->getFactory()->getDeck();
-    string line,s;
-    while(getline(is,line)) {
-        auto delimiterPos = line.find("=");
-        auto name = line.substr(0, delimiterPos);
-        auto value = line.substr(delimiterPos + 1);
-        istringstream buff(line);
-        int i=0;
-        while(buff>>s && s!="1chain") {
-            if (name.find("hand")) {
-                if (s=="R") hand.push(new Red());
-                else if(s=="C") hand.push(new Chili());
-                else if(s=="G") hand.push(new Green());
-                else if(s=="B") hand.push(new Blue());
-                else if(s=="S") hand.push(new Stink());
-                else if(s=="g") hand.push(new Garden());
-                else if(s=="s") hand.push(new Soy());
-                else if(s=="b") hand.push(new Black());
-                s.clear();
-            }
-        }
-        //put the word "1chain" back into buff
-        for(int i=0; i<6; i++){
-            buff.putback(s[i]);
-        } 
-
+    string type;
+    while(is >> type) {
+        if (type=="R") hand.push(new Red());
+        else if (type=="C") hand.push(new Chili());
+        else if (type=="G") hand.push(new Green());
+        else if (type=="B") hand.push(new Blue());
+        else if (type=="S") hand.push(new Stink());
+        else if (type=="g") hand.push(new Garden());
+        else if (type=="s") hand.push(new Soy());
+        else if (type=="b") hand.push(new Black());
+        type.clear();
     }
 }
 
@@ -172,7 +157,7 @@ ostream& operator<< (ostream& os, Hand& h) {
  * @return Ostream with hand inserted
  */
 ostream& Hand::save(ostream& os){
-    os << "hand=";
+    os << "hand= ";
     for (int i=0; i<hand.size(); i++) {
        os << *hand.front() << " ";
        hand.pop();

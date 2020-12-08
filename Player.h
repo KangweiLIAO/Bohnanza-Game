@@ -19,6 +19,7 @@
  * - void buyThirdChain()
  * - void printHand(ostream&, bool)
  * - friend ostream& operator<<(ostream&,const Player&)
+ * - ostream& save(ostream&)
  */
 
 #ifndef PLAYER_H
@@ -53,6 +54,7 @@ class Player {
         void addCardToHand(Card*);
         Chain_Base* createChain(Card*);
         void discardHand(DiscardPile*);
+        ostream& save(ostream& os);
         
         string getName();
         int getNumCoins();
@@ -353,4 +355,13 @@ ostream& operator<< (ostream& os, const Player& player) {
     return os;
 }
 
+/**
+ * @brief Write the info of player into ostream.
+ * @param os An ostream
+ * @return An ostream
+*/
+ostream& Player::save(ostream& os){
+    os <<"name= "<<name;
+    os <<"coins= "<<num_coins;
+}
 #endif

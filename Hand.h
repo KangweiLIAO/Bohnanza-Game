@@ -172,7 +172,7 @@ ostream& operator<< (ostream& os, Hand& h) {
  * @return Ostream with hand inserted
  */
 ostream& Hand::save(ostream& os){
-    os << "hand=";
+    os << "hand= ";
     for (int i=0; i<hand.size(); i++) {
        os << *hand.front() << " ";
        hand.pop();

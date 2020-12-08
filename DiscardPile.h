@@ -138,7 +138,7 @@ inline ostream& operator<< (ostream& os, const DiscardPile& pile) {
 }
 
 ostream& DiscardPile::save(ostream& os){
-    os << "discard=";
+    os << "discard= ";
     for(int i=0; i<pile.size(); i++)
         os << *pile[i] << " ";
     return os;

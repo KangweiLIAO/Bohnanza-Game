@@ -183,7 +183,7 @@ ostream& operator<< (ostream& os, const TradeArea& tradeArea) {
 }
 
 ostream& TradeArea::save(ostream& os){
-    os << "trade=";
+    os << "trade= ";
     list<Card*>::iterator iter;
     for(iter = area.begin(); iter!=area.end(); iter++) 
         os << **iter << " ";

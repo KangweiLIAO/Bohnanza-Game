@@ -44,6 +44,7 @@ class Table{
         Player* getPlayer(int);
         TradeArea* getTradeArea();
         DiscardPile* getDiscardPile();
+        ostream& save(ostream&);
         
         friend ostream& operator<< (ostream&,const Table&);
 };
@@ -113,5 +114,11 @@ ostream& operator<<(ostream& os, const Table& table) {
     os << "---------- Player2 ----------\n" << *table.player2 << endl;
     return os;
 }
+
+// ostream& Table::save(ostream& os){
+//     tradeArea->save(os);
+//     discardPile->save(os);
+//     player->save(os);
+// }
 
 #endif

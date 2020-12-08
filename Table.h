@@ -115,10 +115,21 @@ ostream& operator<<(ostream& os, const Table& table) {
     return os;
 }
 
-// ostream& Table::save(ostream& os){
-//     tradeArea->save(os);
-//     discardPile->save(os);
-//     player->save(os);
-// }
+/**
+ * @brief Write the table info into ostream
+ * @param os An ostream
+ * @param player A ostream
+*/
+ostream& Table::save(ostream& os){
+    ostream& os2 = tradeArea->save(os);
+    os2 <<"\n";
+    ostream & os3 = discardPile->save(os2);
+    os3 <<"\n";
+    ostream & os4 = player1->save(os4);
+    os4 <<"\n";
+    return os4;
+}
+
+
 
 #endif

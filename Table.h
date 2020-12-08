@@ -121,15 +121,13 @@ ostream& operator<<(ostream& os, const Table& table) {
  * @param player A ostream
 */
 ostream& Table::save(ostream& os){
-    ostream& os2 = tradeArea->save(os);
-    os2 <<"\n";
-    ostream & os3 = discardPile->save(os2);
-    os3 <<"\n";
-    ostream & os4 = player1->save(os4);
-    os4 <<"\n";
-    return os4;
+    tradeArea->save(os);
+    os << endl;
+    discardPile->save(os);
+    os << endl;
+    player1->save(os);
+    os << endl;
+    return os;
 }
-
-
 
 #endif

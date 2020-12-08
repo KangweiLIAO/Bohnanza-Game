@@ -38,6 +38,7 @@ class CardFactory{
         static CardFactory* getFactory();
         static CardFactory* getFactory(istream&);
         Deck getDeck() {return deck;}
+        void save(ostream&);
 };
 
 // Static variable initializations:
@@ -103,6 +104,11 @@ inline CardFactory* CardFactory::getFactory() {
 inline CardFactory* CardFactory::getFactory(istream& is) {
     if (factory==nullptr) factory = new CardFactory(is);
     return factory;
+}
+
+void CardFactory::save(ostream& os) {
+    for (Card* card: deck) os << *card;
+    return os;
 }
 
 #endif

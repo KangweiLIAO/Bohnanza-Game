@@ -34,7 +34,8 @@ int main() {
     while (newGame || deck.numCards() > 0) {
         if (newGame) {
             if (savedDeck.good() && savedTable.good()) {
-                readStringInput("Saves found, do you want to reload the game? (y/n): ", buff);
+                cout << "***** Saves found *****" << endl;
+                readStringInput("Do you want to reload the game? (y/n): ", buff);
                 if (*buff=="y") {
                     // Load and initialize table
                     factory = CardFactory::getFactory(savedDeck);
@@ -60,6 +61,7 @@ int main() {
         }
         if (pause) {
             // Pause and save the game
+            
             return 1;
         }
         // Turns start

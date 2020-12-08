@@ -21,6 +21,7 @@ class Chain_Base {
     public:
         const char getName();
         bool match(Card* c);
+        ostream& save(ostream&);
         virtual int sell() = 0;
         virtual Chain_Base& operator+= (Card*) = 0;
         friend ostream& operator<< (ostream&, const Chain_Base&);
@@ -37,15 +38,19 @@ inline const char Chain_Base::getName() {return name.at(0);}
  * @return true if matched, false otherwise.
  */
 inline bool Chain_Base::match(Card* card) {
-  if (type==typeid(*card).name()) {
-    chain.push_back(card);
-    return true;
-  } else return false;
+    if (type==typeid(*card).name()) {
+      chain.push_back(card);
+      return true;
+    } else return false;
+}
+
+ostream& Chain_Base::save(ostream& os) {
+    os << *chain[0] << " " << chain.size();
 }
 
 ostream& operator<< (ostream& os, const Chain_Base& chain) {
-  chain.print(os);
-  return os;
+    chain.print(os);
+    return os;
 }
 
 #endif

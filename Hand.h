@@ -151,9 +151,8 @@ ostream& operator<< (ostream& os, Hand& h) {
 }
 
 /**
- * @brief Insert hand into ostream
+ * @brief insert hand saving pattern to an ostream.
  * @param os An ostream
- * @param h A hand needs to be printed
  * @return Ostream with hand inserted
  */
 ostream& Hand::save(ostream& os){

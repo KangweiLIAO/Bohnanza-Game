@@ -1,0 +1,11 @@
+trade=b b s
+discard=C S B b C
+name=Skye
+coin=2
+hand=s G C C s
+chain1=B 1
+name=Clancy
+coin=1
+hand=G g b
+chain1=B 3
+chain2=R 1

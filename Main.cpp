@@ -64,9 +64,11 @@ int main() {
             // Pause and save the game
             ofstream saveTable,saveDeck;
             saveTable.open("table.txt");
-            saveTable.open("deck.txt");
+            saveDeck.open("deck.txt");
             factory->save(saveDeck);
             table->save(saveTable);
+            saveTable.close();
+            saveDeck.close();
             cout << "\n\n!!! File saved completed !!!\n" << endl;
             return 1;
         }

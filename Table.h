@@ -11,6 +11,7 @@
  * - Table(istream&, const CardFactory*)
  * - bool win(string&)
  * - void printHand(bool)
+ * - void save(ostream&)
  * - friend ostream& operator<<(ostream&,const Table&)
  */
 

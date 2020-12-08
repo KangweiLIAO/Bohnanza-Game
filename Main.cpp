@@ -15,6 +15,7 @@ using namespace std;
 
 int main() {
     filebuf file;
+    ostream os(&file);
     ifstream savedDeck("deck.txt");
     ifstream savedTable("table.txt");
 
@@ -60,6 +61,8 @@ int main() {
         }
         if (pause) {
             // Pause and save the game
+            ostream& saveFile = table->save(os);
+            saveFile.open("table.txt");
             return 1;
         }
         // Turns start

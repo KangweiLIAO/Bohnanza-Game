@@ -54,7 +54,7 @@ class Player {
         void addCardToHand(Card*);
         Chain_Base* createChain(Card*, string type="");
         void discardHand(DiscardPile*);
-        ostream& save(ostream& os);
+        void save(ostream& os);
         
         string getName();
         int getNumCoins();
@@ -380,8 +380,16 @@ ostream& operator<< (ostream& os, const Player& player) {
  * @param os An ostream
  * @return An ostream
 */
-ostream& Player::save(ostream& os){
-    os <<"name= "<<name;
-    os <<"coins= "<<num_coins;
+void Player::save(ostream& os){
+    int index = 1;
+    os << "name=" << name << endl;
+    os << "coins=" << num_coins << endl;
+    hand->save(os);
+    os << endl << "max=" << max_chain << endl;
+    for(auto& chain: chains) {
+        os << "chain" << index++ << "=";
+        (*chain).save(os);
+        os << endl;
+    }
 }
 #endif

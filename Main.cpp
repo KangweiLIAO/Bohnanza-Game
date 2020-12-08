@@ -26,16 +26,20 @@ int main() {
     TradeArea* tradeArea = nullptr;
     DiscardPile* discardPile = nullptr;
 
-    bool pause = false;
+    bool save = false;
     bool newGame = true;
     string* p1Name = new string();
     string* p2Name = new string();
     string* buff = new string();    // buffer to store the input of player
-    
+    cout << "**********************************" << endl;
+    cout << "*       Welcome to the game      *" << endl;
+    cout << "*             Made by            *" << endl;
+    cout << "*   Kangwei Liao & Langqing Zou  *" << endl;
+    cout << "**********************************\n" << endl;
     while (newGame || deck.numCards() > 0) {
         if (newGame) {
             if (savedDeck.good() && savedTable.good()) {
-                cout << "***** Saves found *****" << endl;
+                cout << "\n***** Saves detected *****" << endl;
                 readStringInput("Do you want to reload the game? (y/n): ", buff);
                 if (*buff=="y") {
                     // Load and initialize table
@@ -44,6 +48,8 @@ int main() {
                     table = new Table(savedTable,factory);
                     savedDeck.close();
                     savedTable.close();
+                    p1Name = table->getPlayer(1)->getName();
+                    p2Name = table->getPlayer(2)->getName();
                 }
             }
             if (*buff!="y") {
@@ -60,7 +66,7 @@ int main() {
             discardPile = table->getDiscardPile();
             newGame = false;
         }
-        if (pause) {
+        if (save) {
             // Pause and save the game
             ofstream saveTable,saveDeck;
             saveTable.open("table.txt");
@@ -69,21 +75,22 @@ int main() {
             table->save(saveTable);
             saveTable.close();
             saveDeck.close();
-            cout << "\n\n!!! File saved completed !!!\n" << endl;
+            cout << "\n\n!!! Game saved !!!\n" << endl;
             return 1;
         }
         // Turns start
         for (int i=1; i<=2; i++) {
             Player* player = table->getPlayer(i);   // get current player
+            string pName = *(player->getName());
             Card* cDraw = deck.draw();
             player->addCardToHand(cDraw);     // draw card to hand
-            cout << "\n\n!!!!! " << player->getName() << "'s turn START !!!!!\n" << endl;
-            cout << "("+player->getName()+") Draws a card from deck: "<< *cDraw << endl;
+            cout << "\n!!!!! " << pName << "'s turn START !!!!!\n" << endl;
+            cout << "("+pName+") Draws a card from deck: "<< *cDraw << endl;
             cout << *table;
             // step 1:
             if (tradeArea->numCards() != 0) {
                 // Add bean card from area?
-                readStringInput("("+player->getName()+") Do you want to get a card from the trade area? (y/n): ", buff);
+                readStringInput("("+pName+") Do you want to get a card from the trade area? (y/n): ", buff);
                 if (*buff=="y") {
                     // Add cards from trade area
                     string* card_name = new string();
@@ -91,22 +98,22 @@ int main() {
                     while (*card_name != "q" && tradeArea->numCards() != 0) {
                         // while player want to get a card from trade area
                         Card* cBuff = nullptr;
-                        cout << "("+player->getName()+") Which card do you want to trade with?" << endl;
-                        readStringInput("("+player->getName()+") Please enter the name of it (e.g. Red/black) or enter 'q' to quit: ", card_name);
+                        cout << "("+pName+") Which card do you want to trade with?" << endl;
+                        readStringInput("("+pName+") Please enter the name of it (e.g. Red/black) or enter 'q' to quit: ", card_name);
                         if (*card_name != "q") {
                             // if player entered a card name
                             cBuff = tradeArea->trade(*card_name);
-                            if (!cBuff) cout << "("+player->getName()+") The card name you entered is not valid." << endl;
+                            if (!cBuff) cout << "("+pName+") The card name you entered is not valid." << endl;
                             else selectedCards.push_back(cBuff);
                         }
                     }
                     for(auto& card: selectedCards) {
                         // loop selected cards vector and add them to player's chains
                         if (player->cardMatch(card)) 
-                            cout << "(" << player->getName() << ") " << *card << " added to your chain." << endl;
+                            cout << "(" << pName << ") " << *card << " added to your chain." << endl;
                         else {
-                            cout << "(" << player->getName() << ") " << *card << " did not matched one of your chain." << endl;
-                            readStringInput("("+player->getName()+") Do you want to create a new chain for it? (y/n): ", buff);
+                            cout << "(" << pName << ") " << *card << " did not matched one of your chain." << endl;
+                            readStringInput("("+pName+") Do you want to create a new chain for it? (y/n): ", buff);
                             if (*buff=="y") {
                                 if (player->createChain(card)==nullptr) 
                                     *discardPile += card;   // discard the mismatched card if can't create new chain
@@ -122,15 +129,15 @@ int main() {
             
             // step 3:
             if (player->getHandSize() != 0) {
-                cout << "\n(" << player->getName() << ") Hand: ";
+                cout << "\n(" << pName << ") Hand: ";
                 player->printHand(cout,true);
-                readStringInput("\n("+player->getName()+") Do you want to play one more card? (y/n): ", buff);
+                readStringInput("\n("+pName+") Do you want to play one more card? (y/n): ", buff);
                 if (*buff=="y") player->play();
                 // step 4:
-                readStringInput("("+player->getName()+") Discard 1 card from hand? (y/n): ", buff);
+                readStringInput("("+pName+") Discard 1 card from hand? (y/n): ", buff);
                 if (*buff=="y") player->discardHand(discardPile);
             } else
-                cout << "\n("+player->getName()+") Hand is empty, skip playing/discarding one more card." << endl;
+                cout << "\n("+pName+") Hand is empty, skip playing/discarding one more card." << endl;
 
             // step 5:
             cout << "\n!!! 3 Cards added to trade area !!!" << endl;
@@ -146,15 +153,15 @@ int main() {
             for(int i=0; i<2; i++) {
                 Card* cDraw = deck.draw();
                 player->addCardToHand(cDraw);     // draw card to hand
-                cout << "("+player->getName()+") Draws a card from deck: "<< *cDraw << endl;
+                cout << "("+pName+") Draws a card from deck: "<< *cDraw << endl;
             }
         }
-        readStringInput("\nSave the game? (y/n): ", buff);
-        if (*buff=="y") pause = true;
+        readStringInput("\n***** Save game? *****\n(y/n): ", buff);
+        if (*buff=="y") save = true;
     }
-    cout << "\n\n!!!!!!!!!! The deck is empty !!!!!!!!!!\n" << endl;
-    if (table->win(*p1Name)) 
-        cout << "The winner is " << p1Name << "!!!" << endl;
-    else cout << "The winner is " << p2Name << "!!!" << endl;
+    cout << "\n\n!!!!!!!!!! The deck is empty, game over !!!!!!!!!!\n" << endl;
+    cout << "The winner is ";
+    if (table->win(*p1Name)) cout << p1Name << " !!!" << endl;
+    else cout << p2Name << " !!!" << endl;
     return 0;
 };

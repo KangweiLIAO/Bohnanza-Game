@@ -140,10 +140,11 @@ void TradeArea::trade(Player* player) {
     int index = 0;
     for (Card* card: area) {
         bool erase = true;
-        readStringInput("("+player->getName()+") Do you want to chain the card: "+card->getName()+" (y/n)? ", buff);
+        string pName = *(player->getName());
+        readStringInput("("+pName+") Do you want to chain the card: "+card->getName()+" (y/n)? ", buff);
         if (*buff=="y") {
             if (!player->cardMatch(card)) {
-                readStringInput("("+player->getName()+") Do you want to create a new chain to match this card? (y/n): ", buff);
+                readStringInput("("+pName+") Do you want to create a new chain to match this card? (y/n): ", buff);
                 if (*buff=="y") {
                     if (player->createChain(card)==nullptr) erase = false;
                     else cout << "(" << player->getName() << ") New " << card->getName() << " chain created." << endl;

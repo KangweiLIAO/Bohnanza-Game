@@ -56,7 +56,7 @@ class Player {
         void discardHand(DiscardPile*);
         void save(ostream& os);
         
-        string getName();
+        string* getName();
         int getNumCoins();
         int getHandSize();
         int getNumChains();
@@ -137,7 +137,7 @@ Player::Player(istream& is, const CardFactory* factory) {
  * @brief Get the name of the player
  * @return the name of player
 */
-inline string Player::getName() {return name;}
+inline string* Player::getName() {return &name;}
 
 /**
  * @brief Get the number of coins currently held by the player.

@@ -287,6 +287,7 @@ void Player::play() {
 /**
  * @brief Create new chain which type is base on a card and add the card to it.
  * @param card A card that indicating the type of new chain
+ * @param t The type of new chain
  * @return Returns nullptr if cannot create more chains, else return new chain pointer
 */
 Chain_Base* Player::createChain(Card* card, string t) {

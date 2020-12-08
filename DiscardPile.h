@@ -57,27 +57,24 @@ DiscardPile::DiscardPile(istream& is, const CardFactory* factory) {
     string line;
     while(getline(is,line)) {
         auto delimiterPos = line.find("=");
-        auto name = line.substr(0, delimiterPos);
-        auto value = line.substr(delimiterPos + 1);
-        istringstream buff(line);
-        int i=0;
-        string s;
-        while(buff>>s && s!="1name") {
-            if(name=="discard"){
-                if (value=="R") pile.push_back(new Red());
-                else if (value=="C") pile.push_back(new Chili());
-                else if (value=="G") pile.push_back(new Green());
-                else if (value=="B") pile.push_back(new Blue());
-                else if (value=="S") pile.push_back(new Stink());
-                else if (value=="g") pile.push_back(new Garden());
-                else if (value=="s") pile.push_back(new Soy());
-                else if (value=="b") pile.push_back(new Black());
+        string type;
+        string key = line.substr(0, delimiterPos);
+        string value = line.substr(delimiterPos + 1);
+        if(key=="discard"){
+            istringstream buff(line);
+            while(buff>>type) {
+                if (type=="R") pile.push_back(new Red());
+                else if (type=="C") pile.push_back(new Chili());
+                else if (type=="G") pile.push_back(new Green());
+                else if (type=="B") pile.push_back(new Blue());
+                else if (type=="S") pile.push_back(new Stink());
+                else if (type=="g") pile.push_back(new Garden());
+                else if (type=="s") pile.push_back(new Soy());
+                else if (type=="b") pile.push_back(new Black());
+                type.clear();
             }
         }
-        //put the word "1name" back into buff
-        for(int i=0; i<5; i++){
-            buff.putback(s[i]);
-        }       
+        break;
     } 
 }
 

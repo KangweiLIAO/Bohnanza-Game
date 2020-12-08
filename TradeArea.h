@@ -62,28 +62,25 @@ TradeArea::TradeArea(istream& is, const CardFactory* factory) {
     string line;
     while(getline(is,line)) {
         auto delimiterPos = line.find("=");
-        auto name = line.substr(0, delimiterPos);
-        auto value = line.substr(delimiterPos + 1);
-        istringstream buff(line);
-        int i=0;
-        string s;
-        while(buff>>s && s!="discard") {
-            if (name=="trade"){
-                if(s=="R") area.push_back(new Red());
-                else if(s=="C") area.push_back(new Chili());
-                else if(s=="G") area.push_back(new Green());
-                else if(s=="B") area.push_back(new Blue());
-                else if(s=="S") area.push_back(new Stink());
-                else if(s=="g") area.push_back(new Garden());
-                else if(s=="s") area.push_back(new Soy());
-                else if(s=="b") area.push_back(new Blue());
-            } 
+        string type;
+        string key = line.substr(0, delimiterPos);
+        string value = line.substr(delimiterPos + 1);
+        if(key=="trade"){
+            istringstream buff(line);
+            while(buff>>type) {
+                if (type=="R") area.push_back(new Red());
+                else if (type=="C") area.push_back(new Chili());
+                else if (type=="G") area.push_back(new Green());
+                else if (type=="B") area.push_back(new Blue());
+                else if (type=="S") area.push_back(new Stink());
+                else if (type=="g") area.push_back(new Garden());
+                else if (type=="s") area.push_back(new Soy());
+                else if (type=="b") area.push_back(new Black());
+                type.clear();
+            }
         }
-        //put the word "discard" back into buff
-        for(int i=0; i<7; i++){
-            buff.putback(s[i]);
-        } 
-    }
+        break;
+    } 
 }
 
 /**

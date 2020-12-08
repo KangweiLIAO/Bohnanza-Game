@@ -108,7 +108,6 @@ inline CardFactory* CardFactory::getFactory(istream& is) {
 
 void CardFactory::save(ostream& os) {
     for (Card* card: deck) os << *card;
-    return os;
 }
 
 #endif

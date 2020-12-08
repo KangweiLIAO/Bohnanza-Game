@@ -45,6 +45,7 @@ class DiscardPile {
         // operators:
         DiscardPile& operator+=(Card*);
         friend ostream& operator<< (ostream&, const DiscardPile&);
+        ostream& save(ostream& os);
 };
 
 /**
@@ -53,21 +54,31 @@ class DiscardPile {
  * @param factory A const CardFactory
  */
 DiscardPile::DiscardPile(istream& is, const CardFactory* factory) {
-    Deck deck = factory->getFactory()->getDeck();
-    string line,s;
-    getline(is,line);
-    istringstream buff(line);
-    int i=0,k=1;
-    while(buff>>s){
-        if (s=="R") pile.push_back(new Red());
-        else if (s=="C") pile.push_back(new Chili());
-        else if (s=="G") pile.push_back(new Green());
-        else if (s=="B") pile.push_back(new Blue());
-        else if (s=="S") pile.push_back(new Stink());
-        else if (s=="g") pile.push_back(new Garden());
-        else if (s=="s") pile.push_back(new Soy());
-        else if (s=="b") pile.push_back(new Black());
-    }   
+    string line;
+    while(getline(is,line)) {
+        auto delimiterPos = line.find("=");
+        auto name = line.substr(0, delimiterPos);
+        auto value = line.substr(delimiterPos + 1);
+        istringstream buff(line);
+        int i=0;
+        string s;
+        while(buff>>s && s!="1name") {
+            if(name=="discard"){
+                if (value=="R") pile.push_back(new Red());
+                else if (value=="C") pile.push_back(new Chili());
+                else if (value=="G") pile.push_back(new Green());
+                else if (value=="B") pile.push_back(new Blue());
+                else if (value=="S") pile.push_back(new Stink());
+                else if (value=="g") pile.push_back(new Garden());
+                else if (value=="s") pile.push_back(new Soy());
+                else if (value=="b") pile.push_back(new Black());
+            }
+        }
+        //put the word "1name" back into buff
+        for(int i=0; i<5; i++){
+            buff.putback(s[i]);
+        }       
+    } 
 }
 
 /**
@@ -126,6 +137,22 @@ inline DiscardPile& DiscardPile::operator+= (Card* card) {
 inline ostream& operator<< (ostream& os, const DiscardPile& pile) {
     try {os << *(pile.top());}
     catch (DeckEmptyException e) {os << "Empty";}
+    return os;
+}
+
+
+ostream& DiscardPile::save(ostream& os){
+    os << "\ndiscard=";
+    for(int i=0; i<pile.size(); i++){
+        if(pile[i]->getName()=="Red") os<<"R\n";
+        else if(pile[i]->getName()=="Chili") os<<"C\t";
+        else if(pile[i]->getName()=="Green") os<<"G\t";
+        else if(pile[i]->getName()=="Blue") os<<"B\t";
+        else if(pile[i]->getName()=="Stink") os<<"S\t";
+        else if(pile[i]->getName()=="Garden") os<<"g\t";
+        else if(pile[i]->getName()=="Soy") os<<"s\t";
+        else if(pile[i]->getName()=="Black") os<<"b\t";
+    }
     return os;
 }
 

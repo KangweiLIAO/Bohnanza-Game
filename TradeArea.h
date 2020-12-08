@@ -29,6 +29,7 @@
 #include "DiscardPile.h"
 #include "Player.h"
 
+
 using namespace std;
 
 class TradeArea{
@@ -45,6 +46,7 @@ class TradeArea{
         Card* trade(string);
         bool legal(const Card*);
         void discardAll(DiscardPile*);
+        ostream& save(ostream& os);
         
         // operators
         TradeArea& operator+= (Card* c);
@@ -57,35 +59,31 @@ class TradeArea{
  * @param factory A const CardFactory
  */
 TradeArea::TradeArea(istream& is, const CardFactory* factory) {
-    Deck deck = factory->getFactory()->getDeck();
-    string array[104];
-    string line,s;
-    getline(is,line);
-    istringstream buff(line);
-    int i=0;
-    while(buff>>s) {
-        array[i++]=s;
-    }
-    for(int k=0;k<104;k++) {
-        if (array[k]=="R") {
-            area.push_back(new Red());
-        }else if (array[k]=="C") {
-            area.push_back(new Chili());
-        }else if (array[k]=="G") {
-            area.push_back(new Green());
-        }else if (array[k]=="B") {
-            area.push_back(new Blue());
-        }else if (array[k]=="S") {
-            area.push_back(new Stink());
-        }else if (array[k]=="g") {
-            area.push_back(new Garden());
-        }else if (array[k]=="s") {
-            area.push_back(new Soy());
-        }else if (array[k]=="b") {
-            area.push_back(new Black());
+    string line;
+    while(getline(is,line)) {
+        auto delimiterPos = line.find("=");
+        auto name = line.substr(0, delimiterPos);
+        auto value = line.substr(delimiterPos + 1);
+        istringstream buff(line);
+        int i=0;
+        string s;
+        while(buff>>s && s!="discard") {
+            if (name=="trade"){
+                if(s=="R") area.push_back(new Red());
+                else if(s=="C") area.push_back(new Chili());
+                else if(s=="G") area.push_back(new Green());
+                else if(s=="B") area.push_back(new Blue());
+                else if(s=="S") area.push_back(new Stink());
+                else if(s=="g") area.push_back(new Garden());
+                else if(s=="s") area.push_back(new Soy());
+                else if(s=="b") area.push_back(new Blue());
+            } 
         }
+        //put the word "discard" back into buff
+        for(int i=0; i<7; i++){
+            buff.putback(s[i]);
+        } 
     }
-
 }
 
 /**
@@ -183,6 +181,22 @@ ostream& operator<< (ostream& os, const TradeArea& tradeArea) {
     else {
         for(auto& card: tradeArea.area) 
             os << *card << " ";
+    }
+    return os;
+}
+
+ostream& TradeArea::save(ostream& os){
+    os << "\ntrade=";
+    list<Card*>::iterator iter;
+    for(iter = area.begin(); iter!=area.end(); iter++){
+        if((**iter).getName() == "Red") os<<"R\n";
+        else if((**iter).getName()=="Chili") os<<"C\t";
+        else if((**iter).getName()=="Green") os<<"G\t";
+        else if((**iter).getName()=="Blue") os<<"B\t";
+        else if((**iter).getName()=="Stink") os<<"S\t";
+        else if((**iter).getName()=="Garden") os<<"g\t";
+        else if((**iter).getName()=="Soy") os<<"s\t";
+        else if((**iter).getName()=="Black") os<<"b\t";
     }
     return os;
 }

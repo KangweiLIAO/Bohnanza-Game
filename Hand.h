@@ -46,6 +46,7 @@ class Hand {
         ///adds the card to the rear of the hand.
         Hand& operator+= (Card*);
         friend ostream& operator<< (ostream&, const Hand&);
+        ostream& save(ostream& os);
 };
 
 /**
@@ -60,11 +61,10 @@ Hand::Hand(istream& is, const CardFactory* factory) {
         auto delimiterPos = line.find("=");
         auto name = line.substr(0, delimiterPos);
         auto value = line.substr(delimiterPos + 1);
-
-        if (name=="hand") {
-            string s;
-            stringstream input(value);
-            while(input >> s) {
+        istringstream buff(line);
+        int i=0;
+        while(buff>>s && s!="1chain") {
+            if (name.find("hand")) {
                 if (s=="R") hand.push(new Red());
                 else if(s=="C") hand.push(new Chili());
                 else if(s=="G") hand.push(new Green());
@@ -76,6 +76,11 @@ Hand::Hand(istream& is, const CardFactory* factory) {
                 s.clear();
             }
         }
+        //put the word "1chain" back into buff
+        for(int i=0; i<6; i++){
+            buff.putback(s[i]);
+        } 
+
     }
 }
 
@@ -158,6 +163,28 @@ ostream& operator<< (ostream& os, Hand& h) {
     }
     for (size_t i=0; i<h.size(); i++) os << i+1 << ":" << *(h.at(i)) << "\t";
     return os;
+}
+
+/**
+ * @brief Insert hand into ostream
+ * @param os An ostream
+ * @param h A hand needs to be printed
+ * @return Ostream with hand inserted
+ */
+ostream& Hand::save(ostream& os){
+    os << "\nhand=";
+    for(int i=0; i<hand.size(); i++){
+       if(hand.front()->getName()=="Red") {hand.pop();os<<"R\n";} 
+       else if(hand.front()->getName()=="Chili") {hand.pop();os<<"C\n";}
+       else if(hand.front()->getName()=="Green") {hand.pop();os<<"G\n";} 
+       else if(hand.front()->getName()=="Blue") {hand.pop();os<<"B\n";}
+       else if(hand.front()->getName()=="Stink") {hand.pop();os<<"S\n";} 
+       else if(hand.front()->getName()=="Garden") {hand.pop();os<<"g\n";} 
+       else if(hand.front()->getName()=="Soy") {hand.pop();os<<"s\n";} 
+       else if(hand.front()->getName()=="Black") {hand.pop();os<<"b\n";} 
+    }
+    return os;
+    
 }
 
 #endif

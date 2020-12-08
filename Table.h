@@ -125,6 +125,7 @@ void Table::save(ostream& os){
     discardPile->save(os);
     os << endl;
     player1->save(os);
+    player2->save(os);
     os << endl;
 }
 

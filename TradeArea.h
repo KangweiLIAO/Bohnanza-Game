@@ -186,18 +186,10 @@ ostream& operator<< (ostream& os, const TradeArea& tradeArea) {
 }
 
 ostream& TradeArea::save(ostream& os){
-    os << "\ntrade=";
+    os << "trade=";
     list<Card*>::iterator iter;
-    for(iter = area.begin(); iter!=area.end(); iter++){
-        if((**iter).getName() == "Red") os<<"R\n";
-        else if((**iter).getName()=="Chili") os<<"C\t";
-        else if((**iter).getName()=="Green") os<<"G\t";
-        else if((**iter).getName()=="Blue") os<<"B\t";
-        else if((**iter).getName()=="Stink") os<<"S\t";
-        else if((**iter).getName()=="Garden") os<<"g\t";
-        else if((**iter).getName()=="Soy") os<<"s\t";
-        else if((**iter).getName()=="Black") os<<"b\t";
-    }
+    for(iter = area.begin(); iter!=area.end(); iter++) 
+        os << **iter << " ";
     return os;
 }
 

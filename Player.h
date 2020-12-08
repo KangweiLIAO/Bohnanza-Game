@@ -92,24 +92,16 @@ Player::Player(istream& is, const CardFactory* factory) {
         else if (key=="coin") num_coins=stoi(value);
         else if (key=="chain1" || key=="chain2" || key=="chain3") {
             if (value=="R") chains.push_back(new Chain<Red>());
-            else if(value=="C") chains.push_back(new Chain<Chili>());
+            else if(value=="C") {
+                chains.push_back(new Chain<Chili>());
+                *chains.back() += new Chili();
+            }
             else if(value=="G") chains.push_back(new Chain<Green>());
             else if(value=="B") chains.push_back(new Chain<Blue>());
             else if(value=="S") chains.push_back(new Chain<Stink>());
             else if(value=="g") chains.push_back(new Chain<Garden>());
             else if(value=="s") chains.push_back(new Chain<Soy>());
             else chains.push_back(new Chain<Black>());
-
-            int count = (int)(value.at(2))-48;
-            for (size_t i=0; i<deck.size();i++) {
-                if (count != 0 && deck[i]->getName().at(0) == value.at(0)) {
-                    // add card to recovered chain
-                    cout << "Add " << deck[i];
-                    *(chains.back()) += deck[i];
-                    count--;
-                }
-                if (count==0) break;
-            }
         } else if (key=="hand") hand = new Hand(is, factory);
         if (is.peek() == '2') break;    // player1's data read completed
     }

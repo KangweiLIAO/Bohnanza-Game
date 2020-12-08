@@ -172,19 +172,12 @@ ostream& operator<< (ostream& os, Hand& h) {
  * @return Ostream with hand inserted
  */
 ostream& Hand::save(ostream& os){
-    os << "\nhand=";
-    for(int i=0; i<hand.size(); i++){
-       if(hand.front()->getName()=="Red") {hand.pop();os<<"R\n";} 
-       else if(hand.front()->getName()=="Chili") {hand.pop();os<<"C\n";}
-       else if(hand.front()->getName()=="Green") {hand.pop();os<<"G\n";} 
-       else if(hand.front()->getName()=="Blue") {hand.pop();os<<"B\n";}
-       else if(hand.front()->getName()=="Stink") {hand.pop();os<<"S\n";} 
-       else if(hand.front()->getName()=="Garden") {hand.pop();os<<"g\n";} 
-       else if(hand.front()->getName()=="Soy") {hand.pop();os<<"s\n";} 
-       else if(hand.front()->getName()=="Black") {hand.pop();os<<"b\n";} 
+    os << "hand=";
+    for (int i=0; i<hand.size(); i++) {
+       os << *hand.front() << " ";
+       hand.pop();
     }
     return os;
-    
 }
 
 #endif

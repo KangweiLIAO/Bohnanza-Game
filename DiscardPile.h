@@ -140,19 +140,10 @@ inline ostream& operator<< (ostream& os, const DiscardPile& pile) {
     return os;
 }
 
-
 ostream& DiscardPile::save(ostream& os){
-    os << "\ndiscard=";
-    for(int i=0; i<pile.size(); i++){
-        if(pile[i]->getName()=="Red") os<<"R\n";
-        else if(pile[i]->getName()=="Chili") os<<"C\t";
-        else if(pile[i]->getName()=="Green") os<<"G\t";
-        else if(pile[i]->getName()=="Blue") os<<"B\t";
-        else if(pile[i]->getName()=="Stink") os<<"S\t";
-        else if(pile[i]->getName()=="Garden") os<<"g\t";
-        else if(pile[i]->getName()=="Soy") os<<"s\t";
-        else if(pile[i]->getName()=="Black") os<<"b\t";
-    }
+    os << "discard=";
+    for(int i=0; i<pile.size(); i++)
+        os << *pile[i] << " ";
     return os;
 }
 

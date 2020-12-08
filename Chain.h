@@ -32,8 +32,8 @@ class Chain : public Chain_Base {
         void print(ostream&) const override;
     public:
         // constructors
-        Chain() {T card; this->name = card.getName(); this->type = typeid(T).name();}
-        Chain(istream&, const CardFactory*);
+        Chain();
+        Chain(istream&, const CardFactory*) {};
         // member functions
         int sell() override;
         size_t getSize() {return this->chain.size();}
@@ -44,64 +44,10 @@ class Chain : public Chain_Base {
 };
 
 template <class T>
-Chain<T>::Chain(istream& is, const CardFactory* factory) {
-    Deck deck = factory->getFactory()->getDeck();
-    string line,s;
-    while(getline(is,line)){
-        auto delimiterPos = line.find("=");
-        auto name = line.substr(0, delimiterPos);
-        auto value = line.substr(delimiterPos + 1);
-
-        if (name=="chain1" || name=="chain2" || name=="chain3"){
-            string s;
-            vector<string> res; //save for each word
-            stringstream input(value);
-            while(input>>s){
-                res.push_back(s);
-            }
-            if (res[0]=="R"){
-                name=typeid(T).name();
-                for(int i=0; i<stol(res[1])-1;i++){
-                    operator+=(new Red());
-                }
-            } else if (res[0]=="C"){
-                name=typeid(T).name();
-                for(int i=0; i<stol(res[1])-1;i++){
-                    operator+=(new Chili());
-                }
-            } else if (res[0]=="G"){
-                name=typeid(T).name();
-                for(int i=0; i<stol(res[1])-1;i++){
-                    operator+=(new Green());
-                }
-            } else if (res[0]=="B"){
-                name=typeid(T).name();
-                for(int i=0; i<stol(res[1])-1;i++){
-                    operator+=(new Blue());
-                }
-            } else if (res[0]=="S"){
-                name=typeid(T).name();
-                for(int i=0; i<stol(res[1])-1;i++){
-                    operator+=(new Stink());
-                }
-            } else if (res[0]=="g"){
-                name=typeid(T).name();
-                for(int i=0; i<stol(res[1])-1;i++){
-                    operator+=(new Garden());
-                }
-            } else if (res[0]=="s"){
-                name=typeid(T).name();
-                for(int i=0; i<stol(res[1])-1;i++){
-                    operator+=(new Soy());
-                }
-            } else if (res[0]=="b"){
-                name=typeid(T).name();
-                for(int i=0; i<stol(res[1])-1;i++){
-                    operator+=(new Black());
-                }
-            }
-        }
-    }
+Chain<T>::Chain() {
+    T card; 
+    this->name = card.getName();
+    this->type = typeid(T).name();
 }
 
 /**

@@ -15,7 +15,7 @@
  *  - bool isEmpty()
  *  - Card* top()
  *  - void print(std::ostream&)
- *  - ostream& save(ostream&)
+ *  - void save(ostream&)
  *  - friend ostream& operator<< (ostream&, const DiscardPile&)
  */
 
@@ -46,7 +46,7 @@ class DiscardPile {
         // operators:
         DiscardPile& operator+=(Card*);
         friend ostream& operator<< (ostream&, const DiscardPile&);
-        ostream& save(ostream& os);
+        void save(ostream& os);
 };
 
 /**
@@ -139,15 +139,13 @@ inline ostream& operator<< (ostream& os, const DiscardPile& pile) {
 }
 
 /**
- * @brief Write the info of discardpile to 
+ * @brief Write the info of discardpile to ostream
  * @param os An ostream
- * @return An ostream
  */
-ostream& DiscardPile::save(ostream& os){
+void DiscardPile::save(ostream& os){
     os << "discard= ";
     for(int i=0; i<pile.size(); i++)
         os << *pile[i] << " ";
-    return os;
 }
 
 #endif

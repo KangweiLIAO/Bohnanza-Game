@@ -15,6 +15,7 @@
  *  - int size()
  *  - Card* at(int)
  *  - Card* operator[](int)
+ *  - void save(ostream&)
  *  - friend ostream& operator<< (ostream&, const Hand&)
  */
 
@@ -46,7 +47,7 @@ class Hand {
         ///adds the card to the rear of the hand.
         Hand& operator+= (Card*);
         friend ostream& operator<< (ostream&, const Hand&);
-        ostream& save(ostream& os);
+        void save(ostream& os);
 };
 
 /**
@@ -155,13 +156,12 @@ ostream& operator<< (ostream& os, Hand& h) {
  * @param os An ostream
  * @return Ostream with hand inserted
  */
-ostream& Hand::save(ostream& os){
+void Hand::save(ostream& os){
     os << "hand= ";
     for (int i=0; i<hand.size(); i++) {
        os << *hand.front() << " ";
        hand.pop();
     }
-    return os;
 }
 
 #endif

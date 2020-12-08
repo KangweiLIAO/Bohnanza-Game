@@ -19,7 +19,7 @@
  * - void buyThirdChain()
  * - void printHand(ostream&, bool)
  * - friend ostream& operator<<(ostream&,const Player&)
- * - ostream& save(ostream&)
+ * - void save(ostream&)
  */
 
 #ifndef PLAYER_H
@@ -378,7 +378,6 @@ ostream& operator<< (ostream& os, const Player& player) {
 /**
  * @brief Write the info of player into ostream.
  * @param os An ostream
- * @return An ostream
 */
 void Player::save(ostream& os){
     int index = 1;

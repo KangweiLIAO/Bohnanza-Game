@@ -16,7 +16,7 @@
  *  - void trade(Player*)
  *  - int numCards()
  *  - void discardAll(DiscardPile*)
- *  - ostream& save(ostream&)
+ *  - void ave(ostream&)
  *  - friend ostream& operator<< (ostream&, const DiscardPile&)
  */
 
@@ -47,7 +47,7 @@ class TradeArea{
         Card* trade(string);
         bool legal(const Card*);
         void discardAll(DiscardPile*);
-        ostream& save(ostream& os);
+        void save(ostream& os);
         
         // operators
         TradeArea& operator+= (Card* c);
@@ -185,16 +185,14 @@ ostream& operator<< (ostream& os, const TradeArea& tradeArea) {
 
 
 /**
- * @brief Write the info of trade area to 
+ * @brief Write the info of trade area to ostream.
  * @param os An ostream
- * @return An ostream
  */
-ostream& TradeArea::save(ostream& os){
+void TradeArea::save(ostream& os){
     os << "trade= ";
     list<Card*>::iterator iter;
     for(iter = area.begin(); iter!=area.end(); iter++) 
         os << **iter << " ";
-    return os;
 }
 
 #endif

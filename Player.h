@@ -236,7 +236,6 @@ void Player::play() {
     cout << endl << this->name << " played topmost card in hand: " << *card << endl;
     if (!this->cardMatch(card)) {
         string* buff = new string();
-        readStringInput("("+this->name+") This card mismatched, do you want to create a new chain for this card? (y/n): ", buff);
         switch (chains.size()) {
         case 3:
             cout << "Currently "<< this->name <<" have 3 chains, but no one matched this card." << endl;
@@ -247,6 +246,8 @@ void Player::play() {
         case 2:
             if (num_coins >= 3) {
                 // player has more than 3 coins
+                cout << "(" << this->name << ") This card mismatched your chains." << endl;
+                readStringInput("("+this->name+") Do you want to create a new chain for this card or sell an existed chain? (y/n): ", buff);
                 if (*buff=="y") {
                     // player choose to buy a third chain
                     this->buyThirdChain();
@@ -255,7 +256,7 @@ void Player::play() {
                 }
             } else {
                 // player has less than 3 coins
-                cout << this->name << " have less than 3 coins and all 2 chains mismatched." << endl;
+                cout << this->name << " have less than 3 coins and all 2 chains mismatched, so you need to sell one chain." << endl;
                 this->sellChain();
                 this->createChain(card);    // add the mismatched card to a new chain
                 cout << "(" << this->name << ") The mismatched card added to a new chain." << endl;
@@ -263,6 +264,7 @@ void Player::play() {
             break;
         case 1:
             // player has only 1 chain
+            readStringInput("("+this->name+") This card mismatched, do you want to create a new chain for this card? (y/n): ", buff);
             if (*buff=="y") {
                 // player choose to create a second chain
                 this->createChain(card);

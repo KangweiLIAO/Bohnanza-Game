@@ -138,8 +138,8 @@ Card* TradeArea::trade(string s) {
 void TradeArea::trade(Player* player) {
     string* buff = new string();
     int index = 0;
-    bool erase = true;
     for (Card* card: area) {
+        bool erase = true;
         readStringInput("("+player->getName()+") Do you want to chain the card: "+card->getName()+" (y/n)? ", buff);
         if (*buff=="y") {
             if (!player->cardMatch(card)) {
